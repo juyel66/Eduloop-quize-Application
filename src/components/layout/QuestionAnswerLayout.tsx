@@ -13,7 +13,9 @@ export default function QuestionAnswerLayout({ children }: { children: ReactNode
             </div>
             {/* content  */}
             <div className='flex-1 py-10 rounded-[30px]'>
-                {children}
+                {/* <QuestionAnswerLayout> */}
+                    {children}
+                {/* </QuestionAnswerLayout> */}
             </div>
             {/* footer  */}
             <div>

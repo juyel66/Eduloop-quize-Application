@@ -10,7 +10,7 @@ import {
 
 export default function ArrTypeOne() {
     return (
-        <QuestionAnswerLayout>
+        // <QuestionAnswerLayout>
             <div className='border-2 border-primary w-full h-full rounded-bl-[40px]'>
                 <div className='flex items-center gap-3'>
                     <div className='pt-1 pb-2 pl-5 pr-6 text-center bg-primary text-white text-2xl font-semibold'>Start</div>
@@ -94,6 +94,6 @@ export default function ArrTypeOne() {
                     </InputOTP>
                 </div>
             </div>
-        </QuestionAnswerLayout>
+        // </QuestionAnswerLayout>
     )
 }
