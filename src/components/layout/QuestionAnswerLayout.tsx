@@ -23,7 +23,7 @@ export default function QuestionAnswerLayout({ children }: { children: ReactNode
                         <Button className='bg-[#ffedd5] hover:bg-[#ffedd5]/70 text-black border'>Hint</Button>
                         <Button className='bg-[#f3e8ff] hover:bg-[#f3e8ff]/70 text-black border'>Show Solution</Button>
                     </div>
-                    <Button className='rounded-2xl py-7 font-bold text-xl'>
+                    <Button className='rounded-2xl py-7 pr-2 font-bold text-xl'>
                         Next
                         <div className='size-10 bg-black rounded-2xl flex items-center justify-center'>
                             <IoMdArrowRoundForward size={50} className='text-5xl' />
