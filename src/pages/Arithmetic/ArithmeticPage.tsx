@@ -1,8 +1,10 @@
 import React from 'react'
+import ArrTypeOne from './components/ArrTypeOne'
 
 export default function ArithmeticPage() {
-  return (
-    <div>ArithmeticPage</div>
-  )
+    return (
+        <div>
+            <ArrTypeOne />
+        </div>
+    )
 }
- 
