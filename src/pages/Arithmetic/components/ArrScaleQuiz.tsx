@@ -27,7 +27,11 @@ type Connection = {
   y: number;
 };
 
-const BRAND = "#ff6900"; // your brand color for active lines, dots, connectors
+const BRAND = "#ff6900"; // brand color for active lines, dots, connectors
+
+// Magnetic behavior settings
+const TICK_GAP = 17;     // px between ticks (matches left: num * 17px)
+const SNAP_RADIUS = 8;   // px threshold to "lock" onto nearest tick
 
 export default function ArrScaleQuiz({
   mode,
@@ -49,6 +53,9 @@ export default function ArrScaleQuiz({
 
   /** Ref to the wrapping container for coordinate computations */
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  /** Magnetic snap: currently hovered (snapped) line number, or null if none */
+  const [hoveredLine, setHoveredLine] = useState<number | null>(null);
 
   // -----------------------
   // Helpers
@@ -80,15 +87,50 @@ export default function ArrScaleQuiz({
     setActiveDot(dotIndex);
   };
 
-  /** Tick click → if a dot is active, connect it to this tick */
+  /** Tick direct click → if a dot is active, connect it to this tick */
   const handleScaleClick = (lineNum: number) => {
     if (mode === "preConnected") return; // no connecting in this mode
     if (activeDot === null) return;
 
-    // Resolve the tick element by id to ensure precise anchor point
     const tickEl = document.getElementById(`tick-${lineNum}`) as HTMLDivElement | null;
     if (!tickEl) return;
     connectDotToTick(activeDot, lineNum, tickEl);
+    setActiveDot(null);
+  };
+
+  // -----------------------
+  // Magnetic mouse behavior over the scale area
+  // -----------------------
+
+  /** Track mouse, snap to nearest tick if within SNAP_RADIUS */
+  const handleScaleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = containerRef.current?.getBoundingClientRect();
+    if (!container) return;
+
+    const x = e.clientX - container.left; // mouse X relative to container
+    let guess = Math.round(x / TICK_GAP);  // nearest tick by spacing
+    guess = Math.max(1, Math.min(100, guess));
+
+    const tickX = guess * TICK_GAP;
+    if (Math.abs(x - tickX) <= SNAP_RADIUS) {
+      setHoveredLine(guess);
+    } else {
+      setHoveredLine(null);
+    }
+  };
+
+  /** Clear snap when leaving scale area */
+  const handleScaleMouseLeave = () => setHoveredLine(null);
+
+  /** Click on scale container → use snapped tick if available */
+  const handleScaleContainerClick = () => {
+    if (mode === "preConnected") return;
+    if (activeDot === null || hoveredLine == null) return;
+
+    const tickEl = document.getElementById(`tick-${hoveredLine}`) as HTMLDivElement | null;
+    if (!tickEl) return;
+
+    connectDotToTick(activeDot, hoveredLine, tickEl);
     setActiveDot(null);
   };
 
@@ -107,7 +149,7 @@ export default function ArrScaleQuiz({
         newResults[dotIndex] = conn && conn.lineNum === targetNum ? "correct" : "wrong";
       });
     } else {
-      // connectThenType & preConnected: compare typed value in the input with the connected tick
+      // connectThenType & preConnected: compare typed value with the connected tick
       for (let dotIndex = 0; dotIndex < dotCount; dotIndex++) {
         const conn = connections.find((c) => c.dotIndex === dotIndex);
         const input = document.getElementById(`input-${dotIndex}`) as HTMLInputElement | null;
@@ -165,7 +207,12 @@ export default function ArrScaleQuiz({
   return (
     <div ref={containerRef} className="relative">
       {/* ---------- Scale with ticks (1 → 100) ---------- */}
-      <div className="relative h-24">
+      <div
+        className="relative h-24"
+        onMouseMove={handleScaleMouseMove}
+        onMouseLeave={handleScaleMouseLeave}
+        onClick={handleScaleContainerClick}
+      >
         <div className="w-full h-1 bg-black absolute bottom-6" />
         {lines.map((num) => {
           const isFirst = num === 1;
@@ -176,20 +223,24 @@ export default function ArrScaleQuiz({
 
           // Highlight tick if it has any connection
           const isConnectedLine = connections.some((c) => c.lineNum === num);
+          const isSnapped = hoveredLine === num;
 
           return (
             <div
               key={num}
               id={`tick-${num}`}
-              onClick={() => handleScaleClick(num)}
+              onClick={() => handleScaleClick(num)} // still allow precise tick clicks
               className={`absolute bottom-6 ${
                 mode === "preConnected" ? "cursor-default" : "cursor-pointer"
               }`}
               style={{
-                left: `${num * 17}px`,
+                left: `${num * TICK_GAP}px`,
                 width: isLarge ? "3px" : isMedium ? "2px" : "1px",
                 height: isLarge ? "40px" : isMedium ? "28px" : "20px",
-                backgroundColor: isConnectedLine ? BRAND : "black",
+                // priority: connected → BRAND, else snapped hover → BRAND, else black
+                backgroundColor: isConnectedLine ? BRAND : isSnapped ? BRAND : "black",
+                // subtle glow when snapped (and not already connected)
+                boxShadow: isSnapped && !isConnectedLine ? `0 0 0 2px ${BRAND}33` : "none",
               }}
             >
               {(isFirst || isMiddle || isLast) && (
