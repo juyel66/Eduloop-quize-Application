@@ -1,6 +1,4 @@
 import QuestionAnswerLayout from '@/components/layout/QuestionAnswerLayout'
-import ArrTypeThree from './components/ArrTypeThree'
-import ArrTypeFour from './components/ArrTypeFour'
 import ArrScaleQuiz from './components/ArrScaleQuiz'
 
 export default function ArithmeticPage() {

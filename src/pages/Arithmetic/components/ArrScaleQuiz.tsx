@@ -1,28 +1,33 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+/** Question modes:
+ * - connectThenType   → user clicks dot → clicks tick → types the number
+ * - preConnected      → connections are pre-made, user only types numbers
+ * - preFilledBoxes    → boxes show numbers, user must connect dots to correct ticks
+ */
 type Mode = "connectThenType" | "preConnected" | "preFilledBoxes";
 
 type PresetPair = { dotIndex: number; lineNum: number };
 
 type Props = {
-  /** Behavior mode */
   mode: Mode;
-  /** For preConnected mode: which dots are connected to which line numbers */
+  /** For "preConnected": which dots are connected to which line numbers on load */
   presetLineNums?: PresetPair[];
-  /** For preFilledBoxes mode: numbers shown in the boxes (index = dotIndex) */
+  /** For "preFilledBoxes": numbers shown in the boxes (index = dotIndex) */
   presetBoxNumbers?: number[];
-  /** How many dots/boxes to render (default 5) */
+  /** Number of dot+box pairs to render (default 5) */
   dotCount?: number;
 };
 
 type Connection = {
   dotIndex: number;
   lineNum: number;
-  x: number; // tick bottom-center x relative to container
-  y: number; // tick bottom y relative to container
+  /** Bottom-center coordinate of the tick (relative to the container) */
+  x: number;
+  y: number;
 };
 
-const BRAND = "#ff6900";
+const BRAND = "#ff6900"; // your brand color for active lines, dots, connectors
 
 export default function ArrScaleQuiz({
   mode,
@@ -30,13 +35,26 @@ export default function ArrScaleQuiz({
   presetBoxNumbers = [12, 50, 97, 3, 88],
   dotCount = 5,
 }: Props) {
+  /** 1 → 100 ticks on the scale */
   const lines = useMemo(() => Array.from({ length: 100 }, (_, i) => i + 1), []);
+
+  /** Which dot is currently selected for making a connection */
   const [activeDot, setActiveDot] = useState<number | null>(null);
+
+  /** All current connections (each dot can have at most one) */
   const [connections, setConnections] = useState<Connection[]>([]);
+
+  /** Validation results per dot index: "correct" | "wrong" | null */
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | null>>({});
+
+  /** Ref to the wrapping container for coordinate computations */
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // --------- Helpers ---------
+  // -----------------------
+  // Helpers
+  // -----------------------
+
+  /** Compute bottom-center of a tick and (re)connect the given dot to that tick */
   const connectDotToTick = (dotIndex: number, lineNum: number, tickEl: HTMLDivElement) => {
     const container = containerRef.current?.getBoundingClientRect();
     const tickRect = tickEl.getBoundingClientRect();
@@ -45,39 +63,51 @@ export default function ArrScaleQuiz({
     const x = tickRect.left - container.left + tickRect.width / 2;
     const y = tickRect.bottom - container.top; // bottom of tick
 
-    // allow a single connection per dot (replace old one)
+    // Replace any previous connection for this dot
     setConnections((prev) => {
       const filtered = prev.filter((c) => c.dotIndex !== dotIndex);
       return [...filtered, { dotIndex, lineNum, x, y }];
     });
   };
 
-  // --------- Click handlers (disabled where appropriate) ---------
+  // -----------------------
+  // Click handlers
+  // -----------------------
+
+  /** Dot click → select this dot (not used in preConnected) */
   const handleDotClick = (dotIndex: number) => {
-    if (mode === "preConnected") return; // in this mode, user only types
+    if (mode === "preConnected") return; // dots are static in this mode
     setActiveDot(dotIndex);
   };
 
-  const handleScaleClick = (lineNum: number, e: React.MouseEvent<HTMLDivElement>) => {
+  /** Tick click → if a dot is active, connect it to this tick */
+  const handleScaleClick = (lineNum: number) => {
     if (mode === "preConnected") return; // no connecting in this mode
     if (activeDot === null) return;
 
-    connectDotToTick(activeDot, lineNum, e.currentTarget as HTMLDivElement);
+    // Resolve the tick element by id to ensure precise anchor point
+    const tickEl = document.getElementById(`tick-${lineNum}`) as HTMLDivElement | null;
+    if (!tickEl) return;
+    connectDotToTick(activeDot, lineNum, tickEl);
     setActiveDot(null);
   };
 
-  // --------- Validation ---------
+  // -----------------------
+  // Validation
+  // -----------------------
+
+  /** Check answers according to the current mode */
   const handleCheck = () => {
     const newResults: Record<number, "correct" | "wrong" | null> = {};
 
     if (mode === "preFilledBoxes") {
-      // compare connection's lineNum with the preset number shown in the box
+      // Boxes show the target numbers (read-only). The user must connect to matching ticks.
       presetBoxNumbers.slice(0, dotCount).forEach((targetNum, dotIndex) => {
         const conn = connections.find((c) => c.dotIndex === dotIndex);
         newResults[dotIndex] = conn && conn.lineNum === targetNum ? "correct" : "wrong";
       });
     } else {
-      // connectThenType & preConnected: compare input value with connection lineNum
+      // connectThenType & preConnected: compare typed value in the input with the connected tick
       for (let dotIndex = 0; dotIndex < dotCount; dotIndex++) {
         const conn = connections.find((c) => c.dotIndex === dotIndex);
         const input = document.getElementById(`input-${dotIndex}`) as HTMLInputElement | null;
@@ -93,12 +123,13 @@ export default function ArrScaleQuiz({
     setResults(newResults);
   };
 
-  // --------- PRESET connections for "preConnected" mode ---------
+  // -----------------------
+  // Prebuild connections for "preConnected"
+  // (Build once; do not clear in other modes)
+  // -----------------------
+
   useEffect(() => {
-    if (mode !== "preConnected" || !presetLineNums.length) {
-      if (mode !== "preConnected") setConnections([]); // reset if switching modes
-      return;
-    }
+    if (mode !== "preConnected" || !presetLineNums.length) return;
 
     const compute = () => {
       const container = containerRef.current?.getBoundingClientRect();
@@ -115,7 +146,7 @@ export default function ArrScaleQuiz({
       }
       setConnections(next);
       setActiveDot(null);
-      setResults({});
+      setResults({}); // reset any prior results
     };
 
     const raf = requestAnimationFrame(compute);
@@ -127,13 +158,15 @@ export default function ArrScaleQuiz({
     };
   }, [mode, presetLineNums]);
 
-  // --------- UI ---------
+  // -----------------------
+  // UI
+  // -----------------------
+
   return (
     <div ref={containerRef} className="relative">
-      {/* Scale */}
+      {/* ---------- Scale with ticks (1 → 100) ---------- */}
       <div className="relative h-24">
         <div className="w-full h-1 bg-black absolute bottom-6" />
-
         {lines.map((num) => {
           const isFirst = num === 1;
           const isLast = num === 100;
@@ -141,14 +174,17 @@ export default function ArrScaleQuiz({
           const isLarge = num % 10 === 0 || isFirst || isLast;
           const isMedium = num % 5 === 0 && !isLarge;
 
+          // Highlight tick if it has any connection
           const isConnectedLine = connections.some((c) => c.lineNum === num);
 
           return (
             <div
               key={num}
               id={`tick-${num}`}
-              onClick={(e) => handleScaleClick(num, e)}
-              className={`absolute bottom-6 ${mode === "preConnected" ? "cursor-default" : "cursor-pointer"}`}
+              onClick={() => handleScaleClick(num)}
+              className={`absolute bottom-6 ${
+                mode === "preConnected" ? "cursor-default" : "cursor-pointer"
+              }`}
               style={{
                 left: `${num * 17}px`,
                 width: isLarge ? "3px" : isMedium ? "2px" : "1px",
@@ -166,17 +202,18 @@ export default function ArrScaleQuiz({
         })}
       </div>
 
-      {/* Inputs with dots */}
+      {/* ---------- Dots + Input boxes row ---------- */}
       <div className="mt-[100px] flex items-center gap-2 justify-center">
         {Array.from({ length: dotCount }).map((_, dotIndex) => {
           const isConnectedDot = connections.some((c) => c.dotIndex === dotIndex);
           const isActive = activeDot === dotIndex;
-          const showReadOnly = mode === "preFilledBoxes";
+
+          const isReadOnly = mode === "preFilledBoxes";
           const presetValue = presetBoxNumbers[dotIndex] ?? "";
 
           return (
             <div key={dotIndex} className="flex flex-col items-center">
-              {/* Dot */}
+              {/* Dot (clickable in all modes except preConnected) */}
               <div
                 id={`dot-${dotIndex}`}
                 onClick={() => handleDotClick(dotIndex)}
@@ -188,14 +225,17 @@ export default function ArrScaleQuiz({
                 }}
               />
 
-              {/* Input (editable unless preFilledBoxes) */}
+              {/* Input box:
+                  - connectThenType / preConnected → user types answer
+                  - preFilledBoxes → number is shown read-only, user must connect lines
+              */}
               <input
                 id={`input-${dotIndex}`}
                 type="text"
                 inputMode="numeric"
-                placeholder={showReadOnly ? "" : "00"}
-                value={showReadOnly ? String(presetValue) : undefined}
-                readOnly={showReadOnly}
+                placeholder={isReadOnly ? "" : "00"}
+                value={isReadOnly ? String(presetValue) : undefined}
+                readOnly={isReadOnly}
                 className={`border-2 size-15 text-3xl font-bold text-center appearance-none focus:outline-none
                   ${
                     results[dotIndex] === "correct"
@@ -210,7 +250,7 @@ export default function ArrScaleQuiz({
         })}
       </div>
 
-      {/* Connection lines */}
+      {/* ---------- SVG connectors (dot → tick bottom-center) ---------- */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
         {connections.map((c, i) => {
           const dotRect = document.getElementById(`dot-${c.dotIndex}`)?.getBoundingClientRect();
@@ -224,7 +264,7 @@ export default function ArrScaleQuiz({
         })}
       </svg>
 
-      {/* Check button */}
+      {/* ---------- Check button ---------- */}
       <div className="mt-10 flex justify-center">
         <button
           onClick={handleCheck}
