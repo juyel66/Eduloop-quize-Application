@@ -12,6 +12,8 @@ export default defineConfig({
     },
   },
   server: {
-    port: 6868
-  }
+    port: 6868,
+    host: true,                 // 👈 allow external connections (needed for ngrok/local network)
+    allowedHosts: ['*'],        // 👈 allow any host (so you don’t have to whitelist ngrok each time)
+  },
 })
