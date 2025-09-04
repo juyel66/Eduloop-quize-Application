@@ -1,9 +1,6 @@
-import QuestionAnswerLayout from '@/components/layout/QuestionAnswerLayout'
-import React from 'react'
 import {
     InputOTP,
     InputOTPGroup,
-    InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 
