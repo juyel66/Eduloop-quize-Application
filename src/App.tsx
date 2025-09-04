@@ -1,4 +1,4 @@
-import ArrTypeOne from './pages/Arithmetic/components/ArrTypeOne'
+import ArrTypeOne from './pages/Arithmetic/components/ArrFill'
 
 export default function App() {
   return (

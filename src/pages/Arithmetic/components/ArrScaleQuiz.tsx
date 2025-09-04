@@ -284,6 +284,7 @@ export default function ArrScaleQuiz({
                 id={`input-${dotIndex}`}
                 type="text"
                 inputMode="numeric"
+                maxLength={2}
                 placeholder={isReadOnly ? "" : "00"}
                 value={isReadOnly ? String(presetValue) : undefined}
                 readOnly={isReadOnly}

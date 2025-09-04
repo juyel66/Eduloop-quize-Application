@@ -1,5 +1,6 @@
 import QuestionAnswerLayout from '@/components/layout/QuestionAnswerLayout'
 import ArrScaleQuiz from './components/ArrScaleQuiz'
+import ArrFill from './components/ArrFill'
 
 export default function ArithmeticPage() {
     return (
@@ -15,12 +16,13 @@ export default function ArithmeticPage() {
                 ]}
             /> */}
 
-            <ArrScaleQuiz
+            {/* <ArrScaleQuiz
                 mode="preFilledBoxes"
                 presetBoxNumbers={[12, 50, 97, 3, 88]}
-            />
+            /> */}
 
             {/* <ArrScaleQuiz mode='connectThenType' /> */}
+            <ArrFill/>
 
         </QuestionAnswerLayout>
     )
