@@ -15,7 +15,7 @@ type Props = {
   presetLineNums?: PresetPair[];
   presetBoxNumbers?: number[];
   dotCount?: number;
-  onNext: () => void;
+  // onNext: () => void;
 };
 
 type Connection = {
@@ -34,7 +34,7 @@ export default function ArrScaleQuiz({
   presetLineNums = [],
   presetBoxNumbers = [12, 50, 97, 3, 88],
   dotCount = 5,
-  onNext,
+  // onNext,
 }: Props) {
   const lines = useMemo(() => Array.from({ length: 100 }, (_, i) => i + 1), []);
   const [activeDot, setActiveDot] = useState<number | null>(null);
@@ -308,15 +308,7 @@ export default function ArrScaleQuiz({
             Show Solution
           </Button>
         </div>
-        <Button
-          onClick={onNext}
-          className='rounded-2xl py-7 pr-2 font-bold text-xl'
-        >
-          Next
-          <div className='size-10 bg-black rounded-2xl flex items-center justify-center'>
-            <IoMdArrowRoundForward size={50} className='text-5xl' />
-          </div>
-        </Button>
+        
       </div>
     </>
   );

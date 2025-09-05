@@ -11,28 +11,7 @@ export default function MainPageLayout() {
             {/* navbar  */}
             <Navbar />
             <main className='bg-white/10 backdrop-blur-md border-white/20 rounded-[30px] p-10 border'>
-                <div className='flex items-center justify-between mb-5'>
-                    <div className='flex items-center gap-3'>
-                        <Button className='rounded-2xl py-7 pl-2 font-bold text-xl'>
-                            <div className='size-10 bg-white text-black rounded-2xl flex items-center justify-center'>
-                                <IoMdArrowRoundBack size={50} className='text-5xl' />
-                            </div>
-                            Back
-                        </Button>
-                        <div className='text-primary flex gap-3 items-center'>
-                            <p>Group 5</p>
-                            <IoIosArrowForward/>
-                            <p>Arithmetic</p>
-                            <IoIosArrowForward/>
-                            <p>Fractions</p>
-                        </div>
-                    </div>
-                    <div className='bg-white p-1 rounded-lg flex items-center'>
-                        <div className='py-2 px-5 bg-primary rounded-lg font-semibold text-white'>Easy</div>
-                        <div className='py-2 px-5  rounded-lg font-semibold text-black'>Medium</div>
-                        <div className='py-2 px-5  rounded-lg font-semibold text-black'>Advance</div>
-                    </div>
-                </div>
+                
                 <div>
                     <Outlet />
                 </div>
