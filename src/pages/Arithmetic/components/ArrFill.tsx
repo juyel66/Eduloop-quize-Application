@@ -129,7 +129,7 @@ export default function ArrFill({
                                                     type="text"
                                                     inputMode="numeric"
                                                     maxLength={rowInputMax}
-                                                    placeholder={preset ? "" : "00"}
+                                                    placeholder={preset ? "" : ""}
                                                     value={preset ? String(expected[key]) : (values[key] ?? "")}
                                                     readOnly={preset}
                                                     onChange={(e) => { if (!preset) handleChange(key, e.target.value) }}

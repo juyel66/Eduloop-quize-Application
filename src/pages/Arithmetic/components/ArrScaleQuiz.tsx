@@ -261,7 +261,7 @@ export default function ArrScaleQuiz({
                   type="text"
                   inputMode="numeric"
                   maxLength={3}
-                  placeholder={isReadOnly ? "" : "00"}
+                  placeholder={isReadOnly ? "" : ""}
                   value={isReadOnly ? String(presetValue) : (typed[dotIndex] ?? "")}
                   readOnly={isReadOnly}
                   onChange={(e) => {
@@ -308,7 +308,6 @@ export default function ArrScaleQuiz({
             Show Solution
           </Button>
         </div>
-        
       </div>
     </>
   );
