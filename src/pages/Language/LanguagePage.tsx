@@ -1,7 +1,12 @@
 
 
-export default function LanguagePage() {
+const LanguagePage = () => {
   return (
-    <div className="text-3xl text-red-600"> Language page</div>
-  )
-}
+    <div>
+      This is a Language page 
+      
+    </div>
+  );
+};
+
+export default LanguagePage;
