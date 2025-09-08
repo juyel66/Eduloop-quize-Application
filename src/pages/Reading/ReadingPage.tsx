@@ -1,7 +1,6 @@
-import React from 'react'
 
 export default function ReadingPage() {
   return (
-    <div>ReadingPage</div>
+    <div className='bg-green-500'>ReadingPage</div>
   )
 }
