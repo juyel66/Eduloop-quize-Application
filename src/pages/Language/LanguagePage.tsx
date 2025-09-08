@@ -1,7 +1,7 @@
-import React from 'react'
+
 
 export default function LanguagePage() {
   return (
-    <div>LanguagePage</div>
+    <div className="text-3xl"> Language pagesss</div>
   )
 }
