@@ -8,11 +8,13 @@ import ArrNumMatch from './components/ArrNumMatch'
 import ArrFirstAndSecondNumber from './components/ArrFirstAndSecondNumber'
 import ArrNumAddMulti from './components/ArrNumAddMulti'
 import ArrNumAddMultiOptions from './components/ArrNumAddMultiOptions'
+import type { Question } from '@/types/ArithmeticType'
+
+// Discriminated union types for arithmetic questions
 
 
 
-
-const QUESTIONS_DATA = [
+const QUESTIONS_DATA: Question[] = [
     {
         "id": 9,
         "type": "math9",
