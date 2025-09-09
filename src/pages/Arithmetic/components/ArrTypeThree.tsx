@@ -5,7 +5,7 @@ import Xarrow from "react-xarrows";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 
-export default function ArrNumMatch({ data }: any) {
+export default function ArrTypeThree({ data }: any) {
   const [connections, setConnections] = useState<
     { start: string; end: string; leftId: number; rightId: number }[]
   >([]);

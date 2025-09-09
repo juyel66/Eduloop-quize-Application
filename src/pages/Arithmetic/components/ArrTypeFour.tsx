@@ -15,7 +15,7 @@ interface Props {
   data: Item[];
 }
 
-export default function ArrFirstAndSecondNumber({ data }: Props) {
+export default function ArrTypeFour({ data }: Props) {
   const [answers, setAnswers] = useState<{ [key: number]: { first?: string; last?: string } }>({});
   const [results, setResults] = useState<{ [key: number]: { first?: "correct" | "wrong"; last?: "correct" | "wrong" } }>({});
   const [checked, setChecked] = useState(false);

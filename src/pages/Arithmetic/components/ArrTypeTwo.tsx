@@ -26,7 +26,7 @@ const BRAND = "#ff6900";
 const TICK_GAP = 17;
 const SNAP_RADIUS = 8;
 
-export default function ArrScaleQuiz({
+export default function ArrTypeTwo({
   mode,
   presetLineNums = [],
   presetBoxNumbers = [12, 50, 97, 3, 88],

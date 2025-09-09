@@ -15,7 +15,7 @@ interface Props {
   method: "addition" | "multiplication";
 }
 
-export default function ArrNumAddMultiOptions({ data, method }: Props) {
+export default function ArrTypeSix({ data, method }: Props) {
   const [userInput, setUserInput] = useState<{ [key: string]: string }>({});
   const [results, setResults] = useState<{ [key: string]: "correct" | "wrong" | null }>({});
   const [checked, setChecked] = useState(false);

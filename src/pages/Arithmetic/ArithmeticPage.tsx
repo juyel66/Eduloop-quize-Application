@@ -1,14 +1,20 @@
-import ArrScaleQuiz from './components/ArrScaleQuiz'
-import ArrFill from './components/ArrFill'
+import ArrScaleQuiz from './components/ArrTypeTwo'
+import ArrFill from './components/ArrTypeOne'
 import { Button } from '@/components/ui/button'
 import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
 import { useMemo, useState } from 'react'
 import { ChevronLeft } from 'lucide-react'
-import ArrNumMatch from './components/ArrNumMatch'
-import ArrFirstAndSecondNumber from './components/ArrFirstAndSecondNumber'
-import ArrNumAddMulti from './components/ArrNumAddMulti'
-import ArrNumAddMultiOptions from './components/ArrNumAddMultiOptions'
+import ArrNumMatch from './components/ArrTypeThree'
+import ArrFirstAndSecondNumber from './components/ArrTypeFour'
+import ArrNumAddMulti from './components/ArrTypeFive'
+import ArrNumAddMultiOptions from './components/ArrTypeSix'
 import type { Question } from '@/types/ArithmeticType'
+import ArrTypeOne from './components/ArrTypeOne'
+import ArrTypeTwo from './components/ArrTypeTwo'
+import ArrTypeThree from './components/ArrTypeThree'
+import ArrTypeFour from './components/ArrTypeFour'
+import ArrTypeFive from './components/ArrTypeFive'
+import ArrTypeSix from './components/ArrTypeSix'
 
 // Discriminated union types for arithmetic questions
 
@@ -195,7 +201,7 @@ export default function ArithmeticPage() {
                 const prefilled = q.metadata.defaultValue ?? 2
 
                 return (
-                    <ArrFill
+                    <ArrTypeOne
                         key={q.id}
                         rows={[{ start, step, maxLength: count, prefilledCount: prefilled, inputMaxLength: 3 }]}
                     />
@@ -206,7 +212,7 @@ export default function ArithmeticPage() {
                 const presetLineNums = opts.map((lineNum: number, i: number) => ({ dotIndex: i, lineNum }))
 
                 return (
-                    <ArrScaleQuiz
+                    <ArrTypeTwo
                         key={q.id}
                         mode="preConnected"
                         presetLineNums={presetLineNums}
@@ -217,7 +223,7 @@ export default function ArithmeticPage() {
             case 'scale2': {
                 const opts = q.metadata.options ?? []
                 return (
-                    <ArrScaleQuiz
+                    <ArrTypeTwo
                         key={q.id}
                         mode="preFilledBoxes"
                         presetBoxNumbers={opts}
@@ -228,7 +234,7 @@ export default function ArithmeticPage() {
             case 'math4': {
                 const questions = q.metadata.data ?? []
                 return (
-                    <ArrNumMatch
+                    <ArrTypeThree
                         key={q.id}
                         data={questions}
                     />
@@ -237,7 +243,7 @@ export default function ArithmeticPage() {
             case 'math5': {
                 const dataSet = q.metadata.data ?? []
                 return (
-                    <ArrFirstAndSecondNumber
+                    <ArrTypeFour
                         key={q.id}
                         data={dataSet}
                     />
@@ -246,7 +252,7 @@ export default function ArithmeticPage() {
             case 'math6': {
                 const dataSet = q.metadata.data ?? []
                 return (
-                    <ArrNumAddMulti
+                    <ArrTypeFive
                         method={"addition"}
                         key={q.id}
                         data={dataSet}
@@ -256,7 +262,7 @@ export default function ArithmeticPage() {
             case 'math7': {
                 const dataSet = q.metadata.data ?? []
                 return (
-                    <ArrNumAddMulti
+                    <ArrTypeFive
                         method={"multiplication"}
                         key={q.id}
                         data={dataSet}
@@ -266,7 +272,7 @@ export default function ArithmeticPage() {
             case 'math8': {
                 const dataSet = q.metadata.data ?? []
                 return (
-                    <ArrNumAddMultiOptions
+                    <ArrTypeSix
                         method={"addition"}
                         key={q.id}
                         data={dataSet}
@@ -276,7 +282,7 @@ export default function ArithmeticPage() {
             case 'math9': {
                 const dataSet = q.metadata.data ?? []
                 return (
-                    <ArrNumAddMultiOptions
+                    <ArrTypeSix
                         method={"multiplication"}
                         key={q.id}
                         data={dataSet}
