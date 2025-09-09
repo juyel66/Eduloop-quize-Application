@@ -85,7 +85,7 @@ export default function ReadingPage() {
           <ReadingMultipleChoice
             key={q.id}
             question={q.metadata.question}
-            options={q.metadata.options}
+            options={q.metadata.options ?? []}
             correctAnswer={q.metadata.correctAnswer}
             description={q.metadata.description}
             hint={q.metadata.hint} // ✅ new
