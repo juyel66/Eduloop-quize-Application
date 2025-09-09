@@ -9,10 +9,160 @@ import ArrFirstAndSecondNumber from './components/ArrFirstAndSecondNumber'
 import ArrNumAddMulti from './components/ArrNumAddMulti'
 import ArrNumAddMultiOptions from './components/ArrNumAddMultiOptions'
 
+// Discriminated union types for arithmetic questions
+type MathPairsItem = { id: number; result: number; answer: [number, number][] }
+type MathOptionItem = { id: number; result: number; option: number; answer: number }
+type BetweenItem = { id: number; number: number; from: number; to: number }
+type PrevNextItem = { id: number; number: number; firstNumber: number; lastNumber: number }
+
+type FillBlankQuestion = {
+  id: number
+  type: 'fill_blank'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    steps: number
+    answer1: number
+    count: number
+    defaultValue: number
+    hint: string
+  }
+}
+
+type Scale1Question = {
+  id: number
+  type: 'scale1'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    options: number[]
+    hint: string
+  }
+}
+
+type Scale2Question = {
+  id: number
+  type: 'scale2'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    options: number[]
+    hint: string
+  }
+}
+
+type Math4Question = {
+  id: number
+  type: 'math4'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    data: BetweenItem[]
+    hint: string
+  }
+}
+
+type Math5Question = {
+  id: number
+  type: 'math5'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    data: PrevNextItem[]
+    hint: string
+  }
+}
+
+type Math6Question = {
+  id: number
+  type: 'math6'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    method: 'addition'
+    data: MathOptionItem[]
+    hint: string
+  }
+}
+
+type Math7Question = {
+  id: number
+  type: 'math7'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    method: 'multiplication'
+    data: MathOptionItem[]
+    hint: string
+  }
+}
+
+type Math8Question = {
+  id: number
+  type: 'math8'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    method: 'addition'
+    data: MathPairsItem[]
+    hint: string
+  }
+}
+
+type Math9Question = {
+  id: number
+  type: 'math9'
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    method: 'multiplication'
+    data: MathPairsItem[]
+    hint: string
+  }
+}
+
+type Question =
+  | FillBlankQuestion
+  | Scale1Question
+  | Scale2Question
+  | Math4Question
+  | Math5Question
+  | Math6Question
+  | Math7Question
+  | Math8Question
+  | Math9Question
 
 
 
-const QUESTIONS_DATA = [
+
+const QUESTIONS_DATA: Question[] = [
     {
         "id": 9,
         "type": "math9",
