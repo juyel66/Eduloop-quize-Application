@@ -1,4 +1,3 @@
-// components/QuestionRenderer.tsx
 import { useMemo } from "react"
 import ArrTypeOne from "./ArrTypeOne"
 import ArrTypeTwo from "./ArrTypeTwo"
@@ -7,6 +6,7 @@ import ArrTypeFour from "./ArrTypeFour"
 import ArrTypeFive from "./ArrTypeFive"
 import ArrTypeSix from "./ArrTypeSix"
 import type { Question } from "@/types/ArithmeticType"
+import ArrTypeSeven from "./ArrTypeSeven"
 
 export default function QuestionRenderer({ q }: { q: Question }) {
   return useMemo(() => {
@@ -94,6 +94,14 @@ export default function QuestionRenderer({ q }: { q: Question }) {
           <ArrTypeSix
             key={q.id}
             method="multiplication"
+            data={q.metadata.data ?? []}
+          />
+        )
+      }
+      case "math10": {
+        return (
+          <ArrTypeSeven
+            key={q.id}
             data={q.metadata.data ?? []}
           />
         )

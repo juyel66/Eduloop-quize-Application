@@ -1,6 +1,25 @@
 import type { Question } from "@/types/ArithmeticType"
 
-export const QUESTIONS_DATA: Question[] = [
+export const QUESTIONS_DATA: any[] = [
+  {
+    id: 10,
+    type: "math10",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Easy",
+    metadata: {
+      question: "Guess the numbers that is multiplication of the top number",
+      method: "multiplication",
+      data: [
+        { id: 1, result: 12, answer: [[3, 4], [6, 2], [4, 3]] },
+        { id: 2, result: 20, answer: [[10, 2], [5, 4], [20, 1]] },
+        { id: 3, result: 50, answer: [[25, 2], [10, 5], [50, 1]] },
+        { id: 4, result: 60, answer: [[30, 2], [20, 3], [15, 4]] }
+      ],
+      hint: "Follow this: 3 * ? = 12, 6 * ? = 12, 4 + ? = 12"
+    }
+  },
   {
     id: 9,
     type: "math9",
