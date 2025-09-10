@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../ui/button'
+import { Button } from '../ui/button' 
 
 export default function Controllers({handleCheck, handleShowSolution, handleShowHint}:any) {
     return (
