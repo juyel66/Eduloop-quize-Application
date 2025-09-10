@@ -1,5 +1,6 @@
 import Check from "@/components/common/Check"
 import Controllers from "@/components/common/Controllers"
+import Hint from "@/components/common/Hint"
 import { Button } from "@/components/ui/button"
 import { useMemo, useState } from "react"
 import { IoMdArrowRoundForward } from "react-icons/io"
@@ -16,13 +17,18 @@ export default function ArrTypeOne({
     rows,
     inputMaxLength = 3,
     onNext,
+    hint,
 }: {
     rows?: RowProps[]
     inputMaxLength?: number
     onNext?: () => void
+    hint?: string
 }) {
     const [values, setValues] = useState<Record<string, string>>({})
     const [checked, setChecked] = useState(false)
+    const [showHint, setShowHint] = useState(false)
+
+    const handleShowHint = () => setShowHint((v) => !v)
 
     // build expected values for all rows
     const expected: Record<string, number> = useMemo(() => {
@@ -157,7 +163,8 @@ export default function ArrTypeOne({
                 </div>
             </div>
 
-            <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution}/>
+            <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint}/>
+            {showHint && <Hint hint={hint} />}
             <Check summary={summary} />
         </>
     )

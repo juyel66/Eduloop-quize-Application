@@ -4,14 +4,18 @@ import { useState, useMemo } from "react";
 import Xarrow from "react-xarrows";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
+import Hint from "@/components/common/Hint";
 
-export default function ArrTypeThree({ data }: any) {
+export default function ArrTypeThree({ data, hint }: any) {
   const [connections, setConnections] = useState<
     { start: string; end: string; leftId: number; rightId: number }[]
   >([]);
   const [selectedDot, setSelectedDot] = useState<string | null>(null);
   const [results, setResults] = useState<{ [key: number]: "correct" | "wrong" }>({});
   const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const handleShowHint = () => setShowHint((v) => !v);
 
   // Shuffle right column only once
   const shuffledRight = useMemo(() => {
@@ -190,7 +194,8 @@ export default function ArrTypeThree({ data }: any) {
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} />
+      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {showHint && <Hint hint={hint} />}
       <Check summary={summary} /> {/* ✅ Only shows after Check */}
     </div>
   );
