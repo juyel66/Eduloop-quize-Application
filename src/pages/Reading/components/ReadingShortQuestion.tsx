@@ -1,7 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import Check from "@/components/common/Check";
+import Controllers from "@/components/common/Controllers";
+import Hint from "@/components/common/Hint";
 import { useState } from "react";
+import type { Summary } from "./ReadingMultipleChoice";
 interface ReadingShortQuestionProps {
   question: string;
   correctAnswer: string;
@@ -16,20 +19,55 @@ const ReadingShortQuestion = ({
   hint,
 }: ReadingShortQuestionProps) => {
   const [inputValue, setInputValue] = useState("");
-  const [result, setResult] = useState<null | boolean>(null);
+  // const [result, setResult] = useState<null | boolean>(null);
   const [showHint, setShowHint] = useState(false);
+
+// copying state
+  // const [answers, setAnswers] = useState<{ [id: number]: string[] }>({})
+    const [status, setStatus] = useState<"match" | "wrong" | "">("")
+    // const [showSolution, setShowSolution] = useState(false)
+  //   const [wrongAnswers, setWrongAnswers] = useState<{ [id: number]: string[] }>({})
+  //   const [correctAnswers, setCorrectAnswers] = useState<{ [id: number]: string[] }>({})
+
+
+
 
   const handleCheck = () => {
     if (!inputValue.trim()) return;
-    setResult(
-      inputValue.trim().toLowerCase() === correctAnswer.toLowerCase()
-    );
+    // setResult(
+    //   inputValue.trim().toLowerCase() === correctAnswer.toLowerCase()
+    // );
+    setStatus(inputValue.trim().toLowerCase() === correctAnswer.toLowerCase() ? "match" : "wrong")
   };
 
   const handleShowSolution = () => {
     setInputValue(correctAnswer);
-    setResult(true);
+      // setShowSolution(true);
+    // setResult(true);
+    setStatus("")
   };
+
+    const handleShowHint = () => {
+    setShowHint(!showHint);
+  };
+
+     const summary : Summary | null =
+        status === "match"
+            ? {
+                text: "🎉 All Correct! Great job",
+                color: "text-green-600",
+                bgColor: "bg-green-100",
+                borderColor: "border-green-600",
+            }
+            : status === "wrong"
+                ? {
+                    text: "❌ Some answers are wrong. Check again.",
+                    color: "text-red-600",
+                    bgColor: "bg-red-100",
+                    borderColor: "border-red-600",
+                }
+                : null
+
 
   return (
     <div className="w-full bg-[#fdeedc] rounded-xl p-6 shadow-md">
@@ -51,7 +89,7 @@ const ReadingShortQuestion = ({
       />
 
       {/* Buttons */}
-      <div className="flex gap-3 mt-4">
+      {/* <div className="flex gap-3 mt-4">
         <Button
           onClick={handleCheck}
           className="bg-[#dbeafe] hover:bg-[#dbeafe]/70 text-black border p-2"
@@ -70,19 +108,19 @@ const ReadingShortQuestion = ({
         >
           Show Solution
         </Button>
-      </div>
+      </div> */}
 
 
 
 
 
       {/* ✅ Show Hint */}
-      {showHint && (
+      {/* {showHint && (
         <p className="text-blue-600 font-medium mb-2">💡 Hint: {hint}</p>
-      )}
+      )} */}
 
       {/* Result */}
-      {result !== null && (
+      {/* {result !== null && (
         <p
           className={`text-base font-medium ${
             result ? "text-green-600" : "text-red-600"
@@ -90,7 +128,14 @@ const ReadingShortQuestion = ({
         >
           {result ? "✅ Correct!" : "❌ Wrong. Try again or show solution."}
         </p>
-      )}
+      )} */}
+      <Controllers
+        handleCheck={handleCheck}
+        handleShowSolution={handleShowSolution}
+        handleShowHint={handleShowHint}
+      />
+       {showHint && <Hint hint={hint} />}
+      <Check summary={summary} />
     </div>
   );
 };
