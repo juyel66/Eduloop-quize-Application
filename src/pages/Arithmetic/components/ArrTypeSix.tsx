@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
+import Hint from "@/components/common/Hint";
 
 type Item = {
   id: number;
@@ -13,12 +14,19 @@ type Item = {
 interface Props {
   data: Item[];
   method: "addition" | "multiplication";
+  hint: string
 }
 
-export default function ArrTypeSix({ data, method }: Props) {
+export default function ArrTypeSix({ data, method, hint }: Props) {
   const [userInput, setUserInput] = useState<{ [key: string]: string }>({});
   const [results, setResults] = useState<{ [key: string]: "correct" | "wrong" | null }>({});
   const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false)
+
+    const handleShowHint = () => {
+        setShowHint(!showHint)
+    }
+
 
   const checkAnswer = (d: Item, fixed: number, userVal: string) => {
     const userNum = Number(userVal);
@@ -119,10 +127,9 @@ export default function ArrTypeSix({ data, method }: Props) {
                       value={userInput[key] ?? ""}
                       onChange={(e) => handleChange(key, e.target.value)}
                       className={`border-b-2 px-3 w-12 text-center outline-none font-bold
-                        ${
-                          results[key] === "correct" && checked
-                            ? "border-green-600 text-green-600"
-                            : results[key] === "wrong" && checked
+                        ${results[key] === "correct" && checked
+                          ? "border-green-600 text-green-600"
+                          : results[key] === "wrong" && checked
                             ? "border-red-600 text-red-600"
                             : "border-dashed border-black"
                         }`}
@@ -136,7 +143,10 @@ export default function ArrTypeSix({ data, method }: Props) {
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} />
+      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {
+        showHint && <Hint hint={hint} />
+      }
       <Check summary={summary} /> {/* ✅ Only shows after Check */}
     </div>
   );

@@ -1,34 +1,21 @@
 import React, { useState } from "react"
 import Controllers from "@/components/common/Controllers"
 import Check from "@/components/common/Check"
+import Hint from "@/components/common/Hint"
 
-export default function ArrTypeSeven() {
+export default function ArrTypeSeven({ data, hint }: any) {
     const [answers, setAnswers] = useState<{ [id: number]: string[] }>({})
     const [status, setStatus] = useState<"match" | "wrong" | "">("")
     const [showSolution, setShowSolution] = useState(false)
     const [wrongAnswers, setWrongAnswers] = useState<{ [id: number]: string[] }>({})
     const [correctAnswers, setCorrectAnswers] = useState<{ [id: number]: string[] }>({})
+    const [showHint, setShowHint] = useState(false)
 
-    const data = [
-        {
-            id: 1,
-            digits: [6, 4, 2],
-            pattern: ["6 - 4 = 2", "6 - 3 = 3", "3 + 3 = 6", "4 + 2 = 6"],
-            answer: ["6 - 4 = 2", "4 + 2 = 6"],
-        },
-        {
-            id: 2,
-            digits: [8, 5, 3],
-            pattern: ["8 - 5 = 3", "5 + 3 = 8", "8 - 4 = 4", "2 + 5 = 8"],
-            answer: ["8 - 5 = 3", "5 + 3 = 8"],
-        },
-        {
-            id: 3,
-            digits: [9, 6, 3],
-            pattern: ["9 - 6 = 3", "6 + 3 = 9", "9 - 5 = 4", "4 + 4 = 9"],
-            answer: ["9 - 6 = 3", "6 + 3 = 9"],
-        },
-    ]
+    const handleShowHint = () => {
+        setShowHint(!showHint)
+    }
+
+
 
     const arraysEqual = (a: string[], b: string[]) => {
         const sortedA = [...a].sort()
@@ -225,7 +212,11 @@ export default function ArrTypeSeven() {
             <Controllers
                 handleCheck={handleCheckAll}
                 handleShowSolution={handleShowSolutionAll}
+                handleShowHint={handleShowHint}
             />
+            {
+                showHint && <Hint hint={hint}/>
+            }
             <Check summary={summary} />
         </div>
     )

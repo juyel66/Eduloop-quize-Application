@@ -1,6 +1,44 @@
-import type { Question } from "@/types/ArithmeticType"
+import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
+  {
+    id: 11,
+    type: "math11",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Easy",
+    metadata: {
+      question: "Which sums are associated with it?",
+      data: [
+        {
+          id: 1,
+          top: 5,
+          bottoms: [2, null],
+          answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
+        },
+        {
+          id: 2,
+          top: 7,
+          bottoms: [2, 5],
+          answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
+        },
+        {
+          id: 3,
+          bottoms: [4, 5],
+          top: null,
+          answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
+        },
+        {
+          id: 4,
+          top: 8,
+          bottoms: [2, 6],
+          answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+        },
+      ],
+      hint: "Only find those numbers sum, that is matched with the box numbers.",
+    },
+  },
   {
     id: 10,
     type: "math10",
@@ -9,16 +47,29 @@ export const QUESTIONS_DATA: any[] = [
     category: "Basic",
     level: "Easy",
     metadata: {
-      question: "Guess the numbers that is multiplication of the top number",
-      method: "multiplication",
+      question: "Which sums are associated with it?",
       data: [
-        { id: 1, result: 12, answer: [[3, 4], [6, 2], [4, 3]] },
-        { id: 2, result: 20, answer: [[10, 2], [5, 4], [20, 1]] },
-        { id: 3, result: 50, answer: [[25, 2], [10, 5], [50, 1]] },
-        { id: 4, result: 60, answer: [[30, 2], [20, 3], [15, 4]] }
+        {
+          id: 1,
+          digits: [6, 4, 2],
+          pattern: ["6 - 4 = 2", "6 - 3 = 3", "3 + 3 = 6", "4 + 2 = 6"],
+          answer: ["6 - 4 = 2", "4 + 2 = 6"],
+        },
+        {
+          id: 2,
+          digits: [8, 5, 3],
+          pattern: ["8 - 5 = 3", "5 + 3 = 8", "8 - 4 = 4", "2 + 5 = 8"],
+          answer: ["8 - 5 = 3", "5 + 3 = 8"],
+        },
+        {
+          id: 3,
+          digits: [9, 6, 3],
+          pattern: ["9 - 6 = 3", "6 + 3 = 9", "9 - 5 = 4", "4 + 4 = 9"],
+          answer: ["9 - 6 = 3", "6 + 3 = 9"],
+        },
       ],
-      hint: "Follow this: 3 * ? = 12, 6 * ? = 12, 4 + ? = 12"
-    }
+      hint: "Only find those numbers sum, that is matched with the box numbers.",
+    },
   },
   {
     id: 9,
@@ -31,13 +82,45 @@ export const QUESTIONS_DATA: any[] = [
       question: "Guess the numbers that is multiplication of the top number",
       method: "multiplication",
       data: [
-        { id: 1, result: 12, answer: [[3, 4], [6, 2], [4, 3]] },
-        { id: 2, result: 20, answer: [[10, 2], [5, 4], [20, 1]] },
-        { id: 3, result: 50, answer: [[25, 2], [10, 5], [50, 1]] },
-        { id: 4, result: 60, answer: [[30, 2], [20, 3], [15, 4]] }
+        {
+          id: 1,
+          result: 12,
+          answer: [
+            [3, 4],
+            [6, 2],
+            [4, 3],
+          ],
+        },
+        {
+          id: 2,
+          result: 20,
+          answer: [
+            [10, 2],
+            [5, 4],
+            [20, 1],
+          ],
+        },
+        {
+          id: 3,
+          result: 50,
+          answer: [
+            [25, 2],
+            [10, 5],
+            [50, 1],
+          ],
+        },
+        {
+          id: 4,
+          result: 60,
+          answer: [
+            [30, 2],
+            [20, 3],
+            [15, 4],
+          ],
+        },
       ],
-      hint: "Follow this: 3 * ? = 12, 6 * ? = 12, 4 + ? = 12"
-    }
+      hint: "Follow this: 3 * ? = 12, 6 * ? = 12, 4 + ? = 12",
+    },
   },
   {
     id: 8,
@@ -50,13 +133,45 @@ export const QUESTIONS_DATA: any[] = [
       question: "Guess the numbers that is addition of the top number",
       method: "addition",
       data: [
-        { id: 1, result: 10, answer: [[5, 5], [8, 2], [6, 4]] },
-        { id: 2, result: 20, answer: [[10, 10], [18, 2], [15, 5]] },
-        { id: 3, result: 50, answer: [[25, 25], [30, 20], [42, 8]] },
-        { id: 4, result: 60, answer: [[30, 30], [40, 20], [49, 11]] }
+        {
+          id: 1,
+          result: 10,
+          answer: [
+            [5, 5],
+            [8, 2],
+            [6, 4],
+          ],
+        },
+        {
+          id: 2,
+          result: 20,
+          answer: [
+            [10, 10],
+            [18, 2],
+            [15, 5],
+          ],
+        },
+        {
+          id: 3,
+          result: 50,
+          answer: [
+            [25, 25],
+            [30, 20],
+            [42, 8],
+          ],
+        },
+        {
+          id: 4,
+          result: 60,
+          answer: [
+            [30, 30],
+            [40, 20],
+            [49, 11],
+          ],
+        },
       ],
-      hint: "Follow this: 5 + ? = 10, 8 + ? = 10, 6 + ? = 10"
-    }
+      hint: "Follow this: 5 + ? = 10, 8 + ? = 10, 6 + ? = 10",
+    },
   },
   {
     id: 7,
@@ -72,10 +187,10 @@ export const QUESTIONS_DATA: any[] = [
         { id: 1, result: 10, option: 2, answer: 8 },
         { id: 2, result: 20, option: 10, answer: 10 },
         { id: 3, result: 50, option: 25, answer: 25 },
-        { id: 4, result: 60, option: 20, answer: 15 }
+        { id: 4, result: 60, option: 20, answer: 15 },
       ],
-      hint: "Follow this: 2 * ? = 10"
-    }
+      hint: "Follow this: 2 * ? = 10",
+    },
   },
   {
     id: 6,
@@ -91,10 +206,10 @@ export const QUESTIONS_DATA: any[] = [
         { id: 1, result: 10, option: 2, answer: 8 },
         { id: 2, result: 20, option: 10, answer: 10 },
         { id: 3, result: 50, option: 25, answer: 25 },
-        { id: 4, result: 35, option: 20, answer: 15 }
+        { id: 4, result: 35, option: 20, answer: 15 },
       ],
-      hint: "Follow this: 2 + ? = 10"
-    }
+      hint: "Follow this: 2 + ? = 10",
+    },
   },
   {
     id: 5,
@@ -108,10 +223,10 @@ export const QUESTIONS_DATA: any[] = [
       data: [
         { id: 1, number: 18, firstNumber: 17, lastNumber: 19 },
         { id: 2, number: 45, firstNumber: 44, lastNumber: 46 },
-        { id: 3, number: 69, firstNumber: 68, lastNumber: 70 }
+        { id: 3, number: 69, firstNumber: 68, lastNumber: 70 },
       ],
-      hint: "Follow this: ? 18 ?. What is the number of previous number and next number?"
-    }
+      hint: "Follow this: ? 18 ?. What is the number of previous number and next number?",
+    },
   },
   {
     id: 4,
@@ -127,10 +242,10 @@ export const QUESTIONS_DATA: any[] = [
         { id: 2, number: 20, from: 19, to: 29 },
         { id: 3, number: 30, from: 30, to: 39 },
         { id: 4, number: 40, from: 39, to: 49 },
-        { id: 5, number: 50, from: 49, to: 69 }
+        { id: 5, number: 50, from: 49, to: 69 },
       ],
-      hint: "Match the number withing the range numbers."
-    }
+      hint: "Match the number withing the range numbers.",
+    },
   },
   {
     id: 3,
@@ -140,10 +255,11 @@ export const QUESTIONS_DATA: any[] = [
     category: "Basic",
     level: "Advance",
     metadata: {
-      question: "Which numbers are there in this boxes? Connect with the scale line.",
+      question:
+        "Which numbers are there in this boxes? Connect with the scale line.",
       options: [12, 50, 34, 43, 63, 89],
-      hint: "Just count 1 by 1 of the scale line and connect with the scale line"
-    }
+      hint: "Just count 1 by 1 of the scale line and connect with the scale line",
+    },
   },
   {
     id: 2,
@@ -155,8 +271,8 @@ export const QUESTIONS_DATA: any[] = [
     metadata: {
       question: "Which numbers are there in this scale?",
       options: [12, 50, 34, 43, 63, 89, 99, 100, 43],
-      hint: "Just count 1 by 1 of the scale line and type at the boxes"
-    }
+      hint: "Just count 1 by 1 of the scale line and type at the boxes",
+    },
   },
   {
     id: 1,
@@ -171,7 +287,7 @@ export const QUESTIONS_DATA: any[] = [
       answer1: 12,
       count: 10,
       defaultValue: 3,
-      hint: "Just add 10 with every number"
-    }
-  }
-]
+      hint: "Just add 10 with every number",
+    },
+  },
+];
