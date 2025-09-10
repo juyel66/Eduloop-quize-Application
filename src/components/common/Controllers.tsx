@@ -1,7 +1,11 @@
-import React from 'react'
 import { Button } from '../ui/button'
+interface ControllersProps {
+    handleCheck: () => void,
+    handleShowSolution: () => void,
+    handleShowHint: () => void
+}
 
-export default function Controllers({handleCheck, handleShowSolution, handleShowHint}:any) {
+export default function Controllers({handleCheck, handleShowSolution, handleShowHint}: ControllersProps) {
     return (
         <div className='flex items-center justify-between mt-10'>
             <div className='flex items-center gap-3'>
