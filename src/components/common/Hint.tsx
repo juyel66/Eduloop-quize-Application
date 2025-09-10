@@ -1,6 +1,4 @@
-import React from 'react'
-
-export default function Hint({hint}:any) {
+export default function Hint({hint}: {hint: string}) {
     return (
         <div className="w-full border p-5 rounded-lg mt-5 flex gap-1">
             <p className="font-semibold">Hint: </p>
