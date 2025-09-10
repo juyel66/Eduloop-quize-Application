@@ -3,7 +3,7 @@
 const LanguagePage = () => {
   return (
     <div>
-    This is a language 
+    This is a language ...
       
     </div>
   );
