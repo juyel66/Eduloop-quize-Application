@@ -22,6 +22,7 @@ export default function ArrTypeEight({ data, hint }: any) {
             <input
               type="text"
               value={3}
+              maxLength={3}
               className="size-10 border-2 !border-primary text-2xl font-semibold text-center"
               readOnly
             />
@@ -29,12 +30,14 @@ export default function ArrTypeEight({ data, hint }: any) {
               <input
                 type="text"
                 value={3}
+                maxLength={3}
                 className="size-10 border-2 !border-primary text-2xl font-semibold text-center"
                 readOnly
               />
               <input
                 type="text"
                 value={3}
+                maxLength={3}
                 className="size-10 border-2 !border-primary text-2xl font-semibold text-center"
                 readOnly
               />
