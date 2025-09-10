@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
+import Hint from "@/components/common/Hint";
 
 type Item = {
   id: number;
@@ -13,12 +14,16 @@ type Item = {
 
 interface Props {
   data: Item[];
+  hint?: string;
 }
 
-export default function ArrFirstAndSecondNumber({ data }: Props) {
+export default function ArrTypeFour({ data, hint }: Props) {
   const [answers, setAnswers] = useState<{ [key: number]: { first?: string; last?: string } }>({});
   const [results, setResults] = useState<{ [key: number]: { first?: "correct" | "wrong"; last?: "correct" | "wrong" } }>({});
   const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const handleShowHint = () => setShowHint((v) => !v);
 
   const handleChange = (id: number, field: "first" | "last", value: string) => {
     setAnswers((prev) => ({
@@ -126,7 +131,8 @@ export default function ArrFirstAndSecondNumber({ data }: Props) {
       ))}
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} />
+      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {showHint && <Hint hint={hint} />}
       <Check summary={summary} /> {/* ✅ Only shows after Check */}
     </div>
   );

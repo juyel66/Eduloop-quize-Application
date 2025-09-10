@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
+import Hint from "@/components/common/Hint";
 import { IoMdArrowRoundForward } from "react-icons/io";
 
 type Mode = "connectThenType" | "preConnected" | "preFilledBoxes";
@@ -13,6 +14,7 @@ type Props = {
   presetLineNums?: PresetPair[];
   presetBoxNumbers?: number[];
   dotCount?: number;
+  hint?: string;
 };
 
 type Connection = {
@@ -26,11 +28,12 @@ const BRAND = "#ff6900";
 const TICK_GAP = 17;
 const SNAP_RADIUS = 8;
 
-export default function ArrScaleQuiz({
+export default function ArrTypeTwo({
   mode,
   presetLineNums = [],
   presetBoxNumbers = [12, 50, 97, 3, 88],
   dotCount = 5,
+  hint,
 }: Props) {
   const lines = useMemo(() => Array.from({ length: 100 }, (_, i) => i + 1), []);
   const [activeDot, setActiveDot] = useState<number | null>(null);
@@ -38,6 +41,9 @@ export default function ArrScaleQuiz({
   const [typed, setTyped] = useState<Record<number, string>>({});
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | null>>({});
   const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const handleShowHint = () => setShowHint((v) => !v);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
@@ -323,7 +329,8 @@ export default function ArrScaleQuiz({
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} />
+      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {showHint && <Hint hint={hint} />}
       <Check summary={summary} /> {/* ✅ only shows after Check */}
     </>
   );

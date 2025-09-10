@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
+import Hint from "@/components/common/Hint";
 
 type Item = {
   id: number;
@@ -14,12 +15,15 @@ type Item = {
 interface Props {
   data: Item[];
   method: "addition" | "multiplication";
+  hint: string
 }
 
-export default function ArrNumAddMulti({ data, method }: Props) {
+export default function ArrTypeFive({ data, method,hint }: Props) {
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [results, setResults] = useState<{ [key: number]: "correct" | "wrong" | null }>({});
   const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false)
+  const handleShowHint = () => setShowHint(!showHint)
 
   const handleChange = (id: number, value: string) => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -122,7 +126,8 @@ export default function ArrNumAddMulti({ data, method }: Props) {
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} />
+      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {showHint && <Hint hint={hint} />}
       <Check summary={summary} /> {/* ✅ shows only after Check */}
     </div>
   );
