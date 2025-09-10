@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import { useEffect, useMemo, useRef, useState } from "react";
+import Controllers from "@/components/common/Controllers";
+import Check from "@/components/common/Check";
+import Hint from "@/components/common/Hint";
 import { IoMdArrowRoundForward } from "react-icons/io";
 
-/** Modes:
- * - connectThenType   → user connects a dot to a tick, then types that tick number
- * - preConnected      → connections pre-made, user types numbers
- * - preFilledBoxes    → numbers shown in boxes (read-only), user must connect to matching ticks
- */
 type Mode = "connectThenType" | "preConnected" | "preFilledBoxes";
 type PresetPair = { dotIndex: number; lineNum: number };
 
@@ -15,7 +14,7 @@ type Props = {
   presetLineNums?: PresetPair[];
   presetBoxNumbers?: number[];
   dotCount?: number;
-  // onNext: () => void;
+  hint?: string;
 };
 
 type Connection = {
@@ -29,18 +28,23 @@ const BRAND = "#ff6900";
 const TICK_GAP = 17;
 const SNAP_RADIUS = 8;
 
-export default function ArrScaleQuiz({
+export default function ArrTypeTwo({
   mode,
   presetLineNums = [],
   presetBoxNumbers = [12, 50, 97, 3, 88],
   dotCount = 5,
-  // onNext,
+  hint,
 }: Props) {
   const lines = useMemo(() => Array.from({ length: 100 }, (_, i) => i + 1), []);
   const [activeDot, setActiveDot] = useState<number | null>(null);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [typed, setTyped] = useState<Record<number, string>>({});
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | null>>({});
+  const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const handleShowHint = () => setShowHint((v) => !v);
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
 
@@ -61,6 +65,7 @@ export default function ArrScaleQuiz({
   const handleDotClick = (dotIndex: number) => {
     if (mode === "preConnected") return;
     setActiveDot(dotIndex);
+    if (checked) setChecked(false); // reset feedback when editing
   };
 
   const handleScaleClick = (lineNum: number) => {
@@ -95,28 +100,23 @@ export default function ArrScaleQuiz({
   const handleCheck = () => {
     const newResults: Record<number, "correct" | "wrong" | null> = {};
     if (mode === "preFilledBoxes") {
-      // User must connect to numbers shown in boxes
       presetBoxNumbers.slice(0, dotCount).forEach((targetNum, dotIndex) => {
         const conn = connections.find((c) => c.dotIndex === dotIndex);
         newResults[dotIndex] = conn && conn.lineNum === targetNum ? "correct" : "wrong";
       });
     } else {
-      // Compare typed against connected tick number
       for (let dotIndex = 0; dotIndex < dotCount; dotIndex++) {
         const conn = connections.find((c) => c.dotIndex === dotIndex);
         const asNum = typed[dotIndex]?.trim() ? Number(typed[dotIndex]) : NaN;
-        newResults[dotIndex] = conn && !Number.isNaN(asNum) && asNum === conn.lineNum ? "correct" : "wrong";
+        newResults[dotIndex] =
+          conn && !Number.isNaN(asNum) && asNum === conn.lineNum ? "correct" : "wrong";
       }
     }
     setResults(newResults);
+    setChecked(true);
   };
 
-  const allCorrect = useMemo(() => {
-    const vals = Object.values(results);
-    return vals.length > 0 && vals.every((r) => r === "correct");
-  }, [results]);
-
-  // Build preset connections for preConnected on mount / when ticks render
+  // Preset connections for preConnected mode
   useEffect(() => {
     if (mode !== "preConnected" || !presetLineNums.length) return;
     const compute = () => {
@@ -144,13 +144,10 @@ export default function ArrScaleQuiz({
     };
   }, [mode, presetLineNums]);
 
-  // --- Show Solution ---
   const handleShowSolution = () => {
     if (mode === "preFilledBoxes") {
-      // Connect each dot to its preset box number
       const container = containerRef.current?.getBoundingClientRect();
       if (!container) return;
-
       const next: Connection[] = [];
       for (let dotIndex = 0; dotIndex < dotCount; dotIndex++) {
         const targetNum = presetBoxNumbers[dotIndex];
@@ -163,21 +160,16 @@ export default function ArrScaleQuiz({
         next.push({ dotIndex, lineNum: targetNum, x, y });
       }
       setConnections(next);
-
-      // Mark all as correct
       const solved: Record<number, "correct" | "wrong" | null> = {};
       for (let i = 0; i < dotCount; i++) solved[i] = "correct";
       setResults(solved);
     } else {
-      // Fill inputs with the connected tick numbers (for existing connections)
       const nextTyped: Record<number, string> = {};
       for (let dotIndex = 0; dotIndex < dotCount; dotIndex++) {
         const conn = connections.find((c) => c.dotIndex === dotIndex);
         if (conn) nextTyped[dotIndex] = String(conn.lineNum);
       }
       setTyped(nextTyped);
-
-      // If we want to also mark them correct immediately:
       const solved: Record<number, "correct" | "wrong" | null> = {};
       for (let i = 0; i < dotCount; i++) {
         const has = connections.find((c) => c.dotIndex === i);
@@ -185,7 +177,36 @@ export default function ArrScaleQuiz({
       }
       setResults(solved);
     }
+    setChecked(false); // 👈 no summary after solution
   };
+
+  // ✅ Summary (only after Check)
+  const summary = useMemo(() => {
+    if (!checked) return null;
+    const vals = Object.values(results);
+    if (vals.length === 0) return null;
+
+    const allCorrect = vals.every((r) => r === "correct");
+    const anyWrong = vals.some((r) => r === "wrong");
+
+    if (allCorrect) {
+      return {
+        text: "🎉 Correct! Good Job",
+        color: "text-green-600",
+        bgColor: "bg-green-100",
+        borderColor: "border-green-600",
+      };
+    }
+    if (anyWrong) {
+      return {
+        text: "❌ Oops! Some answers are wrong",
+        color: "text-red-600",
+        bgColor: "bg-red-100",
+        borderColor: "border-red-600",
+      };
+    }
+    return null;
+  }, [results, checked]);
 
   return (
     <>
@@ -237,7 +258,6 @@ export default function ArrScaleQuiz({
           {Array.from({ length: dotCount }).map((_, dotIndex) => {
             const isConnectedDot = connections.some((c) => c.dotIndex === dotIndex);
             const isActive = activeDot === dotIndex;
-
             const isReadOnly = mode === "preFilledBoxes";
             const presetValue = presetBoxNumbers[dotIndex] ?? "";
 
@@ -261,7 +281,6 @@ export default function ArrScaleQuiz({
                   type="text"
                   inputMode="numeric"
                   maxLength={3}
-                  placeholder={isReadOnly ? "" : ""}
                   value={isReadOnly ? String(presetValue) : (typed[dotIndex] ?? "")}
                   readOnly={isReadOnly}
                   onChange={(e) => {
@@ -272,9 +291,9 @@ export default function ArrScaleQuiz({
                   }}
                   className={`border-2 size-15 text-3xl font-bold text-center appearance-none focus:outline-none
                     ${
-                      results[dotIndex] === "correct"
+                      results[dotIndex] === "correct" && checked
                         ? "border-green-500"
-                        : results[dotIndex] === "wrong"
+                        : results[dotIndex] === "wrong" && checked
                         ? "border-red-500"
                         : "border-primary"
                     }`}
@@ -294,21 +313,25 @@ export default function ArrScaleQuiz({
             const dotX = dotRect.left - containerRect.left + dotRect.width / 2;
             const dotY = dotRect.top - containerRect.top + dotRect.height / 2;
 
-            return <line key={i} x1={dotX} y1={dotY} x2={c.x} y2={c.y} stroke={BRAND} strokeWidth="2" />;
+            return (
+              <line
+                key={i}
+                x1={dotX}
+                y1={dotY}
+                x2={c.x}
+                y2={c.y}
+                stroke={BRAND}
+                strokeWidth="2"
+              />
+            );
           })}
         </svg>
       </div>
 
       {/* Controls */}
-      <div className='flex items-center justify-between mt-10'>
-        <div className='flex items-center gap-3'>
-          <Button onClick={handleCheck} className='bg-[#dbeafe] hover:bg-[#dbeafe]/70 text-black border'>Check</Button>
-          <Button className='bg-[#ffedd5] hover:bg-[#ffedd5]/70 text-black border'>Hint</Button>
-          <Button onClick={handleShowSolution} className='bg-[#f3e8ff] hover:bg-[#f3e8ff]/70 text-black border'>
-            Show Solution
-          </Button>
-        </div>
-      </div>
+      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {showHint && <Hint hint={hint} />}
+      <Check summary={summary} /> {/* ✅ only shows after Check */}
     </>
   );
 }
