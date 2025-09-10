@@ -31,7 +31,7 @@ export default function ArrTypeSeven({ data, hint }: any) {
         let wrongMap: { [id: number]: string[] } = {}
         let correctMap: { [id: number]: string[] } = {}
 
-        data.forEach((q) => {
+        data.forEach((q: any) => {
             const selected = answers[q.id] || []
 
             // ✅ store correct selections
@@ -58,7 +58,7 @@ export default function ArrTypeSeven({ data, hint }: any) {
 
     const handleShowSolutionAll = () => {
         let newAnswers: { [id: number]: string[] } = {}
-        data.forEach((q) => {
+        data.forEach((q: any) => {
             newAnswers[q.id] = [...q.answer]
         })
         setAnswers(newAnswers)
@@ -105,7 +105,7 @@ export default function ArrTypeSeven({ data, hint }: any) {
         <div>
             {/* show questions side by side */}
             <div className="grid grid-cols-3 gap-6">
-                {data.map((q) => {
+                {data.map((q: any) => {
                     const selected = answers[q.id] || []
                     const wrongSelected = wrongAnswers[q.id] || []
                     const correctSelected = correctAnswers[q.id] || []
@@ -148,7 +148,7 @@ export default function ArrTypeSeven({ data, hint }: any) {
 
                             {/* options */}
                             <div className="space-y-2 mt-5 w-full">
-                                {q.pattern.map((p, i) => {
+                                {q.pattern.map((p: any, i: any) => {
                                     const isCorrect = q.answer.includes(p)
                                     const isSelected = selected.includes(p)
                                     const isWrongSelected = wrongSelected.includes(p)
@@ -215,7 +215,7 @@ export default function ArrTypeSeven({ data, hint }: any) {
                 handleShowHint={handleShowHint}
             />
             {
-                showHint && <Hint hint={hint}/>
+                showHint && <Hint hint={hint} />
             }
             <Check summary={summary} />
         </div>
