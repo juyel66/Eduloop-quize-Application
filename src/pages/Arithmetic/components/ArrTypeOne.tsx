@@ -1,4 +1,6 @@
 import Check from "@/components/common/Check"
+import Controllers from "@/components/common/Controllers"
+import Hint from "@/components/common/Hint"
 import { Button } from "@/components/ui/button"
 import { useMemo, useState } from "react"
 import { IoMdArrowRoundForward } from "react-icons/io"
@@ -11,17 +13,22 @@ interface RowProps {
     inputMaxLength?: number
 }
 
-export default function ArrFill({
+export default function ArrTypeOne({
     rows,
     inputMaxLength = 3,
     onNext,
+    hint,
 }: {
     rows?: RowProps[]
     inputMaxLength?: number
     onNext?: () => void
+    hint?: string
 }) {
     const [values, setValues] = useState<Record<string, string>>({})
     const [checked, setChecked] = useState(false)
+    const [showHint, setShowHint] = useState(false)
+
+    const handleShowHint = () => setShowHint((v) => !v)
 
     // build expected values for all rows
     const expected: Record<string, number> = useMemo(() => {
@@ -67,6 +74,10 @@ export default function ArrFill({
         return res
     }, [checked, values, expected, rows])
 
+    const handleCheck = () => {
+        setChecked(true)
+    }
+
     const summary = useMemo(() => {
         if (!checked) return null
         const vals = Object.values(results)
@@ -102,7 +113,7 @@ export default function ArrFill({
     return (
         <>
             <div>
-                
+
                 <div className='border-2 border-primary w-full h-full rounded-bl-[40px] pb-5 mt-5'>
 
                     <div className='flex items-center gap-3 mb-6'>
@@ -134,7 +145,7 @@ export default function ArrFill({
                                                     readOnly={preset}
                                                     onChange={(e) => { if (!preset) handleChange(key, e.target.value) }}
                                                     className={`border-2 size-15 text-3xl font-bold text-center appearance-none focus:outline-none
-                          ${results[key] === "correct"
+                                                            ${results[key] === "correct"
                                                             ? "border-green-500"
                                                             : results[key] === "wrong"
                                                                 ? "border-red-500"
@@ -152,25 +163,8 @@ export default function ArrFill({
                 </div>
             </div>
 
-            <div className='flex items-center justify-between mt-10'>
-                <div className='flex items-center gap-3'>
-                    <Button onClick={() => setChecked(true)} className='bg-[#dbeafe] hover:bg-[#dbeafe]/70 text-black border'>Check</Button>
-                    <Button className='bg-[#ffedd5] hover:bg-[#ffedd5]/70 text-black border'>Hint</Button>
-                    <Button onClick={handleShowSolution} className='bg-[#f3e8ff] hover:bg-[#f3e8ff]/70 text-black border'>Show Solution</Button>
-                </div>
-
-                {/* <Button
-          onClick={onNext}
-          // disabled={!allCorrect} // enable if you want to require correct before next
-          className='rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed'
-        >
-          Next
-          <div className='size-10 bg-black rounded-2xl flex items-center justify-center'>
-            <IoMdArrowRoundForward size={50} className='text-5xl' />
-          </div>
-        </Button> */}
-            </div>
-
+            <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint}/>
+            {showHint && <Hint hint={hint} />}
             <Check summary={summary} />
         </>
     )
