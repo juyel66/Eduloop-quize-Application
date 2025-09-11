@@ -8,6 +8,7 @@ import ArrTypeSix from "./ArrTypeSix"
 import type { Question } from "@/types/ArithmeticType"
 import ArrTypeSeven from "./ArrTypeSeven"
 import ArrTypeEight from "./ArrTypeEight"
+import ArrTypeNine from "./ArrTypeNine"
 
 export default function QuestionRenderer({ q }: { q: Question }) {
     return useMemo(() => {
@@ -124,6 +125,16 @@ export default function QuestionRenderer({ q }: { q: Question }) {
                     />
                 )
             }
+            case "math12": {
+                return (
+                    <ArrTypeNine
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            
             default:
                 return null
         }

@@ -2,6 +2,44 @@ import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
   {
+    id: 12,
+    type: "math12",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Easy",
+    metadata: {
+      question: "Which sums are associated with it?",
+      data: [
+        {
+          id: 1,
+          top: 5,
+          bottoms: [2, null],
+          answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
+        },
+        {
+          id: 2,
+          top: 7,
+          bottoms: [2, 5],
+          answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
+        },
+        {
+          id: 3,
+          bottoms: [4, 5],
+          top: null,
+          answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
+        },
+        {
+          id: 4,
+          top: 8,
+          bottoms: [2, 6],
+          answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+        },
+      ],
+      hint: "Only find those numbers sum, that is matched with the box numbers.",
+    },
+  },
+  {
     id: 11,
     type: "math11",
     group: "4",
