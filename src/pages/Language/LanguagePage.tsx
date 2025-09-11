@@ -1,7 +1,13 @@
-import React from 'react'
 
-export default function LanguagePage() {
+import LanguageQuestionOne from './LanguageQuestionOne';
+
+const LanguagePage = () => {
   return (
-    <div>LanguagePage</div>
-  )
-}
+    <div>
+      <LanguageQuestionOne />
+      
+    </div>
+  );
+};
+
+export default LanguagePage;
