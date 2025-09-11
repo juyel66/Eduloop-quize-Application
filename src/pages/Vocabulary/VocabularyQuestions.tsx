@@ -108,7 +108,7 @@ export default function VocabularyQuestions({
       setStatus(
         currentQuestion.answer
           .map((a) => a.toLowerCase())
-          .includes(selected.toLowerCase())
+          .includes((selected as string).toLowerCase())
           ? "match"
           : "wrong"
       );
@@ -158,19 +158,7 @@ export default function VocabularyQuestions({
 
   return (
     <div className="p-10">
-      {/* Back button (Top Left) */}
-
-      {/* <Button
-        onClick={goPrev}
-        disabled={isFirst}
-        className="rounded-2xl py-7 px-6 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center"
-      >
-        <div className="size-10 bg-black rounded-2xl flex items-center justify-center mr-2">
-          <IoMdArrowRoundBack size={30} className="text-white" />
-        </div>
-        Back
-      </Button> */}
-
+      {/* Back button */}
       <Button
         onClick={goPrev}
         disabled={isFirst}
@@ -229,19 +217,19 @@ export default function VocabularyQuestions({
             </div>
           )}
 
-          {/* Fill in the blanks / Verb Input */}
+          {/* Fill / Verb */}
           {(currentQuestion.type === "fill" ||
             currentQuestion.type === "verb") && (
             <input
               type="text"
               value={selected as string}
               onChange={(e) => selectOption(e.target.value)}
-              placeholder="Type your answer..."
+              placeholder="Please write your answer..."
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           )}
 
-          {/* Short Question (two inputs with bottom border only) */}
+          {/* Short Question */}
           {currentQuestion.type === "short" && (
             <div className="flex flex-col gap-4">
               {[0, 1].map((i) => (
@@ -256,14 +244,14 @@ export default function VocabularyQuestions({
                     updated[i] = e.target.value;
                     selectOption(updated);
                   }}
-                  placeholder={`Answer ${i + 1}`}
+                  placeholder={`Please write the answer ${i + 1}`}
                   className="w-full border-b-2 border-gray-400 focus:border-blue-500 outline-none px-2 py-2"
                 />
               ))}
             </div>
           )}
 
-          {/* Controllers: Inline buttons */}
+          {/* Controllers */}
           <div className="flex gap-4 justify-start mt-4">
             <Controllers
               handleCheck={handleCheck}
@@ -272,11 +260,23 @@ export default function VocabularyQuestions({
             />
           </div>
 
-          {/* Show result and hint */}
+          {/* Show result */}
           {summary && <Check summary={summary} />}
           {showHint && <Hint hint={currentQuestion.hint || ""} />}
 
-          {/* Navigation buttons */}
+          {/* Show Solution */}
+          {showSolution && (
+            <div className="mt-4 p-4 border rounded-lg bg-gray-50 text-gray-800">
+              <p className="font-semibold">✅ Correct Answer:</p>
+              <ul className="list-disc list-inside">
+                {currentQuestion.answer.map((ans, idx) => (
+                  <li key={idx}>{ans}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Navigation */}
           <div className="flex items-center justify-between mt-6">
             <div>
               <Button className="mt-5 py-6 bg-[#e8edff] hover:bg-[#e8edff]/70 text-black border">
