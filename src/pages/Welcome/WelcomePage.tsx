@@ -3,7 +3,7 @@ import { Link } from "react-router";
 const WelcomePage = () => {
   return (
     <div
-      className="text-xl text-white h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
+      className="text-xl text-white  flex items-center justify-center bg-cover bg-center bg-fixed"
       style={{ backgroundImage: "url('/images/welcomePage.png')" }}
     >
       <div className="text-center px-4">

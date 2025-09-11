@@ -68,7 +68,7 @@ export default function LanguageQuestion1({
             type: "short",
             question: "Write two programming languages you know:",
             options: [],
-            answer: ["JavaScript", "Python"], 
+            answer: ["JavaScript", "Python"],
             hint: "Think about web or general purpose languages.",
           },
         ];
@@ -159,13 +159,25 @@ export default function LanguageQuestion1({
   return (
     <div className="p-10">
       {/* Back button (Top Left) */}
-      <Button
+
+      {/* <Button
         onClick={goPrev}
         disabled={isFirst}
         className="rounded-2xl py-7 px-6 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center"
       >
         <div className="size-10 bg-black rounded-2xl flex items-center justify-center mr-2">
           <IoMdArrowRoundBack size={30} className="text-white" />
+        </div>
+        Back
+      </Button> */}
+
+      <Button
+        onClick={goPrev}
+        disabled={isFirst}
+        className="rounded-2xl py-7 pl-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
+      >
+        <div className="size-10 bg-white text-black rounded-2xl flex items-center justify-center">
+          <IoMdArrowRoundBack size={50} className="text-5xl" />
         </div>
         Back
       </Button>
@@ -238,7 +250,9 @@ export default function LanguageQuestion1({
                   type="text"
                   value={Array.isArray(selected) ? selected[i] || "" : ""}
                   onChange={(e) => {
-                    const updated = Array.isArray(selected) ? [...selected] : [];
+                    const updated = Array.isArray(selected)
+                      ? [...selected]
+                      : [];
                     updated[i] = e.target.value;
                     selectOption(updated);
                   }}
@@ -273,11 +287,11 @@ export default function LanguageQuestion1({
             <Button
               onClick={goNext}
               disabled={isLast}
-              className="rounded-2xl py-7 px-6 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed flex items-center"
+              className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
             >
               Next
               <div className="size-10 bg-black rounded-2xl flex items-center justify-center ml-2">
-                <IoMdArrowRoundForward size={30} className="text-white" />
+                <IoMdArrowRoundForward size={50} className="text-5xl" />
               </div>
             </Button>
           </div>
