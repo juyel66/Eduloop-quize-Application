@@ -13,16 +13,90 @@ interface Question {
   options: string[];
   answer: string[];
   hint?: string;
+  group?: string;
+  subject?: string;
+  category?: string;
+  level?: string;
+  description?: string;
 }
 
-interface LanguagePageProps {
-  data?: Question[];
-}
 
-export default function VocabularyQuestions({
-  data: initialData = [],
-}: LanguagePageProps) {
-  const [data, setData] = useState<Question[]>(initialData);
+const question_data = [
+  {
+    id: 4,
+    type: "readingMultipleChoice",
+    group: "1",
+    subject: "Language",
+    category: "English",
+    level: "Easy",
+    metadata: {
+      question: "Which of the following is a vowel in English?",
+      options: ["B", "C", "A", "D"],
+      correctAnswer: ["A"],
+      hint: "Think about letters that are not consonants.",
+    },
+  },
+  {
+    id: 5,
+    type: "readingMultipleChoice",
+    group: "2",
+    subject: "Language",
+    category: "Spanish",
+    level: "Medium",
+    metadata: {
+      question: "What does 'Hola' mean in Spanish?",
+      options: ["Goodbye", "Hello", "Thanks", "Yes"],
+      correctAnswer: ["Hello"],
+      hint: "It’s a common greeting.",
+    },
+  },
+  {
+    id: 6,
+    type: "readingMultipleChoice",
+    group: "3",
+    subject: "Language",
+    category: "French",
+    level: "Easy",
+    metadata: {
+      question: "What is the French word for 'apple'?",
+      options: ["Pomme", "Poire", "Orange", "Banane"],
+      correctAnswer: ["Pomme"],
+      hint: "Sounds like 'Pom'.",
+    },
+  },
+  {
+    id: 7,
+    type: "readingMultipleChoice",
+    group: "4",
+    subject: "Language",
+    category: "German",
+    level: "Advance",
+    metadata: {
+      description: "In German, nouns are always capitalized.",
+      question: "Which of the following is correctly written in German?",
+      options: ["hund", "Katze", "apfel", "vogel"],
+      correctAnswer: ["Katze"],
+      hint: "Nouns always start with a capital letter.",
+    },
+  },
+  {
+    id: 8,
+    type: "readingMultipleChoice",
+    group: "5",
+    subject: "Language",
+    category: "Bangla",
+    level: "Medium",
+    metadata: {
+      question: "What is the Bangla word for 'Book'?",
+      options: ["Kagoj", "Boi", "Khata", "Lekha"],
+      correctAnswer: ["Boi"],
+      hint: "It’s the common word used in schools.",
+    },
+  },
+];
+
+export default function VocabularyQuestions() {
+  const [data, setData] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<{ [id: number]: string | string[] }>(
     {}
@@ -30,58 +104,25 @@ export default function VocabularyQuestions({
   const [status, setStatus] = useState<"match" | "wrong" | "">("");
   const [showSolution, setShowSolution] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const [loading, setLoading] = useState(true);
 
+  // useEffect এ data set
   useEffect(() => {
-    if (initialData.length > 0) {
-      setData(initialData);
-      setLoading(false);
-    } else {
-      setTimeout(() => {
-        const sampleData: Question[] = [
-          {
-            id: 0,
-            type: "mcq",
-            question: "Which fruit is red?",
-            options: ["Apple", "Banana", "Mango", "Orange"],
-            answer: ["Apple"],
-            hint: "It is the most common red fruit you eat daily.",
-          },
-          {
-            id: 1,
-            type: "fill",
-            question: "Fill in the blank: The capital of Bangladesh is _____.",
-            options: [],
-            answer: ["Dhaka"],
-            hint: "It starts with 'D'.",
-          },
-          {
-            id: 2,
-            type: "verb",
-            question: "Right form of verb: He ____ (go) to school every day.",
-            options: [],
-            answer: ["goes"],
-            hint: "Think about present simple tense.",
-          },
-          {
-            id: 3,
-            type: "short",
-            question: "Write two programming languages you know:",
-            options: [],
-            answer: ["JavaScript", "Python"],
-            hint: "Think about web or general purpose languages.",
-          },
-        ];
-        setData(sampleData);
-        setLoading(false);
-      }, 1000);
-    }
-  }, [initialData]);
+    const formatted: Question[] = question_data.map((q) => ({
+      id: q.id,
+      type: "mcq",
+      question: q.metadata.question,
+      options: q.metadata.options,
+      answer: q.metadata.correctAnswer,
+      hint: q.metadata.hint,
+      group: q.group,
+      subject: q.subject,
+      category: q.category,
+      level: q.level,
+      description: q.metadata.description,
+    }));
+    setData(formatted);
+  }, []);
 
-  if (loading)
-    return (
-      <div className="text-center text-xl mt-10">Loading questions...</div>
-    );
   if (data.length === 0)
     return (
       <div className="text-center text-xl mt-10">No questions available</div>
@@ -142,7 +183,7 @@ export default function VocabularyQuestions({
   const summary =
     status === "match"
       ? {
-          text: "✅ Correct!",
+          text: " Correct!",
           color: "text-green-600",
           bgColor: "bg-green-100",
           borderColor: "border-green-600",
@@ -214,40 +255,6 @@ export default function VocabularyQuestions({
                   </Button>
                 );
               })}
-            </div>
-          )}
-
-          {/* Fill / Verb */}
-          {(currentQuestion.type === "fill" ||
-            currentQuestion.type === "verb") && (
-            <input
-              type="text"
-              value={selected as string}
-              onChange={(e) => selectOption(e.target.value)}
-              placeholder="Please write your answer..."
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          )}
-
-          {/* Short Question */}
-          {currentQuestion.type === "short" && (
-            <div className="flex flex-col gap-4">
-              {[0, 1].map((i) => (
-                <input
-                  key={i}
-                  type="text"
-                  value={Array.isArray(selected) ? selected[i] || "" : ""}
-                  onChange={(e) => {
-                    const updated = Array.isArray(selected)
-                      ? [...selected]
-                      : [];
-                    updated[i] = e.target.value;
-                    selectOption(updated);
-                  }}
-                  placeholder={`Please write the answer ${i + 1}`}
-                  className="w-full border-b-2 border-gray-400 focus:border-blue-500 outline-none px-2 py-2"
-                />
-              ))}
             </div>
           )}
 
