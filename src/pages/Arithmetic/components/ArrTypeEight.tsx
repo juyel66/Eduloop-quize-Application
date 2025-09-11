@@ -3,7 +3,36 @@ import Controllers from '@/components/common/Controllers'
 import Hint from '@/components/common/Hint'
 import Check from '@/components/common/Check'
 
-export default function ArrTypeEight({ data, hint }: any) {
+const data = [
+  {
+    id: 1,
+    top: 5,
+    bottoms: [2, null],
+    answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
+  },
+  {
+    id: 2,
+    top: 7,
+    bottoms: [2, 5],
+    answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
+  },
+  {
+    id: 3,
+    bottoms: [4, 5],
+    top: null,
+    answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
+  },
+  {
+    id: 4,
+    top: 8,
+    bottoms: [2, 6],
+    answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+  },
+]
+
+const hints = "dkjfdkfjk"
+
+export default function ArrTypeEight() {
   const [showHint, setShowHint] = useState(false)
   const handleShowHint = () => setShowHint((v) => !v)
 

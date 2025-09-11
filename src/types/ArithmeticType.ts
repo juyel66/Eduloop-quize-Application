@@ -136,6 +136,39 @@ export type  Math9Question = {
   }
 }
 
+// Generic questions for additional math types rendered by QuestionRenderer
+// These share a common metadata shape: { question, data, hint }
+export type Math10To23Type =
+  | 'math10'
+  | 'math11'
+  | 'math12'
+  | 'math13'
+  | 'math14'
+  | 'math15'
+  | 'math16'
+  | 'math17'
+  | 'math18'
+  | 'math19'
+  | 'math20'
+  | 'math21'
+  | 'math22'
+  | 'math23'
+
+export type GenericMathQuestion = {
+  id: number
+  type: Math10To23Type
+  group: string
+  subject: string
+  category: string
+  level: string
+  metadata: {
+    question: string
+    // The concrete structure varies by component; keep it flexible
+    data: any[]
+    hint: string
+  }
+}
+
 export type Question =
   | FillBlankQuestion
   | Scale1Question
@@ -146,4 +179,5 @@ export type Question =
   | Math7Question
   | Math8Question
   | Math9Question
+  | GenericMathQuestion
 
