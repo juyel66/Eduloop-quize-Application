@@ -1,11 +1,9 @@
-
-import LanguageQuestionOne from './LanguageQuestionOne';
+import LanguageQuestions from "./LanguageQuestions";
 
 const LanguagePage = () => {
   return (
     <div>
-      <LanguageQuestionOne />
-      
+      <LanguageQuestions />
     </div>
   );
 };
