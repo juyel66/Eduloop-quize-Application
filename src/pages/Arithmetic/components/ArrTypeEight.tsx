@@ -3,54 +3,8 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 
-const data = [
-  {
-    id: 1,
-    numbers: [5, 2, 3],
-    answers: [
-      { a: 2, op: "+", b: 3, result: 5 },
-      { a: 3, op: "+", b: 2, result: 5 },
-      { a: 5, op: "-", b: 2, result: 3 },
-      { a: 5, op: "-", b: 3, result: 2 },
-    ],
-  },
-  {
-    id: 2,
-    numbers: [6, 4, 2],
-    answers: [
-      { a: 4, op: "+", b: 2, result: 6 },
-      { a: 2, op: "+", b: 4, result: 6 },
-      { a: 6, op: "-", b: 4, result: 2 },
-      { a: 6, op: "-", b: 2, result: 4 },
-    ],
-  },
-  {
-    id: 3,
-    numbers: [9, 7, 2],
-    answers: [
-      { a: 7, op: "+", b: 2, result: 9 },
-      { a: 2, op: "+", b: 7, result: 9 },
-      { a: 9, op: "-", b: 7, result: 2 },
-      { a: 9, op: "-", b: 2, result: 7 },
-    ],
-  },
-  {
-    id: 4,
-    numbers: [8, 5, 3],
-    answers: [
-      { a: 5, op: "+", b: 3, result: 8 },
-      { a: 3, op: "+", b: 5, result: 8 },
-      { a: 8, op: "-", b: 5, result: 3 },
-      { a: 8, op: "-", b: 3, result: 5 },
-    ],
-  }
 
-];
-
-
-const hint = "Make addition and subtraction using those 3 numbers in the boxes.";
-
-export default function ArrTypeEight() {
+export default function ArrTypeEight({data,hint}:any) {
   const [showHint, setShowHint] = useState(false);
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);
@@ -75,8 +29,8 @@ export default function ArrTypeEight() {
     let allCorrect = true;
     let newValidation: { [key: string]: boolean } = {};
 
-    data.forEach((d) => {
-      d.answers.forEach((a, i) => {
+    data.forEach((d:any) => {
+      d.answers.forEach((a:any, i:any) => {
         const ua = parseInt(userAnswers[`${d.id}-${i}-a`] ?? "", 10);
         const ub = parseInt(userAnswers[`${d.id}-${i}-b`] ?? "", 10);
         const ur = parseInt(userAnswers[`${d.id}-${i}-result`] ?? "", 10);
@@ -127,7 +81,7 @@ export default function ArrTypeEight() {
   return (
     <div>
       <div className="flex items-start justify-center gap-20">
-        {data?.map((d, i) => (
+        {data?.map((d:any, i:any) => (
           <div key={d.id}>
             {/* numbers box */}
             <div>
@@ -162,7 +116,7 @@ export default function ArrTypeEight() {
             </div>
             {/* answers inputs */}
             <div>
-              {d.answers?.map((a, idx) => {
+              {d.answers?.map((a:any, idx:any) => {
                 const isCorrect = validation[`${d.id}-${idx}`];
                 const inputClass =
                   isCorrect === true

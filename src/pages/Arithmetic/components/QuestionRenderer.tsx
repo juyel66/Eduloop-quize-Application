@@ -22,7 +22,6 @@ import ArrTypeNineteen from "./ArrTypeNineteen"
 import ArrTypeTwenty from "./ArrTypeTwenty"
 
 export default function QuestionRenderer({ q }: { q: Question }) {
-    const ArrTypeEightAny = ArrTypeEight as any
     return useMemo(() => {
         if (!q) return null
 
@@ -130,7 +129,7 @@ export default function QuestionRenderer({ q }: { q: Question }) {
             }
             case "math11": {
                 return (
-                    <ArrTypeEightAny
+                    <ArrTypeEight
                         hint={q.metadata.hint}
                         key={q.id}
                         data={q.metadata.data ?? []}
