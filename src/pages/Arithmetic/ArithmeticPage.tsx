@@ -4,6 +4,7 @@ import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward } from "re
 import { ChevronLeft } from "lucide-react"
 import QuestionRenderer from "./components/QuestionRenderer"
 import { QUESTIONS_DATA } from "./components/Questions"
+// import { QUESTIONS_DATA } from "./Questions"
 
 export default function ArithmeticPage() {
     const [question, setQuestion] = useState(0)
