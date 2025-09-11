@@ -9,6 +9,17 @@ import type { Question } from "@/types/ArithmeticType"
 import ArrTypeSeven from "./ArrTypeSeven"
 import ArrTypeEight from "./ArrTypeEight"
 import ArrTypeNine from "./ArrTypeNine"
+import ArrTypeTen from "./ArrTypeTen"
+import ArrTypeEleven from "./ArrTypeEleven"
+import ArrTypeTwelve from "./ArrTypeTwelve"
+import ArrTypeThirteen from "./ArrTypeThirteen"
+import ArrTypeFourteen from "./ArrTypeFourteen"
+import ArrTypeFifteen from "./ArrTypeFifteen"
+import ArrTypeSixteen from "./ArrTypeSixteen"
+import ArrTypeSeventeen from "./ArrTypeSeventeen"
+import ArrTypeEighteen from "./ArrTypeEighteen"
+import ArrTypeNineteen from "./ArrTypeNineteen"
+import ArrTypeTwenty from "./ArrTypeTwenty"
 
 export default function QuestionRenderer({ q }: { q: Question }) {
     return useMemo(() => {
@@ -134,7 +145,106 @@ export default function QuestionRenderer({ q }: { q: Question }) {
                     />
                 )
             }
-            
+            case "math13": {
+                return (
+                    <ArrTypeTen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math14": {
+                return (
+                    <ArrTypeEleven
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math15": {
+                return (
+                    <ArrTypeTwelve
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math16": {
+                return (
+                    <ArrTypeThirteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math17": {
+                return (
+                    <ArrTypeFourteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math18": {
+                return (
+                    <ArrTypeFifteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math19": {
+                return (
+                    <ArrTypeSixteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math20": {
+                return (
+                    <ArrTypeSeventeen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math21": {
+                return (
+                    <ArrTypeEighteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math22": {
+                return (
+                    <ArrTypeNineteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                ) 
+            }
+            case "math23": {
+                return (
+                    <ArrTypeTwenty
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+
             default:
                 return null
         }
