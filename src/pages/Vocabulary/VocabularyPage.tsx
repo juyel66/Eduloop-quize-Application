@@ -1,7 +1,8 @@
-import React from 'react'
+import VocabularyQuestions from './VocabularyQuestions'
 
 export default function VocabularyPage() {
   return (
-    <div>VocabularyPage</div>
+    <VocabularyQuestions />
+
   )
 }
