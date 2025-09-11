@@ -3,7 +3,7 @@
 const LanguageQuestionOne = () => {
   return (
     <div>
-      This is a langauge page 
+      This is a langauge pagee
       
     </div>
   );
