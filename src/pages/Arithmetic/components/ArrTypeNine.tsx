@@ -19,28 +19,28 @@ type Eq = {
   isCorrect?: boolean;
 };
 
-const data: Item[] = [
-  {
-    id: 1,
-    top: 8,
-    bottoms: [2, 6],
-    answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
-  },
-  {
-    id: 2,
-    top: 9,
-    bottoms: [5, 4],
-    answers: ["5 + 4 = 9", "4 + 5 = 9", "9 - 5 = 4", "9 - 4 = 5"],
-  },
-  {
-    id: 3,
-    top: 10,
-    bottoms: [6, 4],
-    answers: ["4 + 6 = 10", "6 + 4 = 10", "10 - 4 = 6", "10 - 6 = 4"],
-  },
-];
+// const data: Item[] = [
+//   {
+//     id: 1,
+//     top: 8,
+//     bottoms: [2, 6],
+//     answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+//   },
+//   {
+//     id: 2,
+//     top: 9,
+//     bottoms: [5, 4],
+//     answers: ["5 + 4 = 9", "4 + 5 = 9", "9 - 5 = 4", "9 - 4 = 5"],
+//   },
+//   {
+//     id: 3,
+//     top: 10,
+//     bottoms: [6, 4],
+//     answers: ["4 + 6 = 10", "6 + 4 = 10", "10 - 4 = 6", "10 - 6 = 4"],
+//   },
+// ];
 
-const numbers = [8, 2, 6, 9, 5, 4, 10, 6, 4];
+// const numbers = [8, 2, 6, 9, 5, 4, 10, 6, 4];
 
 const evaluate = (a: number, op: Operator, b: number) =>
   op === "+" ? a + b : a - b;
@@ -56,7 +56,10 @@ function validateOne(eq: Eq, triple: [number, number, number]): boolean {
   return arithOK && used.every((n, i) => n === expected[i]);
 }
 
-export default function ArrTypeNine() {
+export default function ArrTypeNine({data:props}:any) {
+
+  const qData = props?.query
+  const qNumbers = props?.numbers
   const REQUIRED = 4;
 
   // ✅ status MUST be inside the component
@@ -69,7 +72,7 @@ export default function ArrTypeNine() {
 
   const triples = useMemo(
     () =>
-      data.reduce<Record<number, [number, number, number]>>((acc, d) => {
+      qData.reduce<Record<number, [number, number, number]>>((acc, d) => {
         acc[d.id] = [d.bottoms[0], d.bottoms[1], d.top];
         return acc;
       }, {}),
@@ -78,7 +81,7 @@ export default function ArrTypeNine() {
 
   const [eqs, setEqs] = useState<Record<number, Eq[]>>(() => {
     const init: Record<number, Eq[]> = {};
-    data.forEach((d) => {
+    qData.forEach((d) => {
       init[d.id] = Array.from({ length: REQUIRED }, (_, i) => ({
         left: "",
         op: i < 2 ? "+" : "-",
@@ -139,7 +142,7 @@ export default function ArrTypeNine() {
   const handleCheckAll = () => {
     setEqs((prev) => {
       const next: typeof prev = {};
-      for (const item of data) {
+      for (const item of qData) {
         const triple = triples[item.id];
         next[item.id] = prev[item.id].map((row) => ({
           ...row,
@@ -157,7 +160,7 @@ export default function ArrTypeNine() {
   const handleShowSolutionAll = () => {
     setEqs((prev) => {
       const next: typeof prev = { ...prev };
-      for (const item of data) {
+      for (const item of qData) {
         const plus = item.answers.filter((s) => s.includes("+")).slice(0, 2);
         const minus = item.answers.filter((s) => s.includes("-")).slice(0, 2);
         const picks = [...plus, ...minus];
@@ -203,7 +206,7 @@ export default function ArrTypeNine() {
    <div className="mb-6 rounded-2xl border bg-amber-50/60 p-4">
       {/* TOP row */}
       <div className="flex items-center justify-around gap-6">
-        {numbers.map((n, i) => (
+        {qNumbers.map((n, i) => (
           <span
             key={`top-${i}`}
             className={
@@ -218,7 +221,7 @@ export default function ArrTypeNine() {
 
       {/* BOTTOM row */}
       <div className="mt-3 flex items-center justify-around gap-6">
-        {numbers.map((n, i) => (
+        {qNumbers.map((n, i) => (
           <span
             key={`bottom-${i}`}
             className={
@@ -234,7 +237,7 @@ export default function ArrTypeNine() {
 
         {/* columns */}
         <div className="flex justify-around gap-3.5">
-          {data.map((item) => {
+          {qData?.map((item) => {
             // const triple = triples[item.id];
             return (
               <div
