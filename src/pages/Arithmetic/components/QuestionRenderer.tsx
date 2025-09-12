@@ -199,6 +199,15 @@ export default function QuestionRenderer({ q }: { q: Question }) {
                     />
                 )
             }
+            case "math17_2": {
+                return (
+                    <ArrTypeFourteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
             case "math18": {
                 return (
                     <ArrTypeFifteen
