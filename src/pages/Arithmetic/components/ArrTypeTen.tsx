@@ -3,7 +3,7 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 
-// JSON Data (can later be replaced with API fetch)
+// JSON Data (all questions and answers here)
 const problemsJSON = [
   { id: 1, question: "5 - 3 =", answer: 2, type: "subtraction" },
   { id: 2, question: "7 - 3 =", answer: 4, type: "subtraction" },
@@ -18,7 +18,7 @@ const problemsJSON = [
 ];
 
 const AbacusQuestion = () => {
-  // Use JSON data instead of hardcoded array
+  // Use JSON data
   const [problems] = useState(problemsJSON);
 
   const [userAnswers, setUserAnswers] = useState<number[]>(Array(problems.length).fill(NaN));
