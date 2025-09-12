@@ -24,7 +24,7 @@ export const QUESTIONS_DATA: any[] = [
           correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
         },
       ],
-      hint: "Look at the pattern of hours. The missing clock should be between the given ones.",
+      hint: "Count the hours forward from the clock time until you reach the given time.",
     },
   },
   {
@@ -50,7 +50,7 @@ export const QUESTIONS_DATA: any[] = [
           answer: 9,
         },
       ],
-      hint: "Look at the pattern of hours. The missing clock should be between the given ones.",
+      hint: "Count the hours forward from the clock time until you reach the given time.",
     },
   },
   {
