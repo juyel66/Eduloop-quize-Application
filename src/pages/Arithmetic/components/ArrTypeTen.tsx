@@ -58,14 +58,14 @@ const AbacusQuestion = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="p-6 rounded-lg w-full">
+      <div className=" rounded-lg w-full">
         {/* Abacus Image */}
         <div className="mb-12">
           <img src="/images/arr1.png" alt="Abacus" className="" />
         </div>
 
         {/* Math Problems Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-10 gap-x-8 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5   mb-12">
           {problems.map((p, idx) => {
             const isCorrect = validation[idx];
             const inputClass =
