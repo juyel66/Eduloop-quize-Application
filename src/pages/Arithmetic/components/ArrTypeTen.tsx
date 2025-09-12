@@ -3,19 +3,23 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 
+// JSON Data (can later be replaced with API fetch)
+const problemsJSON = [
+  { id: 1, question: "5 - 3 =", answer: 2, type: "subtraction" },
+  { id: 2, question: "7 - 3 =", answer: 4, type: "subtraction" },
+  { id: 3, question: "8 - 6 =", answer: 2, type: "subtraction" },
+  { id: 4, question: "6 - 4 =", answer: 2, type: "subtraction" },
+  { id: 5, question: "8 - 4 =", answer: 4, type: "subtraction" },
+  { id: 6, question: "9 - 6 =", answer: 3, type: "subtraction" },
+  { id: 7, question: "9 - 3 =", answer: 6, type: "subtraction" },
+  { id: 8, question: "6 - 3 =", answer: 3, type: "subtraction" },
+  { id: 9, question: "7 - 3 =", answer: 4, type: "subtraction" },
+  { id: 10, question: "9 - 7 =", answer: 2, type: "subtraction" },
+];
+
 const AbacusQuestion = () => {
-  const problems = [
-    { question: "5 - 3 =", answer: 2 },
-    { question: "7 - 3 =", answer: 4 },
-    { question: "8 - 6 =", answer: 2 },
-    { question: "6 - 4 =", answer: 2 },
-    { question: "8 - 4 =", answer: 4 },
-    { question: "9 - 6 =", answer: 3 },
-    { question: "9 - 3 =", answer: 6 },
-    { question: "6 - 3 =", answer: 3 },
-    { question: "7 - 3 =", answer: 4 },
-    { question: "9 - 7 =", answer: 2 },
-  ];
+  // Use JSON data instead of hardcoded array
+  const [problems] = useState(problemsJSON);
 
   const [userAnswers, setUserAnswers] = useState<number[]>(Array(problems.length).fill(NaN));
   const [validation, setValidation] = useState<(boolean | null)[]>(Array(problems.length).fill(null));
@@ -53,9 +57,8 @@ const AbacusQuestion = () => {
       : null;
 
   return (
-    <div className="  flex items-center justify-center ">
-      <div className=" p-6 rounded-lg  w-full ">
-      
+    <div className="flex items-center justify-center">
+      <div className="p-6 rounded-lg w-full">
         {/* Abacus Image */}
         <div className="mb-12">
           <img src="/images/arr1.png" alt="Abacus" className="" />
@@ -73,9 +76,9 @@ const AbacusQuestion = () => {
                 : "border-gray-400 text-gray-900";
 
             return (
-              <div key={idx} className="flex items-end space-x-2">
+              <div key={p.id} className="flex items-end space-x-2">
                 <span className="text-lg text-gray-900 tracking-wide">
-                  {p.question.split(' ').map((part, partIdx) => (
+                  {p.question.split(" ").map((part, partIdx) => (
                     <span key={partIdx} className="border-b-2 border-dashed border-gray-400 mr-2">{part}</span>
                   ))}
                 </span>
