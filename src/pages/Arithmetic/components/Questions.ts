@@ -179,33 +179,31 @@ export const QUESTIONS_DATA: any[] = [
     category: "Basic",
     level: "Easy",
     metadata: {
-      question: "Which sums are associated with it?",
-      data: [
-        {
-          id: 1,
-          top: 5,
-          bottoms: [2, null],
-          answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
-        },
-        {
-          id: 2,
-          top: 7,
-          bottoms: [2, 5],
-          answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
-        },
-        {
-          id: 3,
-          bottoms: [4, 5],
-          top: null,
-          answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
-        },
-        {
-          id: 4,
-          top: 8,
-          bottoms: [2, 6],
-          answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
-        },
-      ],
+      question: "Make splits with the numbers Consider 3 sums for each split",
+
+      data: {
+        numbers: [8, 2, 6, 9, 5, 4, 10, 6, 4], //these number will be the reference numbers of the data numbers
+        query: [
+          {
+            id: 1,
+            top: 8,
+            bottoms: [2, 6],
+            answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+          },
+          {
+            id: 2,
+            top: 9,
+            bottoms: [5, 4],
+            answers: ["5 + 4 = 9", "4 + 5 = 9", "9 - 5 = 4", "9 - 4 = 5"],
+          },
+          {
+            id: 3,
+            top: 10,
+            bottoms: [6, 4],
+            answers: ["4 + 6 = 10", "6 + 4 = 10", "10 - 4 = 6", "10 - 6 = 4"],
+          },
+        ],
+      },
       hint: "Only find those numbers sum, that is matched with the box numbers.",
     },
   },
