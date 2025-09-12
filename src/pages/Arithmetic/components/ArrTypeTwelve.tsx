@@ -193,9 +193,9 @@ export default function ArrTypeTwelve() {
   return (
     <div>
       {/* Multiple sets of clocks stacked vertically */}
-      <div className="flex flex-col items-center gap-10 p-6">
+      <div className="flex flex-col items-center gap-15 p-6">
         {data.map((row) => (
-          <div key={row.id} className="flex gap-6">
+          <div key={row.id} className="flex gap-20">
             {row.clocks.map((clock, index) => {
               const userAns = userAnswers[`${row.id}-${index}`];
               let highlight: "correct" | "wrong" | undefined;
