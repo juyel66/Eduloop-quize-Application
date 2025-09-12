@@ -2,7 +2,7 @@ import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
   {
-    id: 17 ,
+    id: 17,
     type: "math17",
     group: "4",
     subject: "Arithmetic",
@@ -28,7 +28,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 16 ,
+    id: 16,
     type: "math16_2",
     group: "4",
     subject: "Arithmetic",
@@ -157,32 +157,18 @@ export const QUESTIONS_DATA: any[] = [
     metadata: {
       question: "Which sums are associated with it?",
       data: [
-        {
-          id: 1,
-          top: 5,
-          bottoms: [2, null],
-          answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
-        },
-        {
-          id: 2,
-          top: 7,
-          bottoms: [2, 5],
-          answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
-        },
-        {
-          id: 3,
-          bottoms: [4, 5],
-          top: null,
-          answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
-        },
-        {
-          id: 4,
-          top: 8,
-          bottoms: [2, 6],
-          answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
-        },
+        { id: 1, question: "5 - 3 =", answer: 2, type: "subtraction" },
+        { id: 2, question: "7 - 3 =", answer: 4, type: "subtraction" },
+        { id: 3, question: "8 - 6 =", answer: 2, type: "subtraction" },
+        { id: 4, question: "6 - 4 =", answer: 2, type: "subtraction" },
+        { id: 5, question: "8 - 4 =", answer: 4, type: "subtraction" },
+        { id: 6, question: "9 - 6 =", answer: 3, type: "subtraction" },
+        { id: 7, question: "9 - 3 =", answer: 6, type: "subtraction" },
+        { id: 8, question: "6 - 3 =", answer: 3, type: "subtraction" },
+        { id: 9, question: "7 - 3 =", answer: 4, type: "subtraction" },
+        { id: 10, question: "9 - 7 =", answer: 2, type: "subtraction" },
       ],
-      hint: "Only find those numbers sum, that is matched with the box numbers.",
+      hint: "Try counting the dots on the abacus for each number to find the answer.",
     },
   },
   {
@@ -245,7 +231,7 @@ export const QUESTIONS_DATA: any[] = [
         },
         {
           id: 2,
-          numbers: [    ],
+          numbers: [],
           answers: [
             { a: 4, op: "+", b: 2, result: 6 },
             { a: 2, op: "+", b: 4, result: 6 },
@@ -309,7 +295,7 @@ export const QUESTIONS_DATA: any[] = [
       hint: "Only find those numbers sum, that is matched with the box numbers.",
     },
   },
-   
+
   {
     id: 7,
     type: "math8",

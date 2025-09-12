@@ -17,9 +17,9 @@ const problemsJSON = [
   { id: 10, question: "9 - 7 =", answer: 2, type: "subtraction" },
 ];
 
-const ArrTypeTen = () => {
+const ArrTypeTen = ({data, hint}:any) => {
   // Use JSON data
-  const [problems] = useState(problemsJSON);
+  const [problems] = useState(data);
 
   const [userAnswers, setUserAnswers] = useState<number[]>(Array(problems.length).fill(NaN));
   const [validation, setValidation] = useState<(boolean | null)[]>(Array(problems.length).fill(null));
@@ -102,7 +102,7 @@ const ArrTypeTen = () => {
         />
 
         {/* Hint */}
-        {showHint && <Hint hint="Try counting the dots on the abacus for each number to find the answer." />}
+        {showHint && <Hint hint={hint} />}
 
         {/* Summary */}
         <Check summary={summary} />
