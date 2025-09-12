@@ -6,12 +6,12 @@ import React, { useState } from "react";
 const data = [
   {
     id: 1,
-    column: [0, 3, 4, 5], // always have 0 at first index
+    column: [0, 3, 4, 5],
     rows: [
       {
         header: 2,
         cells: [
-          { value: 5, correct: 5 }, // prefilled
+          { value: 5, correct: 5 },
           { correct: 6 },
           { correct: 7 },
         ],
@@ -19,6 +19,24 @@ const data = [
       {
         header: 3,
         cells: [{ correct: 6 }, { correct: 7 }, { correct: 8 }],
+      },
+    ],
+  },
+  {
+    id: 2,
+    column: [0, 2, 5, 7],
+    rows: [
+      {
+        header: 4,
+        cells: [
+          { value: 6, correct: 6 },
+          { correct: 9 },
+          { correct: 11 },
+        ],
+      },
+      {
+        header: 6,
+        cells: [{ correct: 8 }, { correct: 11 }, { correct: 13 }],
       },
     ],
   },
@@ -30,14 +48,19 @@ export default function ArrTypeEleven() {
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [showHint, setShowHint] = useState(false);
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);
-  const [checked, setChecked] = useState(false); // to show feedback after check
+  const [checked, setChecked] = useState(false);
 
   const handleShowHint = () => setShowHint((v) => !v);
 
-  const handleInputChange = (rowIndex: number, colIndex: number, value: string) => {
+  const handleInputChange = (
+    puzzleId: number,
+    rowIndex: number,
+    colIndex: number,
+    value: string
+  ) => {
     setUserAnswers((prev) => ({
       ...prev,
-      [`${rowIndex}-${colIndex}`]: value,
+      [`${puzzleId}-${rowIndex}-${colIndex}`]: value,
     }));
   };
 
@@ -48,7 +71,7 @@ export default function ArrTypeEleven() {
       d.rows.forEach((r, rowIndex) => {
         r.cells.forEach((c, colIndex) => {
           if (c.value === undefined) {
-            const userValue = userAnswers[`${rowIndex}-${colIndex}`];
+            const userValue = userAnswers[`${d.id}-${rowIndex}-${colIndex}`];
             if (Number(userValue) !== c.correct) {
               allCorrect = false;
             }
@@ -67,7 +90,7 @@ export default function ArrTypeEleven() {
       d.rows.forEach((r, rowIndex) => {
         r.cells.forEach((c, colIndex) => {
           if (c.value === undefined) {
-            filled[`${rowIndex}-${colIndex}`] = String(c.correct);
+            filled[`${d.id}-${rowIndex}-${colIndex}`] = String(c.correct);
           }
         });
       });
@@ -94,7 +117,7 @@ export default function ArrTypeEleven() {
 
   return (
     <div>
-      <div className="p-4">
+      <div className="p-4 flex items-center justify-center gap-10">
         {data.map((d) => (
           <table
             key={d.id}
@@ -123,7 +146,7 @@ export default function ArrTypeEleven() {
                   </td>
                   {/* row cells */}
                   {r.cells.map((c, colIndex) => {
-                    const key = `${rowIndex}-${colIndex}`;
+                    const key = `${d.id}-${rowIndex}-${colIndex}`;
                     const userValue = userAnswers[key];
                     let cellClass = "";
 
@@ -147,10 +170,10 @@ export default function ArrTypeEleven() {
                             type="text"
                             value={userValue || ""}
                             onChange={(e) =>
-                              handleInputChange(rowIndex, colIndex, e.target.value)
+                              handleInputChange(d.id, rowIndex, colIndex, e.target.value)
                             }
                             className={`w-full h-full text-center outline-none ${cellClass}`}
-                            disabled={status === "match"} // lock after solved
+                            disabled={status === "match"}
                           />
                         )}
                       </td>
