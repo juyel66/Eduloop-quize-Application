@@ -7,36 +7,28 @@ export const QUESTIONS_DATA: any[] = [
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
-    level: "Easy",
+    level: "Medium",
     metadata: {
       question: "Which sums are associated with it?",
       data: [
         {
           id: 1,
-          top: 5,
-          bottoms: [2, null],
-          answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
+          clocks: [
+            { value: { hour: 7, minute: 0 }, correct: { hour: 7, minute: 0 } },
+            { user: true, correct: { hour: 8, minute: 0 } },
+            { value: { hour: 9, minute: 0 }, correct: { hour: 9, minute: 0 } },
+          ],
         },
         {
           id: 2,
-          top: 7,
-          bottoms: [2, 5],
-          answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
-        },
-        {
-          id: 3,
-          bottoms: [4, 5],
-          top: null,
-          answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
-        },
-        {
-          id: 4,
-          top: 8,
-          bottoms: [2, 6],
-          answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+          clocks: [
+            { value: { hour: 3, minute: 0 }, correct: { hour: 3, minute: 0 } },
+            { user: true, correct: { hour: 4, minute: 0 } },
+            { value: { hour: 5, minute: 0 }, correct: { hour: 5, minute: 0 } },
+          ],
         },
       ],
-      hint: "Only find those numbers sum, that is matched with the box numbers.",
+      hint: "Look at the pattern of hours. The missing clock should be between the given ones.",
     },
   },
   {
@@ -44,7 +36,7 @@ export const QUESTIONS_DATA: any[] = [
     type: "math14",
     group: "4",
     subject: "Arithmetic",
-    category: "Basic",
+    category: "Advance",
     level: "Easy",
     metadata: {
       question: "Which sums are associated with it?",

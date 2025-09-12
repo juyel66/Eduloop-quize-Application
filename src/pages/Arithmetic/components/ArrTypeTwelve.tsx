@@ -3,29 +3,8 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
 
-const hint =
-  "Look at the pattern of hours. The missing clock should be between the given ones.";
 
-const data = [
-  {
-    id: 1,
-    clocks: [
-      { value: { hour: 7, minute: 0 }, correct: { hour: 7, minute: 0 } },
-      { user: true, correct: { hour: 8, minute: 0 } },
-      { value: { hour: 9, minute: 0 }, correct: { hour: 9, minute: 0 } },
-    ],
-  },
-  {
-    id: 2,
-    clocks: [
-      { value: { hour: 3, minute: 0 }, correct: { hour: 3, minute: 0 } },
-      { user: true, correct: { hour: 4, minute: 0 } },
-      { value: { hour: 5, minute: 0 }, correct: { hour: 5, minute: 0 } },
-    ],
-  },
-];
-
-export default function ArrTypeTwelve() {
+export default function ArrTypeTwelve({data, hint}:any) {
   const [userAnswers, setUserAnswers] = useState<{
     [key: string]: { hour: number; minute: number };
   }>({});
