@@ -2,7 +2,33 @@ import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
   {
-    id: 17,
+    id: 17 ,
+    type: "math17",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "What time is it?",
+      data: [
+        {
+          id: 1,
+          boxTime: { hour: 4, minute: 0 }, // Fixed box time
+          difference: 8, // 8 hours later
+          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
+        },
+        {
+          id: 2,
+          boxTime: { hour: 4, minute: 0 }, // Fixed box time
+          difference: 8, // 8 hours later
+          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
+        },
+      ],
+      hint: "Count the hours forward from the clock time until you reach the given time.",
+    },
+  },
+  {
+    id: 16 ,
     type: "math16_2",
     group: "4",
     subject: "Arithmetic",
@@ -28,7 +54,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 16,
+    id: 15,
     type: "math16",
     group: "4",
     subject: "Arithmetic",
@@ -54,7 +80,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 15,
+    id: 14,
     type: "math15",
     group: "4",
     subject: "Arithmetic",
@@ -84,7 +110,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 14,
+    id: 13,
     type: "math14",
     group: "4",
     subject: "Arithmetic",
@@ -122,7 +148,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 13,
+    id: 12,
     type: "math13",
     group: "4",
     subject: "Arithmetic",
@@ -160,7 +186,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 12,
+    id: 11,
     type: "math12",
     group: "4",
     subject: "Arithmetic",
@@ -198,7 +224,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 11,
+    id: 10,
     type: "math11",
     group: "4",
     subject: "Arithmetic",
@@ -219,7 +245,7 @@ export const QUESTIONS_DATA: any[] = [
         },
         {
           id: 2,
-          numbers: [6, 4, 2],
+          numbers: [    ],
           answers: [
             { a: 4, op: "+", b: 2, result: 6 },
             { a: 2, op: "+", b: 4, result: 6 },
@@ -252,7 +278,7 @@ export const QUESTIONS_DATA: any[] = [
     },
   },
   {
-    id: 10,
+    id: 9,
     type: "math10",
     group: "4",
     subject: "Arithmetic",
@@ -283,59 +309,9 @@ export const QUESTIONS_DATA: any[] = [
       hint: "Only find those numbers sum, that is matched with the box numbers.",
     },
   },
+   
   {
-    id: 9,
-    type: "math9",
-    group: "4",
-    subject: "Arithmetic",
-    category: "Basic",
-    level: "Easy",
-    metadata: {
-      question: "Guess the numbers that is multiplication of the top number",
-      method: "multiplication",
-      data: [
-        {
-          id: 1,
-          result: 12,
-          answer: [
-            [3, 4],
-            [6, 2],
-            [4, 3],
-          ],
-        },
-        {
-          id: 2,
-          result: 20,
-          answer: [
-            [10, 2],
-            [5, 4],
-            [20, 1],
-          ],
-        },
-        {
-          id: 3,
-          result: 50,
-          answer: [
-            [25, 2],
-            [10, 5],
-            [50, 1],
-          ],
-        },
-        {
-          id: 4,
-          result: 60,
-          answer: [
-            [30, 2],
-            [20, 3],
-            [15, 4],
-          ],
-        },
-      ],
-      hint: "Follow this: 3 * ? = 12, 6 * ? = 12, 4 + ? = 12",
-    },
-  },
-  {
-    id: 8,
+    id: 7,
     type: "math8",
     group: "4",
     subject: "Arithmetic",
@@ -385,25 +361,25 @@ export const QUESTIONS_DATA: any[] = [
       hint: "Follow this: 5 + ? = 10, 8 + ? = 10, 6 + ? = 10",
     },
   },
-  {
-    id: 7,
-    type: "math7",
-    group: "4",
-    subject: "Arithmetic",
-    category: "Basic",
-    level: "Easy",
-    metadata: {
-      question: "Guess the number that is multiplication of the top number",
-      method: "multiplication",
-      data: [
-        { id: 1, result: 10, option: 2, answer: 8 },
-        { id: 2, result: 20, option: 10, answer: 10 },
-        { id: 3, result: 50, option: 25, answer: 25 },
-        { id: 4, result: 60, option: 20, answer: 15 },
-      ],
-      hint: "Follow this: 2 * ? = 10",
-    },
-  },
+  // {
+  //   id: 7,
+  //   type: "math7",
+  //   group: "4",
+  //   subject: "Arithmetic",
+  //   category: "Basic",
+  //   level: "Easy",
+  //   metadata: {
+  //     question: "Guess the number that is multiplication of the top number",
+  //     method: "multiplication",
+  //     data: [
+  //       { id: 1, result: 10, option: 2, answer: 8 },
+  //       { id: 2, result: 20, option: 10, answer: 10 },
+  //       { id: 3, result: 50, option: 25, answer: 25 },
+  //       { id: 4, result: 60, option: 20, answer: 15 },
+  //     ],
+  //     hint: "Follow this: 2 * ? = 10",
+  //   },
+  // },
   {
     id: 6,
     type: "math6",
