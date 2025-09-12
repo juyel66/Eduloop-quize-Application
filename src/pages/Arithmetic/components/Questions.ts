@@ -2,6 +2,58 @@ import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
   {
+    id: 17,
+    type: "math16_2",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "What time is it?",
+      data: [
+        {
+          id: 1,
+          boxTime: { hour: 4, minute: 0 }, // Fixed box time
+          difference: 8, // 8 hours later
+          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
+        },
+        {
+          id: 2,
+          boxTime: { hour: 4, minute: 0 }, // Fixed box time
+          difference: 8, // 8 hours later
+          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
+        },
+      ],
+      hint: "Look at the pattern of hours. The missing clock should be between the given ones.",
+    },
+  },
+  {
+    id: 16,
+    type: "math16",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "How many hours later?",
+      data: [
+        {
+          id: 1,
+          clock: { hour: 9, minute: 0 },
+          boxTime: { hour: 12, minute: 0 },
+          answer: 3,
+        },
+        {
+          id: 2,
+          clock: { hour: 5, minute: 0 },
+          boxTime: { hour: 2, minute: 0 },
+          answer: 9,
+        },
+      ],
+      hint: "Look at the pattern of hours. The missing clock should be between the given ones.",
+    },
+  },
+  {
     id: 15,
     type: "math15",
     group: "4",
@@ -9,7 +61,7 @@ export const QUESTIONS_DATA: any[] = [
     category: "Basic",
     level: "Medium",
     metadata: {
-      question: "Which sums are associated with it?",
+      question: "What time is it?",
       data: [
         {
           id: 1,

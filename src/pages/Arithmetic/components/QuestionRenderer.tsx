@@ -177,7 +177,16 @@ export default function QuestionRenderer({ q }: { q: Question }) {
                     <ArrTypeThirteen
                         hint={q.metadata.hint}
                         key={q.id}
-                        data={q.metadata.data ?? []}
+                        dataOne={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "math16_2": {
+                return (
+                    <ArrTypeThirteen
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        dataTwo={q.metadata.data ?? []}
                     />
                 )
             }
