@@ -17,7 +17,7 @@ const problemsJSON = [
   { id: 10, question: "9 - 7 =", answer: 2, type: "subtraction" },
 ];
 
-const AbacusQuestion = () => {
+const ArrTypeTen = () => {
   // Use JSON data
   const [problems] = useState(problemsJSON);
 
@@ -111,4 +111,4 @@ const AbacusQuestion = () => {
   );
 };
 
-export default AbacusQuestion;
+export default ArrTypeTen;
