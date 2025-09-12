@@ -58,7 +58,7 @@ const AbacusQuestion = () => {
       
         {/* Abacus Image */}
         <div className="mb-12">
-          <img src="/images/arr1.png" alt="Abacus" className="w-auto h-28 mx-auto" />
+          <img src="/images/arr1.png" alt="Abacus" className="" />
         </div>
 
         {/* Math Problems Grid */}
