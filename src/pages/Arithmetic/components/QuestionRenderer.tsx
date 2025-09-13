@@ -1,14 +1,5 @@
 import { useMemo } from "react"
-import ArrType_21 from "./ArrType_21"
 import ArrType_1 from "./ArrType_1"
-import ArrType_2 from "./ArrType_2"
-import ArrType_3 from "./ArrType_3"
-import ArrType_4 from "./ArrType_4"
-import ArrType_5 from "./ArrType_5"
-import ArrType_6 from "./ArrType_6"
-import ArrType_7 from "./ArrType_7"
-import ArrType_8 from "./ArrType_8"
-import ArrType_9 from "./ArrType_9"
 import ArrType_10 from "./ArrType_10"
 import ArrType_11 from "./ArrType_11"
 import ArrType_12 from "./ArrType_12"
@@ -19,13 +10,22 @@ import ArrType_16 from "./ArrType_16"
 import ArrType_17 from "./ArrType_17"
 import ArrType_18 from "./ArrType_18"
 import ArrType_19 from "./ArrType_19"
+import ArrType_2 from "./ArrType_2"
 import ArrType_20 from "./ArrType_20"
+import ArrType_21 from "./ArrType_21"
 import ArrType_22 from "./ArrType_22"
 import ArrType_23 from "./ArrType_23"
 import ArrType_24 from "./ArrType_24"
 import ArrType_25 from "./ArrType_25"
 import ArrType_26 from "./ArrType_26"
 import ArrType_27 from "./ArrType_27"
+import ArrType_3 from "./ArrType_3"
+import ArrType_4 from "./ArrType_4"
+import ArrType_5 from "./ArrType_5"
+import ArrType_6 from "./ArrType_6"
+import ArrType_7 from "./ArrType_7"
+import ArrType_8 from "./ArrType_8"
+import ArrType_9 from "./ArrType_9"
 
 export default function QuestionRenderer({ q }: { q: any }) {
     return useMemo(() => {
@@ -257,7 +257,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                         key={q.id}
                         data={q.metadata.data ?? []}
                     />
-                ) 
+                )
             }
             case "type20": {
                 return (
@@ -325,6 +325,15 @@ export default function QuestionRenderer({ q }: { q: any }) {
             case "type27": {
                 return (
                     <ArrType_27
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type28": {
+                return (
+                    <ArrType_28
                         hint={q.metadata.hint}
                         key={q.id}
                         data={q.metadata.data ?? []}
