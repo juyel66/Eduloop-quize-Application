@@ -64,18 +64,18 @@ function SplitInput({
 /* ---- Page ---- */
 type Row = { id: number; digits: [number, number, number] };
 
-const rows: Row[] = [
-  { id: 1, digits: [6, 5, 3] },
-  { id: 2, digits: [2, 6, 1] },
-  { id: 3, digits: [1, 2, 8] },
-];
+// const rows: Row[] = [
+//   { id: 1, digits: [6, 5, 3] },
+//   { id: 2, digits: [2, 6, 1] },
+//   { id: 3, digits: [1, 2, 8] },
+// ];
 
 const toExpected = ([h, t, u]: [number, number, number]) =>
   [h * 100, t * 10, u] as [number, number, number];
 
 type Status = "idle" | "match" | "wrong";
 
-export default function ArrTypeEightteen() {
+export default function ArrTypeEighteen({data:rows, hint}:any) {
   type State = {
     val: [string, string, string];
     bad: [boolean, boolean, boolean];
@@ -143,11 +143,11 @@ export default function ArrTypeEightteen() {
       }
       return next;
     });
-    setStatus("match");
+    // setStatus("match");
   };
 
-  const hint =
-    "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.";
+  // const hint =
+  //   "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.";
 
   /* ---- Summary object for <Check /> ---- */
   interface Summary {
@@ -177,8 +177,8 @@ export default function ArrTypeEightteen() {
   return (
     <div className="">
       {/* header */}
-      <h2 className="text-2xl font-bold">Question 1</h2>
-      <p className="mb-4 text-slate-600">Split into hundreds, tens, and units.</p>
+      {/* <h2 className="text-2xl font-bold">Question 1</h2>
+      <p className="mb-4 text-slate-600">Split into hundreds, tens, and units.</p> */}
 
       <div className="space-y-4">
         {rows.map((r) => {

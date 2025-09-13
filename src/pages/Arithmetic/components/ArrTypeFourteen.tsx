@@ -11,7 +11,7 @@ import { useState } from "react";
  * You can pass it as a prop, read from URL/search, etc.
  * Default is 1 below; change as you like.
  * ───────────────────────────────────────────────────────── */
-export default function ArrTypeFourteen({ method = 1 }: { method?: 1 | 2 }) {
+export default function ArrTypeFourteen({data:groupedQuestions, method }: {data:any, method?: 1 | 2 }) {
   return method === 1 ? <ArrTypeFourteenV1 /> : <ArrTypeFourteenV2 />;
 }
 
@@ -21,32 +21,32 @@ export default function ArrTypeFourteen({ method = 1 }: { method?: 1 | 2 }) {
  * ───────────────────────────────────────────────────────── */
 type Question = { left: number; operator: "+" | "-"; right: number; answer: number };
 
-const groupedQuestions: Question[][] = [
-  [
-    { left: 9, operator: "+", right: 4, answer: 13 },
-    { left: 3, operator: "+", right: 5, answer: 8 },
-    { left: 10, operator: "-", right: 8, answer: 2 },
-    { left: 8, operator: "-", right: 5, answer: 3 },
-  ],
-  [
-    { left: 5, operator: "+", right: 4, answer: 9 },
-    { left: 3, operator: "+", right: 5, answer: 8 },
-    { left: 10, operator: "-", right: 8, answer: 2 },
-    { left: 8, operator: "-", right: 5, answer: 3 },
-  ],
-  [
-    { left: 5, operator: "+", right: 4, answer: 9 },
-    { left: 3, operator: "+", right: 5, answer: 8 },
-    { left: 10, operator: "-", right: 8, answer: 2 },
-    { left: 8, operator: "-", right: 5, answer: 3 },
-  ],
-  [
-    { left: 5, operator: "+", right: 4, answer: 9 },
-    { left: 3, operator: "+", right: 5, answer: 8 },
-    { left: 10, operator: "-", right: 8, answer: 2 },
-    { left: 8, operator: "-", right: 5, answer: 3 },
-  ],
-];
+// const groupedQuestions: Question[][] = [
+//   [
+//     { left: 9, operator: "+", right: 4, answer: 13 },
+//     { left: 3, operator: "+", right: 5, answer: 8 },
+//     { left: 10, operator: "-", right: 8, answer: 2 },
+//     { left: 8, operator: "-", right: 5, answer: 3 },
+//   ],
+//   [
+//     { left: 5, operator: "+", right: 4, answer: 9 },
+//     { left: 3, operator: "+", right: 5, answer: 8 },
+//     { left: 10, operator: "-", right: 8, answer: 2 },
+//     { left: 8, operator: "-", right: 5, answer: 3 },
+//   ],
+//   [
+//     { left: 5, operator: "+", right: 4, answer: 9 },
+//     { left: 3, operator: "+", right: 5, answer: 8 },
+//     { left: 10, operator: "-", right: 8, answer: 2 },
+//     { left: 8, operator: "-", right: 5, answer: 3 },
+//   ],
+//   [
+//     { left: 5, operator: "+", right: 4, answer: 9 },
+//     { left: 3, operator: "+", right: 5, answer: 8 },
+//     { left: 10, operator: "-", right: 8, answer: 2 },
+//     { left: 8, operator: "-", right: 5, answer: 3 },
+//   ],
+// ];
 
 const hintV1 = "Try to add the numbers step by step.";
 

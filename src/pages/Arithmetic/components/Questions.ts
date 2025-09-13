@@ -9,22 +9,13 @@ export const QUESTIONS_DATA: any[] = [
     category: "Basic",
     level: "Medium",
     metadata: {
-      question: "What time is it?",
+      question: "Split into hundreds, tens, and units.",
       data: [
-        {
-          id: 1,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
-        {
-          id: 2,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
+        { id: 1, digits: [6, 5, 3] },
+        { id: 2, digits: [2, 6, 1] },
+        { id: 3, digits: [1, 2, 8] },
       ],
-      hint: "Count the hours forward from the clock time until you reach the given time.",
+      hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
     },
   },
   {
@@ -63,20 +54,14 @@ export const QUESTIONS_DATA: any[] = [
     metadata: {
       question: "What time is it?",
       data: [
-        {
-          id: 1,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
-        {
-          id: 2,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
+        { id: 1, question: "3 + 7 + 2 =", answer: 12, type: "addition" },
+        { id: 2, question: "1 + 5 + 9 =", answer: 15, type: "addition" },
+        { id: 3, question: "4 + 3 + 6 =", answer: 13, type: "addition" },
+        { id: 4, question: "5 + 5 + 4 =", answer: 14, type: "addition" },
+        { id: 5, question: "8 + 3 + 2 =", answer: 13, type: "addition" },
+        { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
       ],
-      hint: "Count the hours forward from the clock time until you reach the given time.",
+      hint: "First, count the objects in the first group. Then, add the objects from the second and third groups to get the total number.",
     },
   },
   {
@@ -115,20 +100,12 @@ export const QUESTIONS_DATA: any[] = [
     metadata: {
       question: "What time is it?",
       data: [
-        {
-          id: 1,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
-        {
-          id: 2,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
+        { left: 13, op: "+", rows: 4 },
+        { left: 15, op: "+", rows: 4 },
+        { left: 19, op: "-", rows: 4 },
+        { left: 18, op: "-", rows: 4 },
       ],
-      hint: "Count the hours forward from the clock time until you reach the given time.",
+      hint: "Try to add or subtract the numbers step by step.",
     },
   },
   {
@@ -140,21 +117,34 @@ export const QUESTIONS_DATA: any[] = [
     level: "Medium",
     metadata: {
       question: "What time is it?",
+      method: 1,
       data: [
-        {
-          id: 1,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
-        {
-          id: 2,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
+        [
+          { left: 9, operator: "+", right: 4, answer: 13 },
+          { left: 3, operator: "+", right: 5, answer: 8 },
+          { left: 10, operator: "-", right: 8, answer: 2 },
+          { left: 8, operator: "-", right: 5, answer: 3 },
+        ],
+        [
+          { left: 5, operator: "+", right: 4, answer: 9 },
+          { left: 3, operator: "+", right: 5, answer: 8 },
+          { left: 10, operator: "-", right: 8, answer: 2 },
+          { left: 8, operator: "-", right: 5, answer: 3 },
+        ],
+        [
+          { left: 5, operator: "+", right: 4, answer: 9 },
+          { left: 3, operator: "+", right: 5, answer: 8 },
+          { left: 10, operator: "-", right: 8, answer: 2 },
+          { left: 8, operator: "-", right: 5, answer: 3 },
+        ],
+        [
+          { left: 5, operator: "+", right: 4, answer: 9 },
+          { left: 3, operator: "+", right: 5, answer: 8 },
+          { left: 10, operator: "-", right: 8, answer: 2 },
+          { left: 8, operator: "-", right: 5, answer: 3 },
+        ],
       ],
-      hint: "Count the hours forward from the clock time until you reach the given time.",
+      hint: "Try to add the numbers step by step.",
     },
   },
   {

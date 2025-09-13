@@ -12,7 +12,7 @@ const problemsJSON = [
   { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
 ];
 
-const ArrTypeSixteen = () => {
+const ArrTypeSixteen = ({data:problemsJSON, hint}:any) => {
   const [problems] = useState(problemsJSON);
   const [userAnswers, setUserAnswers] = useState(Array(problems.length).fill(NaN));
   const [validation, setValidation] = useState(Array(problems.length).fill(null));
@@ -110,7 +110,7 @@ const ArrTypeSixteen = () => {
         handleShowHint={handleShowHint}
       />
       {showHint && (
-        <Hint hint="First, count the objects in the first group. Then, add the objects from the second and third groups to get the total number." />
+        <Hint hint={hint} />
       )}
       <Check summary={summary} />
     </>

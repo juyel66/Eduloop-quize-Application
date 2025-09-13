@@ -60,7 +60,7 @@ export default function ArithmeticPage() {
             <div key={q.id} className="p-10 rounded-[30px] w-full h-full border flex flex-col bg-white">
                 {/* Question text */}
                 <div className="mb-4 text-lg font-semibold">
-                    <h1 className="font-bold">Question {question + 1}</h1>
+                    <h1 className="font-bold">Question {q.id}/{q.type}</h1>
                     <p>{q.metadata.question}</p>
                 </div>
 
