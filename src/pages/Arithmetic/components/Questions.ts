@@ -2,6 +2,23 @@ import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
   {
+    id: 23,
+    type: "math22",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "Split into hundreds, tens, and units.",
+      data: [
+        { id: 1, digits: [6, 5, 3] },
+        { id: 2, digits: [2, 6, 1] },
+        { id: 3, digits: [1, 2, 8] },
+      ],
+      hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
+    },
+  },
+  {
     id: 22,
     type: "math21",
     group: "4",
