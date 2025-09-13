@@ -2,6 +2,32 @@ import type { Question } from "@/types/ArithmeticType";
 
 export const QUESTIONS_DATA: any[] = [
   {
+    id: 20,
+    type: "math19",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "What time is it?",
+      data: [
+        {
+          id: 1,
+          boxTime: { hour: 4, minute: 0 }, // Fixed box time
+          difference: 8, // 8 hours later
+          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
+        },
+        {
+          id: 2,
+          boxTime: { hour: 4, minute: 0 }, // Fixed box time
+          difference: 8, // 8 hours later
+          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
+        },
+      ],
+      hint: "Count the hours forward from the clock time until you reach the given time.",
+    },
+  },
+  {
     id: 19,
     type: "math18",
     group: "4",
