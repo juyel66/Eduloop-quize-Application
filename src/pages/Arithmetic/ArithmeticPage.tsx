@@ -48,6 +48,23 @@ export default function ArithmeticPage() {
                     </div>
                 </div>
 
+                {/* temporary search bar  */}
+                {/* Search bar to jump to question */}
+                <div>
+                    <input
+                        type="number"
+                        placeholder="Go to question"
+                        className="py-2 px-3 mr-2 border bg-white rounded-lg border-primary"
+                        onChange={(e) => {
+                            const value = Number(e.target.value) - 1; // convert to 0-based index
+                            if (!isNaN(value) && value >= 0 && value < QUESTIONS_DATA.length) {
+                                setQuestion(value);
+                            }
+                        }}
+                    />
+                </div>
+
+
                 {/* Difficulty pills */}
                 <div className="bg-white p-1 rounded-lg flex items-center">
                     <div className={`${pillBase} ${level === "Easy" ? active : inactive}`}>Easy</div>
@@ -60,14 +77,14 @@ export default function ArithmeticPage() {
             <div key={q.id} className="p-10 rounded-[30px] w-full h-full border flex flex-col bg-white">
                 {/* Question text */}
                 <div className="mb-4 text-lg font-semibold">
-                    <h1 className="font-bold">Question {q.id}/{q.type}</h1>
+                    <h1 className="font-bold">Question: {question+1}___ id:{q.id}/{q.type}</h1>
                     <p>{q.metadata.question}</p>
                 </div>
 
                 {/* Render question dynamically */}
                 <QuestionRenderer q={q} />
 
-                
+
 
                 {/* Footer actions */}
                 <div className="flex items-center justify-between mt-6">
