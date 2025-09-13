@@ -26,6 +26,9 @@ import ArrType_24 from "./ArrType_24"
 import ArrType_25 from "./ArrType_25"
 import ArrType_26 from "./ArrType_26"
 import ArrType_27 from "./ArrType_27"
+import ArrType_28 from "./ArrType_28"
+import ArrType_29 from "./ArrType_29"
+import ArrType_30 from "./ArrType_30"
 
 export default function QuestionRenderer({ q }: { q: any }) {
     return useMemo(() => {
@@ -325,6 +328,33 @@ export default function QuestionRenderer({ q }: { q: any }) {
             case "type27": {
                 return (
                     <ArrType_27
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type28": {
+                return (
+                    <ArrType_28
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type29": {
+                return (
+                    <ArrType_29
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type30": {
+                return (
+                    <ArrType_30
                         hint={q.metadata.hint}
                         key={q.id}
                         data={q.metadata.data ?? []}
