@@ -4,7 +4,7 @@ import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
 
 
-export default function ArrTypeTwelve({data, hint}:any) {
+export default function ArrType_12({data, hint}:any) {
   const [userAnswers, setUserAnswers] = useState<{
     [key: string]: { hour: number; minute: number };
   }>({});

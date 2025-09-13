@@ -3,7 +3,41 @@ import type { Question } from "@/types/ArithmeticType";
 export const QUESTIONS_DATA: any[] = [
   {
     id: 23,
-    type: "math22",
+    type: "type21",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "Split into hundreds, tens, and units.",
+      data: [
+        { id: 1, digits: [6, 5, 3] },
+        { id: 2, digits: [2, 6, 1] },
+        { id: 3, digits: [1, 2, 8] },
+      ],
+      hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
+    },
+  },
+  {
+    id: 23,
+    type: "type20",
+    group: "4",
+    subject: "Arithmetic",
+    category: "Basic",
+    level: "Medium",
+    metadata: {
+      question: "Split into hundreds, tens, and units.",
+      data: [
+        { id: 1, digits: [6, 5, 3] },
+        { id: 2, digits: [2, 6, 1] },
+        { id: 3, digits: [1, 2, 8] },
+      ],
+      hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
+    },
+  },
+  {
+    id: 23,
+    type: "type19",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -20,7 +54,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 22,
-    type: "math21",
+    type: "type18",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -37,33 +71,24 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 21,
-    type: "math20",
+    type: "type17",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
     level: "Medium",
     metadata: {
-      question: "What time is it?",
+      question: "Write down the number. Count forwards and backwards.",
       data: [
-        {
-          id: 1,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
-        {
-          id: 2,
-          boxTime: { hour: 4, minute: 0 }, // Fixed box time
-          difference: 8, // 8 hours later
-          correct: { hour: 12, minute: 0 }, // User must set 12 o'clock
-        },
+        { label: "in increments of 1", center: 758, step: 1 },
+        { label: "in increments of 10", center: 825, step: 10 },
+        { label: "in increments of 100", center: 441, step: 100 },
       ],
-      hint: "Count the hours forward from the clock time until you reach the given time.",
+      hint: "Fill the boxes by counting 4 steps backward and 4 steps forward from the center using the given increment.",
     },
   },
   {
     id: 20,
-    type: "math19",
+    type: "type16",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -83,7 +108,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 19,
-    type: "math18",
+    type: "type15",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -109,7 +134,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 18,
-    type: "math17_2",
+    type: "type14_2",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -127,7 +152,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 17,
-    type: "math17",
+    type: "type14_1",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -166,7 +191,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 16,
-    type: "math16_2",
+    type: "type13_2",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -192,7 +217,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 15,
-    type: "math16",
+    type: "type13_1",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -218,7 +243,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 14,
-    type: "math15",
+    type: "type12",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -248,7 +273,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 13,
-    type: "math14",
+    type: "type11",
     group: "4",
     subject: "Arithmetic",
     category: "Advance",
@@ -286,7 +311,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 12,
-    type: "math13",
+    type: "type10",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -310,7 +335,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 11,
-    type: "math12",
+    type: "type9",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -346,7 +371,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 10,
-    type: "math11",
+    type: "type8",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -400,7 +425,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 9,
-    type: "math10",
+    type: "type7",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -433,7 +458,7 @@ export const QUESTIONS_DATA: any[] = [
 
   {
     id: 7,
-    type: "math8",
+    type: "type6_1",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -482,28 +507,9 @@ export const QUESTIONS_DATA: any[] = [
       hint: "Follow this: 5 + ? = 10, 8 + ? = 10, 6 + ? = 10",
     },
   },
-  // {
-  //   id: 7,
-  //   type: "math7",
-  //   group: "4",
-  //   subject: "Arithmetic",
-  //   category: "Basic",
-  //   level: "Easy",
-  //   metadata: {
-  //     question: "Guess the number that is multiplication of the top number",
-  //     method: "multiplication",
-  //     data: [
-  //       { id: 1, result: 10, option: 2, answer: 8 },
-  //       { id: 2, result: 20, option: 10, answer: 10 },
-  //       { id: 3, result: 50, option: 25, answer: 25 },
-  //       { id: 4, result: 60, option: 20, answer: 15 },
-  //     ],
-  //     hint: "Follow this: 2 * ? = 10",
-  //   },
-  // },
   {
     id: 6,
-    type: "math6",
+    type: "type5_1",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -522,7 +528,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 5,
-    type: "math5",
+    type: "type4",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -539,7 +545,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 4,
-    type: "math4",
+    type: "type3",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
@@ -558,12 +564,13 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 3,
-    type: "scale2",
+    type: "type2_2",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
     level: "Advance",
     metadata: {
+      mode: "preFilledBoxes",
       question:
         "Which numbers are there in this boxes? Connect with the scale line.",
       options: [12, 50, 34, 43, 63, 89],
@@ -572,12 +579,13 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 2,
-    type: "scale1",
+    type: "type2_1",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",
     level: "Medium",
     metadata: {
+      mode: "preConnected",
       question: "Which numbers are there in this scale?",
       options: [12, 50, 34, 43, 63, 89, 99, 100, 43],
       hint: "Just count 1 by 1 of the scale line and type at the boxes",
@@ -585,7 +593,7 @@ export const QUESTIONS_DATA: any[] = [
   },
   {
     id: 1,
-    type: "fill_blank",
+    type: "type1",
     group: "4",
     subject: "Arithmetic",
     category: "Basic",

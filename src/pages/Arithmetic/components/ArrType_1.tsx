@@ -13,7 +13,7 @@ interface RowProps {
     inputMaxLength?: number
 }
 
-export default function ArrTypeOne({
+export default function ArrType_1({
     rows,
     inputMaxLength = 3,
     onNext,

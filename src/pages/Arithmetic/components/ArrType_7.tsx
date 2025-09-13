@@ -3,7 +3,7 @@ import Controllers from "@/components/common/Controllers"
 import Check from "@/components/common/Check"
 import Hint from "@/components/common/Hint"
 
-export default function ArrTypeSeven({ data, hint }: any) {
+export default function ArrType_7({ data, hint }: any) {
     const [answers, setAnswers] = useState<{ [id: number]: string[] }>({})
     const [status, setStatus] = useState<"match" | "wrong" | "">("")
     const [showSolution, setShowSolution] = useState(false)

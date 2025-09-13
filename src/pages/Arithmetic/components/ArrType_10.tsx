@@ -17,7 +17,7 @@ const problemsJSON = [
   { id: 10, question: "9 - 7 =", answer: 2, type: "subtraction" },
 ];
 
-const ArrTypeTen = ({data, hint}:any) => {
+const ArrType_10 = ({data, hint}:any) => {
   // Use JSON data
   const [problems] = useState(data);
 
@@ -111,4 +111,4 @@ const ArrTypeTen = ({data, hint}:any) => {
   );
 };
 
-export default ArrTypeTen;
+export default ArrType_10;

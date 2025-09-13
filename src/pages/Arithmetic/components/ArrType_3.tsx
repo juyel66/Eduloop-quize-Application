@@ -6,7 +6,7 @@ import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
 
-export default function ArrTypeThree({ data, hint }: any) {
+export default function ArrType_3({ data, hint }: any) {
   const [connections, setConnections] = useState<
     { start: string; end: string; leftId: number; rightId: number }[]
   >([]);

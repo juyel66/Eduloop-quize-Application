@@ -38,7 +38,7 @@ const dataTwo = [
   },
 ];
 
-export default function ArrTypeThirteen({dataOne, dataTwo}:any) {
+export default function ArrType_13({dataOne, dataTwo}:any) {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [clockAnswers, setClockAnswers] = useState<{
     [key: number]: { hour: number; minute: number };

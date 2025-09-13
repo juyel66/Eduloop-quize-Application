@@ -28,7 +28,7 @@ const BRAND = "#ff6900";
 const TICK_GAP = 17;
 const SNAP_RADIUS = 8;
 
-export default function ArrTypeTwo({
+export default function ArrType_2({
   mode,
   presetLineNums = [],
   presetBoxNumbers = [12, 50, 97, 3, 88],

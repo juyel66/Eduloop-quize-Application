@@ -7,6 +7,7 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import { useMemo, useState } from "react";
 
+
 /* ======================================================================
    Shared small UI
 ====================================================================== */
@@ -25,7 +26,7 @@ function Pill({
       : "border-emerald-600 text-emerald-700";
   return (
     <div
-      className={`rounded-sm border-2 bg-white px-3 py-2 text-sm font-semibold font-mono tabular-nums ${theme} ${widthClass} text-center`}
+      className={`rounded-sm border-2 bg-white px-3 py-1 text-xl font-semibold font-mono tabular-nums ${theme} ${widthClass} text-center`}
     >
       {value ?? ""}
     </div>
@@ -74,7 +75,7 @@ function InputPillM1({
       autoComplete="off"
       value={value}
       onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ""))}
-      className={`rounded-sm border-2 bg-white px-3 py-2 text-center text-sm font-semibold font-mono tabular-nums ${border} ${widthClass}`}
+      className={`rounded-sm border-2 bg-white px-3 py-2 text-center text-xl font-semibold font-mono tabular-nums ${border} ${widthClass}`}
       placeholder=""
     />
   );
@@ -225,7 +226,7 @@ function InputPillM2({
   onChange,
   checked,
   correct,
-  widthClass = "min-w-[72px]",
+  widthClass = "min-w-[px]",
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -246,7 +247,7 @@ function InputPillM2({
       autoComplete="off"
       value={value}
       onChange={(e) => onChange(e.target.value.replace(/[^0-9-]/g, ""))}
-      className={`rounded-sm border-2 bg-white px-3 py-2 text-center text-sm font-semibold font-mono tabular-nums ${border} ${widthClass}`}
+      className={`rounded-sm border-2 bg-white px-2 py-1 text-center text-xl font-semibold font-mono tabular-nums ${border} ${widthClass}`}
       placeholder=""
     />
   );
@@ -407,21 +408,21 @@ export function ArrTypeSeventeenMethodtwo({
 
 /* Sample combined data. Replace with your real data list. */
 const data: Arr17Item[] = [
-//   {
-//     id: "ex-1",
-//     method: 1,
-//     problem: {
-//       id: 1,
-//       question: "From small to large.",
-//       order: "asc",
-//       rows: [
-//         [700, 200, 800, 100, 400],
-//         [640, 240, 460, 360, 100],
-//         [850, 520, 720, 270, 910],
-//       ],
-//       hint: hintM1,
-//     },
-//   },
+  {
+    id: "ex-1",
+    method: 1,
+    problem: {
+      id: 1,
+      question: "From small to large.",
+      order: "asc",
+      rows: [
+        [700, 200, 800, 100, 400],
+        [640, 240, 460, 360, 100],
+        [850, 520, 720, 270, 910],
+      ],
+      hint: hintM1,
+    },
+  },
 
   {
     id: "ex-2",
@@ -438,7 +439,9 @@ const data: Arr17Item[] = [
   },
 ];
 
-export default function ArrTypeSeventeen({
+
+
+export default function ArrType_17({
   items = data,
 }: {
   items?: Arr17Item[];

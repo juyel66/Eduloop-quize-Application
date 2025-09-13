@@ -28,7 +28,7 @@ const key = (side: "L" | "R", idx: number, part: "main" | "bA" | "bB" | "bR") =>
 const HINT_TEXT =
   "Solve the big sum. In the thought bubble, use the ones digit of the first number with the same operator and the second number (e.g., 16−4 → 6−4=2; 14+6 → 4+6=10).";
 
-export default function ArrTypeFifteen() {
+export default function ArrType_15() {
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");

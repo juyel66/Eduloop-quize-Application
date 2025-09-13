@@ -4,7 +4,7 @@ import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 
 
-export default function ArrTypeEight({data,hint}:any) {
+export default function ArrType_8({data,hint}:any) {
   const [showHint, setShowHint] = useState(false);
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);

@@ -12,7 +12,7 @@ const problemsJSON = [
   { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
 ];
 
-const ArrTypeSixteen = ({data:problemsJSON, hint}:any) => {
+const ArrType_16 = ({data:problemsJSON, hint}:any) => {
   const [problems] = useState(problemsJSON);
   const [userAnswers, setUserAnswers] = useState(Array(problems.length).fill(NaN));
   const [validation, setValidation] = useState(Array(problems.length).fill(null));
@@ -117,4 +117,4 @@ const ArrTypeSixteen = ({data:problemsJSON, hint}:any) => {
   );
 };
 
-export default ArrTypeSixteen;
+export default ArrType_16;

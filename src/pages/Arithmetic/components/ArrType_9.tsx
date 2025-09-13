@@ -56,7 +56,7 @@ function validateOne(eq: Eq, triple: [number, number, number]): boolean {
   return arithOK && used.every((n, i) => n === expected[i]);
 }
 
-export default function ArrTypeNine({data:props}:any) {
+export default function ArrType_9({data:props}:any) {
 
   const qData = props?.query
   const qNumbers = props?.numbers

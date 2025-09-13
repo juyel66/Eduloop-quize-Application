@@ -17,7 +17,8 @@ interface Props {
   hint: string
 }
 
-export default function ArrTypeSix({ data, method, hint }: Props) {
+
+export default function ArrType_6({ data, method, hint }: Props) {
   const [userInput, setUserInput] = useState<{ [key: string]: string }>({});
   const [results, setResults] = useState<{ [key: string]: "correct" | "wrong" | null }>({});
   const [checked, setChecked] = useState(false);

@@ -17,7 +17,7 @@ interface Props {
   hint?: string;
 }
 
-export default function ArrTypeFour({ data, hint }: Props) {
+export default function ArrType_4({ data, hint }: Props) {
   const [answers, setAnswers] = useState<{ [key: number]: { first?: string; last?: string } }>({});
   const [results, setResults] = useState<{ [key: number]: { first?: "correct" | "wrong"; last?: "correct" | "wrong" } }>({});
   const [checked, setChecked] = useState(false);

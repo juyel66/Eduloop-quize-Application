@@ -44,7 +44,7 @@ const data = [
 
 const hint = "Use row header + column header to calculate the answer.";
 
-export default function ArrTypeEleven() {
+export default function ArrType_11() {
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [showHint, setShowHint] = useState(false);
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);

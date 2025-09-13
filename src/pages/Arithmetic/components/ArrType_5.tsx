@@ -18,7 +18,7 @@ interface Props {
   hint: string
 }
 
-export default function ArrTypeFive({ data, method,hint }: Props) {
+export default function ArrType_5({ data, method,hint }: Props) {
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [results, setResults] = useState<{ [key: number]: "correct" | "wrong" | null }>({});
   const [checked, setChecked] = useState(false);
