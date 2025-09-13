@@ -1,5 +1,4 @@
 import { useMemo } from "react"
-import type { Question } from "@/types/ArithmeticType"
 import ArrType_21 from "./ArrType_21"
 import ArrType_1 from "./ArrType_1"
 import ArrType_2 from "./ArrType_2"
@@ -28,7 +27,7 @@ import ArrType_25 from "./ArrType_25"
 import ArrType_26 from "./ArrType_26"
 import ArrType_27 from "./ArrType_27"
 
-export default function QuestionRenderer({ q }: { q: Question }) {
+export default function QuestionRenderer({ q }: { q: any }) {
     return useMemo(() => {
         if (!q) return null
 
@@ -61,7 +60,7 @@ export default function QuestionRenderer({ q }: { q: Question }) {
                     <ArrType_2
                         hint={q.metadata.hint}
                         key={q.id}
-                        mode={q.metedata?.mode}
+                        mode={q.metadata?.mode}
                         presetLineNums={presetLineNums}
                         dotCount={opts.length}
                     />

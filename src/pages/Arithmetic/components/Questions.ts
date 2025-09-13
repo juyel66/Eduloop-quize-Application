@@ -1,6 +1,6 @@
 export const QUESTIONS_DATA = [
   {
-    id: 23,
+    id: 25,
     type: "type21",
     group: "4",
     subject: "Arithmetic",
@@ -17,7 +17,7 @@ export const QUESTIONS_DATA = [
     },
   },
   {
-    id: 23,
+    id: 24,
     type: "type20",
     group: "4",
     subject: "Arithmetic",
