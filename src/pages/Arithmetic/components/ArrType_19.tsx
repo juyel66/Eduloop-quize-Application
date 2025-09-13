@@ -47,31 +47,30 @@ const ArrType_19 = ({ hint }) => {
   // summary for Check component
   const summary = status
     ? {
-        text:
-          status === "match"
-            ? "🎉 Correct! Good Job"
-            : "❌ Some answers are wrong",
+        text: status === "match" ? "🎉 Correct! Good Job" : "❌ Some answers are wrong",
         color: status === "match" ? "text-green-600" : "text-red-600",
       }
     : null;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 bg-gray-100 min-h-screen w-full">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-center">
-        Math Grid
-      </h1>
+    <div className="flex flex-col   ">
+    
 
-      {/* Math problems grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 w-full max-w-5xl">
+      {/* Math problems grid aligned start */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full justify-items-start">
         {problemsJSON.map((p, idx) => (
-          <div key={p.id} className="flex items-center justify-center gap-2 p-2 sm:p-4 md:p-6 rounded bg-white shadow">
+          <div
+            key={p.id}
+            className="flex items-center gap-2 p-2 sm:p-4 rounded bg-white "
+          >
             {p.question.split(" ").map((part, i) =>
               part === "_"
                 ? (
                   <input
                     key={i}
                     type="number"
-                    className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-center rounded bg-no-repeat bg-center bg-contain ${validation[idx] === true ? "border-green-500" : validation[idx] === false ? "border-red-500" : "border-gray-300"}`}
+                    className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-center rounded 
+                      bg-no-repeat bg-center`}
                     style={{ backgroundImage: `url("/images/math.png")` }}
                     value={answers[idx]}
                     onChange={(e) => handleInputChange(idx, e.target.value)}
@@ -84,8 +83,8 @@ const ArrType_19 = ({ hint }) => {
         ))}
       </div>
 
-      {/* Controllers এক সাইডে (start এ) */}
-      <div className="w-full max-w-5xl mt-8 flex justify-start">
+      {/* Controllers left aligned */}
+      <div className="mt-6 flex justify-start">
         <Controllers
           handleCheck={handleCheck}
           handleShowSolution={handleShowSolution}
