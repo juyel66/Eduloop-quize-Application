@@ -2,9 +2,7 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
-import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
-// Updated JSON data based on the provided image
 const problemsJSON = [
   { id: 1, question: "3 + 7 + 2 =", answer: 12, type: "addition" },
   { id: 2, question: "1 + 5 + 9 =", answer: 15, type: "addition" },
@@ -18,14 +16,15 @@ const ArrTypeSixteen = () => {
   const [problems] = useState(problemsJSON);
   const [userAnswers, setUserAnswers] = useState(Array(problems.length).fill(NaN));
   const [validation, setValidation] = useState(Array(problems.length).fill(null));
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState<"match" | "wrong" | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
 
-  const handleInputChange = (index, value) => {
+  const handleInputChange = (index: number, value: string) => {
     const newAnswers = [...userAnswers];
     newAnswers[index] = value === "" ? NaN : parseInt(value);
     setUserAnswers(newAnswers);
+    if (status) setStatus(null); // reset status on change
   };
 
   const handleCheck = () => {
@@ -46,89 +45,80 @@ const ArrTypeSixteen = () => {
 
   const summary =
     status === "match"
-      ? { text: "🎉 All Correct! Great job", color: "text-green-600", bgColor: "bg-green-100", borderColor: "border-green-600" }
+      ? {
+          text: "🎉 Correct! Good Job",
+          color: "text-green-600",
+          bgColor: "bg-green-100",
+          borderColor: "border-green-600",
+        }
       : status === "wrong"
-      ? { text: "❌ Some answers are wrong. Check again.", color: "text-red-600", bgColor: "bg-red-100", borderColor: "border-red-600" }
+      ? {
+          text: "❌ Oops! Some answers are wrong",
+          color: "text-red-600",
+          bgColor: "bg-red-100",
+          borderColor: "border-red-600",
+        }
       : null;
 
   return (
-    <div className="   flex flex-col items-center justify-center font-sans text-gray-800">
-      <div className="w-full  p-8  rounded-xl ">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Question 1</h1>
-        <p className="text-lg text-gray-600 mb-12">
-          First, draw a curve. Then solve the sum.
-        </p>
+    <>
+      <div className="flex flex-col items-center justify-center font-sans text-gray-800">
+        <div className="w-full rounded-xl">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Question 1</h1>
+          <p className="text-lg text-gray-600 mb-4">
+            First, draw a curve. Then solve the sum.
+          </p>
 
-        {/* Math Problems Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-16 mb-8">
-          {problems.map((p, idx) => {
-            const isCorrect = validation[idx];
-            const inputClass =
-              isCorrect === true
-                ? "border-green-600 text-green-600"
-                : isCorrect === false
-                ? "border-red-600 text-red-600"
-                : "border-gray-400 text-gray-900";
+          {/* Math Problems Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-16 mb-4">
+            {problems.map((p, idx) => {
+              const isCorrect = validation[idx];
+              const inputClass =
+                isCorrect === true
+                  ? "border-green-600 text-green-600"
+                  : isCorrect === false
+                  ? "border-red-600 text-red-600"
+                  : "border-gray-400 text-gray-900";
 
-            return (
-              <div key={p.id} className="flex items-end justify-between sm:justify-start sm:space-x-4">
-                <span className="text-xl sm:text-2xl font-medium tracking-wide">
-                  {p.question}
-                </span>
-                <input
-                  type="number"
-                  className={`w-24 sm:w-28 h-12 text-center text-xl font-semibold border-b-2 border-dashed focus:outline-none ${inputClass}`}
-                  value={showSolution ? p.answer : (isNaN(userAnswers[idx]) ? "" : userAnswers[idx])}
-                  onChange={(e) => handleInputChange(idx, e.target.value)}
-                  readOnly={showSolution}
-                />
-              </div>
-            );
-          })}
-        </div>
-        
-        {/* Horizontal Line and Controls */}
-        <div className="flex flex-col items-center my-16 relative">
-          <div className="flex justify-start items-center w-full">
-            <div className=" ">
-
-               <Controllers
-                        handleCheck={handleCheck}
-                        handleShowSolution={handleShowSolution}
-                        handleShowHint={handleShowHint}
-                      />
-              
-                      {/* Hint */}
-                      {showHint && <Hint hint={Hint} />}
-              
-                      {/* Summary */}
-                      <Check summary={summary} />
-
-
-             
-            </div>
-      
+              return (
+                <div
+                  key={p.id}
+                  className="flex items-end justify-between sm:justify-start sm:space-x-4"
+                >
+                  <span className="text-xl sm:text-2xl font-medium tracking-wide">
+                    {p.question}
+                  </span>
+                  <input
+                    type="number"
+                    className={`w-24 sm:w-28 h-12 text-center text-xl font-semibold border-b-2 border-dashed focus:outline-none ${inputClass}`}
+                    value={
+                      showSolution
+                        ? p.answer
+                        : isNaN(userAnswers[idx])
+                        ? ""
+                        : userAnswers[idx]
+                    }
+                    onChange={(e) => handleInputChange(idx, e.target.value)}
+                    readOnly={showSolution}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
-        
-        {/* Hint and Check messages */}
-        {showHint && (
-          <div className="bg-yellow-100 p-4 rounded-lg border border-yellow-400 mt-8">
-            <p className="text-yellow-800 font-medium">First, count the objects in the first group. Then, add the objects from the second and third groups to get the total number.</p>
-          </div>
-        )}
-        {summary && (
-          <div className={`p-4 rounded-lg border-2 mt-8 ${summary.borderColor} ${summary.bgColor}`}>
-            <div className="flex items-center gap-2">
-              <span className={`text-xl ${summary.color}`}>
-                {status === "match" ? "✅" : "❌"}
-              </span>
-              <p className={`text-lg font-semibold ${summary.color}`}>{summary.text}</p>
-            </div>
-          </div>
-        )}
       </div>
-    </div>
+
+      {/* Controls, Hint and Check section */}
+      <Controllers
+        handleCheck={handleCheck}
+        handleShowSolution={handleShowSolution}
+        handleShowHint={handleShowHint}
+      />
+      {showHint && (
+        <Hint hint="First, count the objects in the first group. Then, add the objects from the second and third groups to get the total number." />
+      )}
+      <Check summary={summary} />
+    </>
   );
 };
 
