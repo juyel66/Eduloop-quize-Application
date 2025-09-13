@@ -11,7 +11,7 @@ import { useState } from "react";
  * You can pass it as a prop, read from URL/search, etc.
  * Default is 1 below; change as you like.
  * ───────────────────────────────────────────────────────── */
-export default function ArrType_14({data:groupedQuestions, method }: {data:any, method?: 1 | 2 }) {
+export default function ArrType_14({ data: groupedQuestions, method }: { data: Question[][]; method?: 1 | 2 }) {
   return method === 1 ? <ArrTypeFourteenV1 /> : <ArrTypeFourteenV2 />;
 }
 

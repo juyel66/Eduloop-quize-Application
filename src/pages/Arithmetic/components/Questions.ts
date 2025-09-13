@@ -1,6 +1,4 @@
-import type { Question } from "@/types/ArithmeticType";
-
-export const QUESTIONS_DATA: any[] = [
+export const QUESTIONS_DATA = [
   {
     id: 23,
     type: "type21",

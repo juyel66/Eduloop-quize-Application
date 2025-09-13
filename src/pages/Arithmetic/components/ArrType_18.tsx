@@ -75,7 +75,7 @@ const toExpected = ([h, t, u]: [number, number, number]) =>
 
 type Status = "idle" | "match" | "wrong";
 
-export default function ArrType_18({data:rows, hint}:any) {
+export default function ArrType_18({ data: rows, hint }: { data: Row[]; hint: string }) {
   type State = {
     val: [string, string, string];
     bad: [boolean, boolean, boolean];

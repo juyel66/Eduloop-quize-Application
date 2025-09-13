@@ -12,7 +12,8 @@ const problemsJSON = [
   { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
 ];
 
-const ArrType_16 = ({data:problemsJSON, hint}:any) => {
+type Problem = { id: number; question: string; answer: number; type: string }
+const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: string }) => {
   const [problems] = useState(problemsJSON);
   const [userAnswers, setUserAnswers] = useState(Array(problems.length).fill(NaN));
   const [validation, setValidation] = useState(Array(problems.length).fill(null));

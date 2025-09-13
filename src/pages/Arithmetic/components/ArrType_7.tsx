@@ -3,7 +3,8 @@ import Controllers from "@/components/common/Controllers"
 import Check from "@/components/common/Check"
 import Hint from "@/components/common/Hint"
 
-export default function ArrType_7({ data, hint }: any) {
+type Q7Item = { id: number; digits: [number, number, number]; pattern: string[]; answer: string[] }
+export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string }) {
     const [answers, setAnswers] = useState<{ [id: number]: string[] }>({})
     const [status, setStatus] = useState<"match" | "wrong" | "">("")
     const [showSolution, setShowSolution] = useState(false)
@@ -28,10 +29,10 @@ export default function ArrType_7({ data, hint }: any) {
 
     const handleCheckAll = () => {
         let allCorrect = true
-        let wrongMap: { [id: number]: string[] } = {}
-        let correctMap: { [id: number]: string[] } = {}
+        const wrongMap: { [id: number]: string[] } = {}
+        const correctMap: { [id: number]: string[] } = {}
 
-        data.forEach((q: any) => {
+        data.forEach((q) => {
             const selected = answers[q.id] || []
 
             // ✅ store correct selections
@@ -57,8 +58,8 @@ export default function ArrType_7({ data, hint }: any) {
     }
 
     const handleShowSolutionAll = () => {
-        let newAnswers: { [id: number]: string[] } = {}
-        data.forEach((q: any) => {
+        const newAnswers: { [id: number]: string[] } = {}
+        data.forEach((q) => {
             newAnswers[q.id] = [...q.answer]
         })
         setAnswers(newAnswers)
@@ -105,7 +106,7 @@ export default function ArrType_7({ data, hint }: any) {
         <div>
             {/* show questions side by side */}
             <div className="grid grid-cols-3 gap-6">
-                {data.map((q: any) => {
+                {data.map((q) => {
                     const selected = answers[q.id] || []
                     const wrongSelected = wrongAnswers[q.id] || []
                     const correctSelected = correctAnswers[q.id] || []
@@ -148,7 +149,7 @@ export default function ArrType_7({ data, hint }: any) {
 
                             {/* options */}
                             <div className="space-y-2 mt-5 w-full">
-                                {q.pattern.map((p: any, i: any) => {
+                                {q.pattern.map((p: string, i: number) => {
                                     const isCorrect = q.answer.includes(p)
                                     const isSelected = selected.includes(p)
                                     const isWrongSelected = wrongSelected.includes(p)

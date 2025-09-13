@@ -38,7 +38,11 @@ const dataTwo = [
   },
 ];
 
-export default function ArrType_13({dataOne, dataTwo}:any) {
+type ClockVal = { hour: number; minute: number }
+type TypeOne = { id: number; clock: ClockVal; boxTime: ClockVal; answer: number }
+type TypeTwo = { id: number; boxTime: ClockVal; difference: number; correct: ClockVal }
+
+export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; dataTwo?: TypeTwo[] }) {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [clockAnswers, setClockAnswers] = useState<{
     [key: number]: { hour: number; minute: number };

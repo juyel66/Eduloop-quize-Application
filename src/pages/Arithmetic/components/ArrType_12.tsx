@@ -3,8 +3,11 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
 
+type ClockValue = { hour: number; minute: number };
+type Clock = { value?: ClockValue; correct: ClockValue; user?: boolean };
+type Row = { id: number; clocks: Clock[] };
 
-export default function ArrType_12({data, hint}:any) {
+export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }) {
   const [userAnswers, setUserAnswers] = useState<{
     [key: string]: { hour: number; minute: number };
   }>({});

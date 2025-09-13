@@ -3,8 +3,10 @@ import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 
+type Q8Answer = { a: number; op: "+" | "-"; b: number; result: number }
+type Q8Item = { id: number; numbers: number[]; answers: Q8Answer[] }
 
-export default function ArrType_8({data,hint}:any) {
+export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string }) {
   const [showHint, setShowHint] = useState(false);
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);
@@ -29,8 +31,8 @@ export default function ArrType_8({data,hint}:any) {
     let allCorrect = true;
     let newValidation: { [key: string]: boolean } = {};
 
-    data.forEach((d:any) => {
-      d.answers.forEach((a:any, i:any) => {
+    data.forEach((d) => {
+      d.answers.forEach((a, i) => {
         const ua = parseInt(userAnswers[`${d.id}-${i}-a`] ?? "", 10);
         const ub = parseInt(userAnswers[`${d.id}-${i}-b`] ?? "", 10);
         const ur = parseInt(userAnswers[`${d.id}-${i}-result`] ?? "", 10);
@@ -81,7 +83,7 @@ export default function ArrType_8({data,hint}:any) {
   return (
     <div>
       <div className="flex items-start justify-center gap-20">
-        {data?.map((d:any, i:any) => (
+        {data?.map((d, i) => (
           <div key={d.id}>
             {/* numbers box */}
             <div>
@@ -116,7 +118,7 @@ export default function ArrType_8({data,hint}:any) {
             </div>
             {/* answers inputs */}
             <div>
-              {d.answers?.map((a:any, idx:any) => {
+              {d.answers?.map((a, idx) => {
                 const isCorrect = validation[`${d.id}-${idx}`];
                 const inputClass =
                   isCorrect === true

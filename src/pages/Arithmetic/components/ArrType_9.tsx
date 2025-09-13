@@ -56,7 +56,12 @@ function validateOne(eq: Eq, triple: [number, number, number]): boolean {
   return arithOK && used.every((n, i) => n === expected[i]);
 }
 
-export default function ArrType_9({data:props}:any) {
+type ArrType9Data = {
+  numbers: number[];
+  query: Item[];
+};
+
+export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
 
   const qData = props?.query
   const qNumbers = props?.numbers
@@ -76,7 +81,7 @@ export default function ArrType_9({data:props}:any) {
         acc[d.id] = [d.bottoms[0], d.bottoms[1], d.top];
         return acc;
       }, {}),
-    []
+    [qData]
   );
 
   const [eqs, setEqs] = useState<Record<number, Eq[]>>(() => {

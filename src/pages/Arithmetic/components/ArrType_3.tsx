@@ -6,7 +6,8 @@ import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
 
-export default function ArrType_3({ data, hint }: any) {
+type Between = { id: number; number: number; from: number; to: number }
+export default function ArrType_3({ data, hint }: { data: Between[]; hint: string }) {
   const [connections, setConnections] = useState<
     { start: string; end: string; leftId: number; rightId: number }[]
   >([]);
@@ -22,7 +23,7 @@ export default function ArrType_3({ data, hint }: any) {
     return [...data]
       .map((item, idx) => ({ ...item, rid: idx + 100 }))
       .sort(() => Math.random() - 0.5);
-  }, []);
+  }, [data]);
 
   const handleDotClick = (id: string) => {
     if (!selectedDot) {
@@ -44,7 +45,7 @@ export default function ArrType_3({ data, hint }: any) {
   const handleCheck = () => {
     const newResults: { [key: number]: "correct" | "wrong" } = {};
     connections.forEach((conn) => {
-      const leftItem = data.find((d: any) => d.id === conn.leftId);
+      const leftItem = data.find((d) => d.id === conn.leftId);
       const rightItem = shuffledRight.find((d) => d.id === conn.rightId);
       if (leftItem && rightItem) {
         if (leftItem.number >= rightItem.from && leftItem.number <= rightItem.to) {
@@ -60,7 +61,7 @@ export default function ArrType_3({ data, hint }: any) {
 
   const handleShowSolution = () => {
     const newResults: { [key: number]: "correct" | "wrong" } = {};
-    data.forEach((d: any) => {
+    data.forEach((d) => {
       if (d.number >= d.from && d.number <= d.to) {
         newResults[d.id] = "correct";
       } else {
@@ -70,7 +71,7 @@ export default function ArrType_3({ data, hint }: any) {
     setResults(newResults);
 
     const autoConnections = data
-      .map((left: any) => {
+      .map((left) => {
         const right = shuffledRight.find(
           (r) => left.number >= r.from && left.number <= r.to
         );
@@ -128,7 +129,7 @@ export default function ArrType_3({ data, hint }: any) {
       <div className="flex items-center justify-between w-2/3 mx-auto relative">
         {/* Left column */}
         <div className="space-y-5">
-          {data.map((item: any) => (
+          {data.map((item) => (
             <div key={item.id} className="flex items-center gap-2">
               <input
                 type="text"
