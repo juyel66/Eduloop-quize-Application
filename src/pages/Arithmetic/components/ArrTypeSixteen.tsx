@@ -52,8 +52,8 @@ const ArrTypeSixteen = () => {
       : null;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center justify-center font-sans text-gray-800">
-      <div className="w-full max-w-5xl p-8 bg-white rounded-xl shadow-lg">
+    <div className="   flex flex-col items-center justify-center font-sans text-gray-800">
+      <div className="w-full  p-8  rounded-xl ">
         <h1 className="text-2xl sm:text-3xl font-bold mb-2">Question 1</h1>
         <p className="text-lg text-gray-600 mb-12">
           First, draw a curve. Then solve the sum.
@@ -90,7 +90,7 @@ const ArrTypeSixteen = () => {
         {/* Horizontal Line and Controls */}
         <div className="flex flex-col items-center my-16 relative">
           <div className="flex justify-start items-center w-full">
-            <div className="flex space-x-4">
+            <div className=" ">
 
                <Controllers
                         handleCheck={handleCheck}
@@ -107,12 +107,7 @@ const ArrTypeSixteen = () => {
 
              
             </div>
-            <div className="flex-grow flex justify-end">
-              <button className="flex items-center gap-2 px-8 py-4 text-lg font-semibold rounded-full shadow-lg transition duration-300 transform hover:scale-105 bg-orange-500 text-white hover:bg-orange-600">
-                <span>Next</span>
-                <span className="text-xl">&rarr;</span>
-              </button>
-            </div>
+      
           </div>
         </div>
         
