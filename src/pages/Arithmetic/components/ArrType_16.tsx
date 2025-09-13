@@ -10,6 +10,7 @@ const problemsJSON = [
   { id: 4, question: "5 + 5 + 4 =", answer: 14, type: "addition" },
   { id: 5, question: "8 + 3 + 2 =", answer: 13, type: "addition" },
   { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
+  { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
 ];
 
 type Problem = { id: number; question: string; answer: number; type: string }
