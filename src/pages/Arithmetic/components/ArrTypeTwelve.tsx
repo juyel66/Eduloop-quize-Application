@@ -156,7 +156,7 @@ export default function ArrTypeTwelve({data, hint}:any) {
               key={i}
               className="absolute text-[10px] font-bold"
               style={{
-                left: `${x}%`,
+                left: `${x}%`, 
                 top: `${y}%`,
                 transform: "translate(-50%, -50%)",
               }}
