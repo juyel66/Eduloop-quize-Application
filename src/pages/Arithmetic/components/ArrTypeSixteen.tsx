@@ -24,7 +24,7 @@ const ArrTypeSixteen = () => {
     const newAnswers = [...userAnswers];
     newAnswers[index] = value === "" ? NaN : parseInt(value);
     setUserAnswers(newAnswers);
-    if (status) setStatus(null); // reset status on change
+    if (status) setStatus(null); 
   };
 
   const handleCheck = () => {
@@ -64,12 +64,7 @@ const ArrTypeSixteen = () => {
     <>
       <div className="flex flex-col items-center justify-center font-sans text-gray-800">
         <div className="w-full rounded-xl">
-          {/* <h1 className="text-2xl sm:text-3xl font-bold mb-2">Question 1</h1>
-          <p className="text-lg text-gray-600 mb-4">
-            First, draw a curve. Then solve the sum.
-          </p> */}
-
-          {/* Math Problems Grid */}
+   
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-16 mb-4">
             {problems.map((p, idx) => {
               const isCorrect = validation[idx];
