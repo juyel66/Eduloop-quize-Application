@@ -2,6 +2,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import { useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 /* ---- AccurateStack (yours, unchanged) ---- */
 type StackProps = { numbers?: [number, number, number] };
@@ -92,6 +94,8 @@ export default function ArrType_18({ data: rows, hint }: { data: Row[]; hint: st
 
   const [status, setStatus] = useState<Status>("idle");
   const [showHint, setShowHint] = useState(false);
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   const setVal = (id: number, idx: 0 | 1 | 2, v: string) =>
     setState((s) => {
@@ -127,7 +131,9 @@ export default function ArrType_18({ data: rows, hint }: { data: Row[]; hint: st
       return next;
     });
 
-    setStatus(anyWrong ? "wrong" : allFilledAndCorrect ? "match" : "wrong");
+    const ok = !anyWrong && allFilledAndCorrect;
+    setStatus(ok ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, ok);
   };
 
   const handleShowSolution = () => {

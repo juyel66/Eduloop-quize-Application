@@ -5,6 +5,8 @@ import Xarrow from "react-xarrows";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Between = { id: number; number: number; from: number; to: number }
 export default function ArrType_3({ data, hint }: { data: Between[]; hint: string }) {
@@ -42,6 +44,9 @@ export default function ArrType_3({ data, hint }: { data: Between[]; hint: strin
     }
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     const newResults: { [key: number]: "correct" | "wrong" } = {};
     connections.forEach((conn) => {
@@ -56,6 +61,9 @@ export default function ArrType_3({ data, hint }: { data: Between[]; hint: strin
       }
     });
     setResults(newResults);
+    const vals = Object.values(newResults);
+    const allCorrect = vals.length > 0 && vals.every((r) => r === "correct");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Q8Answer = { a: number; op: "+" | "-"; b: number; result: number }
 type Q8Item = { id: number; numbers: number[]; answers: Q8Answer[] }
@@ -26,6 +28,9 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
       [`${qid}-${index}-${field}`]: value,
     }));
   };
+
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   const handleCheck = () => {
     let allCorrect = true;
@@ -54,6 +59,7 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
 
     setValidation(newValidation);
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setShowSolution(false);
   };
 

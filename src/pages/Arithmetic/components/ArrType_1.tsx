@@ -3,6 +3,8 @@ import Controllers from "@/components/common/Controllers"
 import Hint from "@/components/common/Hint"
 import { Button } from "@/components/ui/button"
 import { useMemo, useState } from "react"
+import useResultTracker from "@/hooks/useResultTracker"
+import { useQuestionMeta } from "@/context/QuestionMetaContext"
 import { IoMdArrowRoundForward } from "react-icons/io"
 
 interface RowProps {
@@ -74,7 +76,24 @@ export default function ArrType_1({
         return res
     }, [checked, values, expected, rows])
 
+    const { addResult } = useResultTracker()
+    const { id: qId, title: qTitle } = useQuestionMeta()
+
     const handleCheck = () => {
+        // compute correctness immediately for persistence
+        let allCorrect = true
+        Object.keys(expected).forEach((k) => {
+            const [rowIdxStr, colIdxStr] = k.split("-")
+            const rowIdx = Number(rowIdxStr)
+            const colIdx = Number(colIdxStr)
+            const row = rows![rowIdx]
+            const prefilledCount = row.prefilledCount ?? 2
+            if (colIdx < prefilledCount) return
+            const val = values[k]
+            const ok = val && Number(val) === expected[k]
+            if (!ok) allCorrect = false
+        })
+        addResult({ id: qId, title: qTitle }, allCorrect)
         setChecked(true)
     }
 

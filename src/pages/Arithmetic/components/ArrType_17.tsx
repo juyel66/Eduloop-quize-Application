@@ -6,6 +6,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import { useMemo, useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 
 /* ======================================================================
@@ -86,6 +88,8 @@ export function ArrTypeSeventeenMethodOne({
 }: {
   problem: DataM1;
 }) {
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
   const answers = useMemo(() => {
     const cmp =
       problem.order === "asc"
@@ -128,7 +132,9 @@ export function ArrTypeSeventeenMethodOne({
 
     setCorrectMap(nextCorrect);
     setChecked(true);
-    setStatus(allFilled && allCorrect ? "match" : "wrong");
+    const ok = allFilled && allCorrect;
+    setStatus(ok ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, ok);
   };
 
   const handleShowSolution = () => {
@@ -258,6 +264,8 @@ export function ArrTypeSeventeenMethodtwo({
 }: {
   problem: DataM2;
 }) {
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
   const expectedRows = useMemo(() => {
     return problem.rows.map((r) => {
       const cells = r.cellsEachSide ?? 4;
@@ -325,7 +333,9 @@ export function ArrTypeSeventeenMethodtwo({
 
     setCorrectMap(nextCorrect);
     setChecked(true);
-    setStatus(allFilled && allCorrect ? "match" : "wrong");
+    const ok = allFilled && allCorrect;
+    setStatus(ok ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, ok);
     setLastAction("check");
   };
 

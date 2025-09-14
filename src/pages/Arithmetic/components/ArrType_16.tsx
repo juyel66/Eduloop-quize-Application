@@ -2,6 +2,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 const problemsJSON = [
   { id: 1, question: "3 + 7 + 2 =", answer: 12, type: "addition" },
@@ -28,11 +30,15 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
     if (status) setStatus(null); 
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     const newValidation = problems.map((p, i) => p.answer === userAnswers[i]);
     const allCorrect = newValidation.every(Boolean);
     setValidation(newValidation);
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setShowSolution(false);
   };
 

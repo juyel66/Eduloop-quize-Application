@@ -1,20 +1,51 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io"
-import { ChevronLeft } from "lucide-react"
+import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward, IoMdCheckmarkCircleOutline } from "react-icons/io"
+import { BadgeCheck, ChevronLeft } from "lucide-react"
 import QuestionRenderer from "./components/QuestionRenderer"
 import { QUESTIONS_DATA } from "./components/Questions"
+import { Link } from "react-router"
+import { hasAnyResults, onResultsUpdated, type TrackedResults } from "@/hooks/useResultTracker"
 // import { QUESTIONS_DATA } from "./Questions
 
 export default function ArithmeticPage() {
-    const [question, setQuestion] = useState(0)
+    
+    const [question, setQuestion] = useState(JSON.parse(localStorage.getItem("question")) ? JSON.parse(localStorage.getItem("question")) : 0)
     const q = QUESTIONS_DATA[question]
+    const [trigger, setTrigger] = useState(true)
+    const [hasResults, setHasResults] = useState<boolean>(hasAnyResults())
+
+    console.log(question)
+
+    useEffect(() => {
+        localStorage.setItem("question", JSON.stringify(question))
+        const savedData = JSON.parse(localStorage.getItem("question"))
+        console.log(savedData)
+        if (savedData) {
+            setQuestion(savedData)
+        }
+    }, [trigger])
+
+    // listen for result updates to enable/disable Result button
+    useEffect(() => {
+        const off = onResultsUpdated((_r: TrackedResults) => {
+            setHasResults(hasAnyResults())
+        })
+        return () => off()
+    }, [])
+
 
     const isFirst = question === 0
     const isLast = question === QUESTIONS_DATA.length - 1
 
-    const handlePrev = () => setQuestion((prev) => Math.max(prev - 1, 0))
-    const handleNext = () => setQuestion((prev) => Math.min(prev + 1, QUESTIONS_DATA.length - 1))
+    const handlePrev = () => {
+        setQuestion((prev) => Math.max(prev - 1, 0))
+        setTrigger(!trigger)
+    }
+    const handleNext = () => {
+        setQuestion((prev) => Math.min(prev + 1, QUESTIONS_DATA.length - 1))
+        setTrigger(!trigger)
+    }
 
     // Difficulty pills highlight
     const level = q?.level ?? "Easy"
@@ -77,7 +108,7 @@ export default function ArithmeticPage() {
             <div key={q.id} className="p-10 rounded-[30px] w-full h-full border flex flex-col bg-white">
                 {/* Question text */}
                 <div className="mb-4 text-lg font-semibold">
-                    <h1 className="font-bold">Question: {question+1}___ id:{q.id}/{q.type}</h1>
+                    <h1 className="font-bold">Question: {question + 1}___ id:{q.id}/{q.type}</h1>
                     <p>{q.metadata.question}</p>
                 </div>
 
@@ -94,7 +125,8 @@ export default function ArithmeticPage() {
                         </Button>
                     </div>
 
-                    <Button
+                    <div className="space-x-5">
+                        <Button
                         onClick={handleNext}
                         disabled={isLast}
                         className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
@@ -104,6 +136,18 @@ export default function ArithmeticPage() {
                             <IoMdArrowRoundForward size={50} className="text-5xl" />
                         </div>
                     </Button>
+                        <Link to={"/result"} onClick={(e) => { if (!hasResults) e.preventDefault(); }}>
+                        <Button
+                        disabled={!hasResults}
+                        className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                        Result
+                        <div className="size-10 bg-white rounded-2xl flex items-center justify-center ml-2">
+                            <IoMdCheckmarkCircleOutline  size={60} className="text-green-500" />
+                        </div>
+                    </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>

@@ -2,6 +2,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import { useMemo, useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Operator = "+" | "-";
 type Item = {
@@ -144,6 +146,9 @@ export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
   };
 
   // ✅ Check button: validate all rows and update summary
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheckAll = () => {
     setEqs((prev) => {
       const next: typeof prev = {};
@@ -157,6 +162,8 @@ export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
       }
       // update banner based on the new state
       recomputeStatus(next);
+      const allCorrect = Object.values(next).flat().every((r) => r.isCorrect);
+      addResult({ id: qId, title: qTitle }, allCorrect);
       return next;
     });
   };

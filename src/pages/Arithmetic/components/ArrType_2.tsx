@@ -5,6 +5,8 @@ import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
 import { IoMdArrowRoundForward } from "react-icons/io";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Mode = "connectThenType" | "preConnected" | "preFilledBoxes";
 type PresetPair = { dotIndex: number; lineNum: number };
@@ -97,6 +99,9 @@ export default function ArrType_2({
     setActiveDot(null);
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     const newResults: Record<number, "correct" | "wrong" | null> = {};
     if (mode === "preFilledBoxes") {
@@ -113,6 +118,9 @@ export default function ArrType_2({
       }
     }
     setResults(newResults);
+    const vals = Object.values(newResults);
+    const allCorrect = vals.length > 0 && vals.every((r) => r === "correct");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 

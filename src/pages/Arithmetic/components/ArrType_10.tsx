@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 // JSON Data (all questions and answers here)
 const problemsJSON = [
@@ -34,11 +36,15 @@ const ArrType_10 = ({ data, hint }: { data: Problem[]; hint: string }) => {
     setUserAnswers(newAnswers);
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     const newValidation = problems.map((p, i) => p.answer === userAnswers[i]);
     const allCorrect = newValidation.every(Boolean);
     setValidation(newValidation);
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setShowSolution(false);
   };
 

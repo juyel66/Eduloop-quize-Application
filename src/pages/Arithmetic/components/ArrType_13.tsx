@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 const hint =
   "Count the hours forward from the clock time until you reach the given time.";
@@ -59,6 +61,9 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
     setClockAnswers((prev) => ({ ...prev, [id]: { hour, minute } }));
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     let allCorrect = true;
 
@@ -82,6 +87,7 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
     });
 
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 
