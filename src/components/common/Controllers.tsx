@@ -8,6 +8,7 @@ type ControllersProps = {
 }
 
 export default function Controllers({ handleCheck, handleShowSolution, handleShowHint }: ControllersProps) {
+
     return (
         <div className='flex items-center justify-between mt-10'>
             <div className='flex items-center gap-3'>
