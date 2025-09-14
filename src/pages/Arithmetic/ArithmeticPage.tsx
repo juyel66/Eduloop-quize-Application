@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io"
-import { ChevronLeft } from "lucide-react"
+import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward, IoMdCheckmarkCircleOutline } from "react-icons/io"
+import { BadgeCheck, ChevronLeft } from "lucide-react"
 import QuestionRenderer from "./components/QuestionRenderer"
 import { QUESTIONS_DATA } from "./components/Questions"
 // import { QUESTIONS_DATA } from "./Questions
@@ -114,7 +114,8 @@ export default function ArithmeticPage() {
                         </Button>
                     </div>
 
-                    <Button
+                    <div className="space-x-5">
+                        <Button
                         onClick={handleNext}
                         disabled={isLast}
                         className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
@@ -124,6 +125,17 @@ export default function ArithmeticPage() {
                             <IoMdArrowRoundForward size={50} className="text-5xl" />
                         </div>
                     </Button>
+                        <Button
+                        onClick={handleNext}
+                        disabled={isLast}
+                        className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                        Result
+                        <div className="size-10 bg-white rounded-2xl flex items-center justify-center ml-2">
+                            <IoMdCheckmarkCircleOutline  size={60} className="text-green-500" />
+                        </div>
+                    </Button>
+                    </div>
                 </div>
             </div>
         </>
