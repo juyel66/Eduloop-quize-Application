@@ -1,9 +1,10 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type ClockValue = { hour: number; minute: number };
 type Clock = { value?: ClockValue; correct: ClockValue; user?: boolean };
@@ -88,19 +89,33 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
   const summary =
     status === "match"
       ? {
-          text: "🎉 All Correct! Great job",
-          color: "text-green-600",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
+        text: "🎉 All Correct! Great job",
+        color: "text-green-600",
+        bgColor: "bg-green-100",
+        borderColor: "border-green-600",
+      }
       : status === "wrong"
-      ? {
+        ? {
           text: "❌ Some answers are wrong. Check again.",
           color: "text-red-600",
           bgColor: "bg-red-100",
           borderColor: "border-red-600",
         }
-      : null;
+        : null;
+
+
+  const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
 
   // ⏰ Clock component
   const Clock = ({
@@ -121,10 +136,9 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
     return (
       <div
         className={`relative w-32 h-32 border-2 border-green-600 rounded-full flex items-center justify-center bg-slate-50 cursor-pointer
-          ${
-            highlight === "correct"
-              ? "ring-4 ring-green-400"
-              : highlight === "wrong"
+          ${highlight === "correct"
+            ? "ring-4 ring-green-400"
+            : highlight === "wrong"
               ? "ring-4 ring-red-400"
               : ""
           }`}
@@ -165,7 +179,7 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
               key={i}
               className="absolute text-[10px] font-bold"
               style={{
-                left: `${x}%`, 
+                left: `${x}%`,
                 top: `${y}%`,
                 transform: "translate(-50%, -50%)",
               }}

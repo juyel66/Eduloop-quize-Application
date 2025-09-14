@@ -1,9 +1,10 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 const data = [
   {
@@ -107,19 +108,33 @@ export default function ArrType_11() {
   const summary =
     status === "match"
       ? {
-          text: "🎉 All Correct! Great job",
-          color: "text-green-600",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
+        text: "🎉 All Correct! Great job",
+        color: "text-green-600",
+        bgColor: "bg-green-100",
+        borderColor: "border-green-600",
+      }
       : status === "wrong"
-      ? {
+        ? {
           text: "❌ Some answers are wrong. Check again.",
           color: "text-red-600",
           bgColor: "bg-red-100",
           borderColor: "border-red-600",
         }
-      : null;
+        : null;
+
+
+  const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
 
   return (
     <div>
@@ -134,9 +149,8 @@ export default function ArrType_11() {
                 {d.column.map((c, i) => (
                   <th
                     key={i}
-                    className={`border-2 border-primary w-16 h-12 ${
-                      c === 0 ? "bg-transparent" : "bg-primary/10"
-                    }`}
+                    className={`border-2 border-primary w-16 h-12 ${c === 0 ? "bg-transparent" : "bg-primary/10"
+                      }`}
                   >
                     {c === 0 ? "" : `+${c}`}
                   </th>
@@ -193,7 +207,7 @@ export default function ArrType_11() {
       </div>
 
       {/* controllers */}
-      <div>
+      {/* <div>
         <Controllers
           handleCheck={handleCheck}
           handleShowSolution={handleShowSolution}
@@ -201,7 +215,7 @@ export default function ArrType_11() {
         />
         {showHint && <Hint hint={hint} />}
         <Check summary={summary} />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Controllers from "@/components/common/Controllers"
 import Check from "@/components/common/Check"
 import Hint from "@/components/common/Hint"
 import useResultTracker from "@/hooks/useResultTracker"
 import { useQuestionMeta } from "@/context/QuestionMetaContext"
+import { useQuestionControls } from "@/context/QuestionControlsContext"
 
 type Q7Item = { id: number; digits: [number, number, number]; pattern: string[]; answer: string[] }
 export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string }) {
@@ -107,6 +108,20 @@ export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string
                     borderColor: "border-red-600",
                 }
                 : null
+
+
+    const { setControls } = useQuestionControls()
+
+    useEffect(() => {
+        setControls({
+            handleCheck:handleCheckAll,
+            handleShowHint,
+            handleShowSolution:handleShowSolutionAll,
+            hint,
+            showHint,
+            summary,
+        })
+    }, [handleShowSolutionAll, handleShowHint, handleCheckAll, hint, showHint, summary, setControls])
 
     return (
         <div>
@@ -216,7 +231,7 @@ export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string
             </div>
 
             {/* one controller at bottom */}
-            <Controllers
+            {/* <Controllers
                 handleCheck={handleCheckAll}
                 handleShowSolution={handleShowSolutionAll}
                 handleShowHint={handleShowHint}
@@ -224,7 +239,7 @@ export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string
             {
                 showHint && <Hint hint={hint} />
             }
-            <Check summary={summary} />
+            <Check summary={summary} /> */}
         </div>
     )
 }

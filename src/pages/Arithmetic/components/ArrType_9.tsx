@@ -1,9 +1,10 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type Operator = "+" | "-";
 type Item = {
@@ -63,7 +64,7 @@ type ArrType9Data = {
   query: Item[];
 };
 
-export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
+export default function ArrType_9({ data: props, hint }: { data: ArrType9Data, hint:any }) {
 
   const qData = props?.query
   const qNumbers = props?.numbers
@@ -210,6 +211,22 @@ export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
           borderColor: "border-red-600",
         }
       : null;
+
+
+      const { setControls } = useQuestionControls()
+
+      const handleShowHint = () => setShowHint(v => !v)
+
+  useEffect(() => {
+        setControls({
+            handleCheck:handleCheckAll,
+            handleShowHint,
+            handleShowSolution:handleShowSolutionAll,
+            hint,
+            showHint,
+            summary,
+        })
+    }, [handleShowSolutionAll, handleShowHint, handleCheckAll, hint, showHint, summary, setControls])
 
   return (
     <div>
@@ -380,7 +397,7 @@ export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
         </div>
       </div>
       {/* controls + summary banner */}
-      <div className="">
+      {/* <div className="">
         <Controllers
           handleCheck={handleCheckAll}
           handleShowSolution={handleShowSolutionAll}
@@ -399,7 +416,7 @@ export default function ArrType_9({ data: props }: { data: ArrType9Data }) {
             }
           }
         />
-      </div>
+      </div> */}
     </div>
   );
 }

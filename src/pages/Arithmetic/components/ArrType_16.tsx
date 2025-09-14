@@ -1,9 +1,10 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 const problemsJSON = [
   { id: 1, question: "3 + 7 + 2 =", answer: 12, type: "addition" },
@@ -27,7 +28,7 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
     const newAnswers = [...userAnswers];
     newAnswers[index] = value === "" ? NaN : parseInt(value);
     setUserAnswers(newAnswers);
-    if (status) setStatus(null); 
+    if (status) setStatus(null);
   };
 
   const { addResult } = useResultTracker();
@@ -53,25 +54,38 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
   const summary =
     status === "match"
       ? {
-          text: "🎉 Correct! Good Job",
-          color: "text-green-600",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
+        text: "🎉 Correct! Good Job",
+        color: "text-green-600",
+        bgColor: "bg-green-100",
+        borderColor: "border-green-600",
+      }
       : status === "wrong"
-      ? {
+        ? {
           text: "❌ Oops! Some answers are wrong",
           color: "text-red-600",
           bgColor: "bg-red-100",
           borderColor: "border-red-600",
         }
-      : null;
+        : null;
+
+  const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
 
   return (
     <>
       <div className="flex flex-col items-center justify-center font-sans text-gray-800 relative">
         <div className="w-full rounded-xl">
-   
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-16 mb-4">
             {problems.map((p, idx) => {
               const isCorrect = validation[idx];
@@ -79,8 +93,8 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
                 isCorrect === true
                   ? "border-green-600 text-green-600"
                   : isCorrect === false
-                  ? "border-red-600 text-red-600"
-                  : "border-gray-400 text-gray-900";
+                    ? "border-red-600 text-red-600"
+                    : "border-gray-400 text-gray-900";
 
               return (
                 <div
@@ -97,8 +111,8 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
                       showSolution
                         ? p.answer
                         : isNaN(userAnswers[idx])
-                        ? ""
-                        : userAnswers[idx]
+                          ? ""
+                          : userAnswers[idx]
                     }
                     onChange={(e) => handleInputChange(idx, e.target.value)}
                     readOnly={showSolution}
@@ -111,7 +125,7 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
       </div>
 
       {/* Controls, Hint and Check section */}
-      <Controllers
+      {/* <Controllers
         handleCheck={handleCheck}
         handleShowSolution={handleShowSolution}
         handleShowHint={handleShowHint}
@@ -119,7 +133,7 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
       {showHint && (
         <Hint hint={hint} />
       )}
-      <Check summary={summary} />
+      <Check summary={summary} /> */}
     </>
   );
 };

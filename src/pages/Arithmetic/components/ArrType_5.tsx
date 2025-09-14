@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type Item = {
   id: number;
@@ -20,7 +21,7 @@ interface Props {
   hint: string
 }
 
-export default function ArrType_5({ data, method,hint }: Props) {
+export default function ArrType_5({ data, method, hint }: Props) {
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [results, setResults] = useState<{ [key: number]: "correct" | "wrong" | null }>({});
   const [checked, setChecked] = useState(false);
@@ -102,6 +103,19 @@ export default function ArrType_5({ data, method,hint }: Props) {
     return null;
   }, [results, checked]);
 
+  const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+
   return (
     <div>
       <div className="flex gap-8 items-center justify-center">
@@ -120,10 +134,9 @@ export default function ArrType_5({ data, method,hint }: Props) {
                 value={answers[d.id] ?? ""}
                 onChange={(e) => handleChange(d.id, e.target.value)}
                 className={`border-b-2 px-3 w-10 text-center outline-none
-                  ${
-                    results[d.id] === "correct" && checked
-                      ? "border-green-600 text-green-600"
-                      : results[d.id] === "wrong" && checked
+                  ${results[d.id] === "correct" && checked
+                    ? "border-green-600 text-green-600"
+                    : results[d.id] === "wrong" && checked
                       ? "border-red-600 text-red-600"
                       : "border-dashed border-black"
                   }`}
@@ -134,9 +147,9 @@ export default function ArrType_5({ data, method,hint }: Props) {
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {/* <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
       {showHint && <Hint hint={hint} />}
-      <Check summary={summary} /> {/* ✅ shows only after Check */}
+      <Check summary={summary} />  */}
     </div>
   );
 }

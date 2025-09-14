@@ -1,9 +1,10 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type Op = "+" | "-";
 type Row = { left: number; op: Op; right: number };
@@ -30,7 +31,7 @@ const key = (side: "L" | "R", idx: number, part: "main" | "bA" | "bB" | "bR") =>
 const HINT_TEXT =
   "Solve the big sum. In the thought bubble, use the ones digit of the first number with the same operator and the second number (e.g., 16−4 → 6−4=2; 14+6 → 4+6=10).";
 
-export default function ArrType_15() {
+export default function ArrType_15({hint}:any) {
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
@@ -151,6 +152,21 @@ export default function ArrType_15() {
         }
       : null;
 
+      const { setControls } = useQuestionControls()
+
+      const handleShowHint = () => setShowHint(v => !v)
+
+  useEffect(() => {
+        setControls({
+            handleCheck,
+            handleShowHint,
+            handleShowSolution,
+            hint,
+            showHint,
+            summary,
+        })
+    }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+
   // ===== Bubble UI (3 bubbles; 2nd is medium-sized) =====
   const Bubble = ({
     aKey,
@@ -254,7 +270,7 @@ export default function ArrType_15() {
         </div>
       </div>
 
-      <Controllers
+      {/* <Controllers
         handleCheck={handleCheck}
         handleShowSolution={handleShowSolution}
         handleShowHint={() => setShowHint((s) => !s)}
@@ -262,7 +278,7 @@ export default function ArrType_15() {
 
       {showHint && <Hint hint={HINT_TEXT} />}
 
-      <Check summary={summary} />
+      <Check summary={summary} /> */}
     </div>
   );
 }

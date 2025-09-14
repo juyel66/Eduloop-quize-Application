@@ -1,9 +1,10 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 /* ---- AccurateStack (yours, unchanged) ---- */
 type StackProps = { numbers?: [number, number, number] };
@@ -43,22 +44,21 @@ function SplitInput({
   width?: string;
 }) {
   return (
-  <input
-  type="text"
-  inputMode="numeric"
-  autoComplete="off"
-  value={value} // e.g. "600"
-  onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ""))}
-  className={`h-12 ${width} bg-white px-3 text-lg font-semibold outline-none
+    <input
+      type="text"
+      inputMode="numeric"
+      autoComplete="off"
+      value={value} // e.g. "600"
+      onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ""))}
+      className={`h-12 ${width} bg-white px-3 text-lg font-semibold outline-none
     text-center font-mono tabular-nums tracking-[5em]
-    border-2 ${
-      invalid
-        ? "border-rose-500 text-rose-700"
-        : correct
-        ? "border-emerald-600 text-emerald-700"
-        : "border-orange-500 text-slate-800"
-    }`}
-/>
+    border-2 ${invalid
+          ? "border-rose-500 text-rose-700"
+          : correct
+            ? "border-emerald-600 text-emerald-700"
+            : "border-orange-500 text-slate-800"
+        }`}
+    />
 
   );
 }
@@ -166,19 +166,34 @@ export default function ArrType_18({ data: rows, hint }: { data: Row[]; hint: st
   const summary: Summary | null =
     status === "match"
       ? {
-          text: "🎉 All correct! Great job.",
-          color: "text-green-700",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
+        text: "🎉 All correct! Great job.",
+        color: "text-green-700",
+        bgColor: "bg-green-100",
+        borderColor: "border-green-600",
+      }
       : status === "wrong"
-      ? {
+        ? {
           text: "❌ Some answers are wrong. Check again.",
           color: "text-red-700",
           bgColor: "bg-red-100",
           borderColor: "border-red-600",
         }
-      : null;
+        : null;
+
+
+  const { setControls } = useQuestionControls()
+  const handleShowHint = () => setShowHint(v => !v)
+
+  useEffect(() => {
+    setControls({
+      handleCheck: handleCheckAll,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheckAll, hint, showHint, summary, setControls])
 
   return (
     <div className="">
@@ -230,7 +245,7 @@ export default function ArrType_18({ data: rows, hint }: { data: Row[]; hint: st
       </div>
 
       {/* controls */}
-      <div className="">
+      {/* <div className="">
         <Controllers
           handleCheck={handleCheckAll}
           handleShowSolution={handleShowSolution}
@@ -239,7 +254,7 @@ export default function ArrType_18({ data: rows, hint }: { data: Row[]; hint: st
         {showHint && <Hint hint={hint} />}
         <br />
         <Check summary={summary} />
-      </div>
+      </div> */}
     </div>
   );
 }
