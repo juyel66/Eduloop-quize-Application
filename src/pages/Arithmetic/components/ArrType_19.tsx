@@ -19,6 +19,9 @@ const problemsJSON = [
   { id: 9, question: "7 x 6 = _", answer: 42 },
 ];
 
+const question = ""
+const hint = ""
+
 const ArrType_19 = ({ hint }) => {
   const [answers, setAnswers] = useState(Array(problemsJSON.length).fill(""));
   const [validation, setValidation] = useState(Array(problemsJSON.length).fill(null));
