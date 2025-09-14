@@ -6,6 +6,10 @@ import QuestionRenderer from "./components/QuestionRenderer"
 import { QUESTIONS_DATA } from "./components/Questions"
 import { Link } from "react-router"
 import { hasAnyResults, onResultsUpdated, type TrackedResults } from "@/hooks/useResultTracker"
+import Controllers from "@/components/common/Controllers"
+import Hint from "@/components/common/Hint"
+import Check from "@/components/common/Check"
+import { QuestionControlsProvider, useQuestionControls } from "@/context/QuestionControlsContext"
 // import { QUESTIONS_DATA } from "./Questions
 
 export default function ArithmeticPage() {
@@ -54,6 +58,7 @@ export default function ArithmeticPage() {
     const inactive = "bg-transparent text-black"
 
     return (
+        <QuestionControlsProvider>
         <>
             {/* Top bar */}
             <div className="flex items-center justify-between mb-5 relative">
@@ -117,6 +122,8 @@ export default function ArithmeticPage() {
                 {/* Render question dynamically */}
                 <QuestionRenderer q={q} />
             </div>
+            {/* Global Controllers/Hints/Check from question components */}
+            <ArithmeticControllersSlot />
             {/* Footer actions */}
             <div className="flex items-center justify-between mt-6">
                 <div>
@@ -149,6 +156,26 @@ export default function ArithmeticPage() {
                     </Link>
                 </div>
             </div>
+            
         </>
+        </QuestionControlsProvider>
+    )
+}
+
+function ArithmeticControllersSlot() {
+    const { controls } = useQuestionControls()
+    const noop = () => {}
+    const hasAny = controls.handleCheck || controls.handleShowHint || controls.handleShowSolution || controls.summary
+    if (!hasAny) return null
+    return (
+        <div className="mt-4">
+            <Controllers
+                handleCheck={controls.handleCheck || noop}
+                handleShowSolution={controls.handleShowSolution || noop}
+                handleShowHint={controls.handleShowHint || noop}
+            />
+            {controls.showHint && controls.hint && <Hint hint={controls.hint} />}
+            <Check summary={controls.summary || null} />
+        </div>
     )
 }

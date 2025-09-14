@@ -267,7 +267,7 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
       )}
 
       {/* Controllers */}
-      <div>
+      {/* <div>
         <Controllers
           handleCheck={handleCheck}
           handleShowSolution={handleShowSolution}
@@ -275,7 +275,7 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
         />
         {showHint && <Hint hint={hint} />}
         <Check summary={summary} />
-      </div>
+      </div> */}
     </div>
   );
 }
