@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward } from "react-icons/io"
 import { ChevronLeft } from "lucide-react"
@@ -7,14 +7,34 @@ import { QUESTIONS_DATA } from "./components/Questions"
 // import { QUESTIONS_DATA } from "./Questions
 
 export default function ArithmeticPage() {
-    const [question, setQuestion] = useState(0)
+    
+    const [question, setQuestion] = useState(JSON.parse(localStorage.getItem("question")) ? JSON.parse(localStorage.getItem("question")) : 0)
     const q = QUESTIONS_DATA[question]
+    const [trigger, setTrigger] = useState(true)
+
+    console.log(question)
+
+    useEffect(() => {
+        localStorage.setItem("question", JSON.stringify(question))
+        const savedData = JSON.parse(localStorage.getItem("question"))
+        console.log(savedData)
+        if (savedData) {
+            setQuestion(savedData)
+        }
+    }, [trigger])
+
 
     const isFirst = question === 0
     const isLast = question === QUESTIONS_DATA.length - 1
 
-    const handlePrev = () => setQuestion((prev) => Math.max(prev - 1, 0))
-    const handleNext = () => setQuestion((prev) => Math.min(prev + 1, QUESTIONS_DATA.length - 1))
+    const handlePrev = () => {
+        setQuestion((prev) => Math.max(prev - 1, 0))
+        setTrigger(!trigger)
+    }
+    const handleNext = () => {
+        setQuestion((prev) => Math.min(prev + 1, QUESTIONS_DATA.length - 1))
+        setTrigger(!trigger)
+    }
 
     // Difficulty pills highlight
     const level = q?.level ?? "Easy"
@@ -77,7 +97,7 @@ export default function ArithmeticPage() {
             <div key={q.id} className="p-10 rounded-[30px] w-full h-full border flex flex-col bg-white">
                 {/* Question text */}
                 <div className="mb-4 text-lg font-semibold">
-                    <h1 className="font-bold">Question: {question+1}___ id:{q.id}/{q.type}</h1>
+                    <h1 className="font-bold">Question: {question + 1}___ id:{q.id}/{q.type}</h1>
                     <p>{q.metadata.question}</p>
                 </div>
 
