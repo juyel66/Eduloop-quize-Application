@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 // JSON Data (all questions and answers here)
 const problemsJSON = [
@@ -29,6 +30,7 @@ const ArrType_10 = ({ data, hint }: { data: Problem[]; hint: string }) => {
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
+  const { setControls } = useQuestionControls();
 
   const handleInputChange = (index: number, value: string) => {
     const newAnswers = [...userAnswers];
@@ -62,6 +64,17 @@ const ArrType_10 = ({ data, hint }: { data: Problem[]; hint: string }) => {
       : status === "wrong"
       ? { text: "❌ Some answers are wrong. Check again.", color: "text-red-600", bgColor: "bg-red-100", borderColor: "border-red-600" }
       : null;
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    });
+  }, [handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary, setControls]);
 
   return (
     <div className="flex items-center justify-center">
@@ -101,18 +114,7 @@ const ArrType_10 = ({ data, hint }: { data: Problem[]; hint: string }) => {
           })}
         </div>
 
-        {/* Controllers */}
-        <Controllers
-          handleCheck={handleCheck}
-          handleShowSolution={handleShowSolution}
-          handleShowHint={handleShowHint}
-        />
-
-        {/* Hint */}
-        {showHint && <Hint hint={hint} />}
-
-        {/* Summary */}
-        <Check summary={summary} />
+        {/* Controllers/Hint/Check are rendered globally */}
       </div>
     </div>
   );

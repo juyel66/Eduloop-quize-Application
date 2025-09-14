@@ -7,6 +7,7 @@ import Hint from "@/components/common/Hint";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type Mode = "connectThenType" | "preConnected" | "preFilledBoxes";
 type PresetPair = { dotIndex: number; lineNum: number };
@@ -44,6 +45,7 @@ export default function ArrType_2({
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | null>>({});
   const [checked, setChecked] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const { setControls } = useQuestionControls()
 
   const handleShowHint = () => setShowHint((v) => !v);
 
@@ -216,6 +218,17 @@ export default function ArrType_2({
     return null;
   }, [results, checked]);
 
+  useEffect(() => {
+        setControls({
+            handleCheck,
+            handleShowHint,
+            handleShowSolution,
+            hint,
+            showHint,
+            summary,
+        })
+    }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+
   return (
     <>
       <div ref={containerRef} className="relative">
@@ -337,9 +350,9 @@ export default function ArrType_2({
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {/* <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
       {showHint && <Hint hint={hint} />}
-      <Check summary={summary} /> {/* ✅ only shows after Check */}
+      <Check summary={summary} />  */}
     </>
   );
 }
