@@ -39,7 +39,6 @@ const ArrType_19 = ({ hint }) => {
     const newValidation = problemsJSON.map((p, i) => p.answer === answers[i]);
     setValidation(newValidation);
     setStatus(newValidation.every(Boolean) ? "match" : "wrong");
-
     addResult({ id: qId, title: qTitle }, newValidation.every(Boolean));
 
   };
