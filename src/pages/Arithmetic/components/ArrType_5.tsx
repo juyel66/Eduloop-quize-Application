@@ -4,6 +4,8 @@ import { useState, useMemo } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Item = {
   id: number;
@@ -41,6 +43,9 @@ export default function ArrType_5({ data, method,hint }: Props) {
     return d.answer;
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     const newResults: typeof results = {};
     data.forEach((d) => {
@@ -49,6 +54,9 @@ export default function ArrType_5({ data, method,hint }: Props) {
       newResults[d.id] = userVal === String(expected) ? "correct" : "wrong";
     });
     setResults(newResults);
+    const vals = Object.values(newResults);
+    const allCorrect = vals.length > 0 && vals.every((r) => r === "correct");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 

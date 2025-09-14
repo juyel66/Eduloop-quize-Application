@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import Controllers from "@/components/common/Controllers"
 import Check from "@/components/common/Check"
 import Hint from "@/components/common/Hint"
+import useResultTracker from "@/hooks/useResultTracker"
+import { useQuestionMeta } from "@/context/QuestionMetaContext"
 
 type Q7Item = { id: number; digits: [number, number, number]; pattern: string[]; answer: string[] }
 export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string }) {
@@ -26,6 +28,9 @@ export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string
             sortedA.every((val, i) => val === sortedB[i])
         )
     }
+
+    const { addResult } = useResultTracker()
+    const { id: qId, title: qTitle } = useQuestionMeta()
 
     const handleCheckAll = () => {
         let allCorrect = true
@@ -55,6 +60,7 @@ export default function ArrType_7({ data, hint }: { data: Q7Item[]; hint: string
         } else {
             setStatus("wrong")
         }
+        addResult({ id: qId, title: qTitle }, allCorrect)
     }
 
     const handleShowSolutionAll = () => {

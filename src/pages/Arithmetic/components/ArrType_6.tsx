@@ -4,6 +4,8 @@ import { useState, useMemo } from "react";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Item = {
   id: number;
@@ -42,6 +44,9 @@ export default function ArrType_6({ data, method, hint }: Props) {
     if (checked) setChecked(false); // reset feedback when editing
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     const newResults: typeof results = {};
     data.forEach((d) => {
@@ -53,6 +58,9 @@ export default function ArrType_6({ data, method, hint }: Props) {
       });
     });
     setResults(newResults);
+    const vals = Object.values(newResults);
+    const allCorrect = vals.length > 0 && vals.every((r) => r === "correct");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 

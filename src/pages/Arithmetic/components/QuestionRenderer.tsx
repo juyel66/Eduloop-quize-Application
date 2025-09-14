@@ -29,15 +29,23 @@ import ArrType_27 from "./ArrType_27"
 import ArrType_28 from "./ArrType_28"
 import ArrType_29 from "./ArrType_29"
 import ArrType_30 from "./ArrType_30"
+import { QuestionMetaProvider } from "@/context/QuestionMetaContext"
 
 export default function QuestionRenderer({ q }: { q: any }) {
     return useMemo(() => {
         if (!q) return null
 
+        const metaTitle = q?.metadata?.question ?? String(q?.type ?? q?.id)
+        const provider = (child: React.ReactNode) => (
+            <QuestionMetaProvider value={{ id: q.id, title: metaTitle }}>
+                {child}
+            </QuestionMetaProvider>
+        )
+
         switch (q.type) {
             case "type1": {
                 const { answer1, steps, count, defaultValue } = q.metadata
-                return (
+                return provider(
                     <ArrType_1
                         key={q.id}
                         hint={q.metadata.hint}
@@ -59,7 +67,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                     dotIndex: i,
                     lineNum,
                 }))
-                return (
+                return provider(
                     <ArrType_2
                         hint={q.metadata.hint}
                         key={q.id}
@@ -71,7 +79,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
             }
             case "type2_2": {
                 const opts = q.metadata.options ?? []
-                return (
+                return provider(
                     <ArrType_2
                         hint={q.metadata.hint}
                         key={q.id}
@@ -82,13 +90,13 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type3": {
-                return <ArrType_3 hint={q.metadata.hint} key={q.id} data={q.metadata.data ?? []} />
+                return provider(<ArrType_3 hint={q.metadata.hint} key={q.id} data={q.metadata.data ?? []} />)
             }
             case "type4": {
-                return <ArrType_4  hint={q.metadata.hint} key={q.id} data={q.metadata.data ?? []} />
+                return provider(<ArrType_4  hint={q.metadata.hint} key={q.id} data={q.metadata.data ?? []} />)
             }
             case "type5_1": {
-                return (
+                return provider(
                     <ArrType_5
                         hint={q.metadata.hint}
                         key={q.id}
@@ -98,7 +106,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type5_2": {
-                return (
+                return provider(
                     <ArrType_5
                         hint={q.metadata.hint}
                         key={q.id}
@@ -108,7 +116,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type6_1": {
-                return (
+                return provider(
                     <ArrType_6
                         hint={q.metadata.hint}
                         key={q.id}
@@ -118,7 +126,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type6_2": {
-                return (
+                return provider(
                     <ArrType_6
                         hint={q.metadata.hint}
                         key={q.id}
@@ -128,7 +136,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type7": {
-                return (
+                return provider(
                     <ArrType_7
                         hint={q.metadata.hint}
                         key={q.id}
@@ -137,7 +145,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type8": {
-                return (
+                return provider(
                     <ArrType_8
                         hint={q.metadata.hint}
                         key={q.id}
@@ -146,7 +154,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type9": {
-                return (
+                return provider(
                     <ArrType_9
                         hint={q.metadata.hint}
                         key={q.id}
@@ -155,7 +163,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type10": {
-                return (
+                return provider(
                     <ArrType_10
                         hint={q.metadata.hint}
                         key={q.id}
@@ -164,7 +172,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type11": {
-                return (
+                return provider(
                     <ArrType_11
                         hint={q.metadata.hint}
                         key={q.id}
@@ -173,7 +181,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type12": {
-                return (
+                return provider(
                     <ArrType_12
                         hint={q.metadata.hint}
                         key={q.id}
@@ -182,7 +190,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type13_1": {
-                return (
+                return provider(
                     <ArrType_13
                         hint={q.metadata.hint}
                         key={q.id}
@@ -191,7 +199,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type13_2": {
-                return (
+                return provider(
                     <ArrType_13
                         hint={q.metadata.hint}
                         key={q.id}
@@ -200,7 +208,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type14_1": {
-                return (
+                return provider(
                     <ArrType_14
                         hint={q.metadata.hint}
                         key={q.id}
@@ -209,7 +217,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type14_2": {
-                return (
+                return provider(
                     <ArrType_14
                         hint={q.metadata.hint}
                         key={q.id}
@@ -218,7 +226,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type15": {
-                return (
+                return provider(
                     <ArrType_15
                         hint={q.metadata.hint}
                         key={q.id}
@@ -227,7 +235,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type16": {
-                return (
+                return provider(
                     <ArrType_16
                         hint={q.metadata.hint}
                         key={q.id}
@@ -236,7 +244,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type17": {
-                return (
+                return provider(
                     <ArrType_17
                         hint={q.metadata.hint}
                         key={q.id}
@@ -245,7 +253,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type18": {
-                return (
+                return provider(
                     <ArrType_18
                         hint={q.metadata.hint}
                         key={q.id}
@@ -254,7 +262,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type19": {
-                return (
+                return provider(
                     <ArrType_19
                         hint={q.metadata.hint}
                         key={q.id}
@@ -263,7 +271,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 ) 
             }
             case "type20": {
-                return (
+                return provider(
                     <ArrType_20
                         hint={q.metadata.hint}
                         key={q.id}
@@ -272,7 +280,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type21": {
-                return (
+                return provider(
                     <ArrType_21
                         hint={q.metadata.hint}
                         key={q.id}
@@ -281,7 +289,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type22": {
-                return (
+                return provider(
                     <ArrType_22
                         hint={q.metadata.hint}
                         key={q.id}
@@ -290,7 +298,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type23": {
-                return (
+                return provider(
                     <ArrType_23
                         hint={q.metadata.hint}
                         key={q.id}
@@ -299,7 +307,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type24": {
-                return (
+                return provider(
                     <ArrType_24
                         hint={q.metadata.hint}
                         key={q.id}
@@ -308,7 +316,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type25": {
-                return (
+                return provider(
                     <ArrType_25
                         hint={q.metadata.hint}
                         key={q.id}
@@ -317,7 +325,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type26": {
-                return (
+                return provider(
                     <ArrType_26
                         hint={q.metadata.hint}
                         key={q.id}
@@ -326,7 +334,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type27": {
-                return (
+                return provider(
                     <ArrType_27
                         hint={q.metadata.hint}
                         key={q.id}
@@ -335,7 +343,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type28": {
-                return (
+                return provider(
                     <ArrType_28
                         hint={q.metadata.hint}
                         key={q.id}
@@ -344,7 +352,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type29": {
-                return (
+                return provider(
                     <ArrType_29
                         hint={q.metadata.hint}
                         key={q.id}
@@ -353,7 +361,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type30": {
-                return (
+                return provider(
                     <ArrType_30
                         hint={q.metadata.hint}
                         key={q.id}
