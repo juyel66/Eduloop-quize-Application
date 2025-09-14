@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
-import { getStoredResults, type TrackedItem } from '@/hooks/useResultTracker'
+import useResultTracker, { getStoredResults, type TrackedItem } from '@/hooks/useResultTracker'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router'
 
 export default function ResultPage() {
     const results = useMemo(() => getStoredResults(), [])
+    const { reset } = useResultTracker()
     const total = results.right.length + results.wrong.length
     const scoreText = `${results.right.length}/${total || 0}`
 
@@ -49,7 +50,7 @@ export default function ResultPage() {
                 <div className='pt-10 space-x-5 w-full flex items-center justify-center'>
 
                     <Link to={"/arithmetic"}>
-                        <Button className='bg-orange-300 py-5 px-10'>Try Again</Button>
+                        <Button onClick={() => reset()} className='bg-orange-300 py-5 px-10'>Try Again</Button>
                     </Link>
                     <Link to={"/"}>
                         <Button className='bg-green-300 py-5 px-10'>Finish</Button>

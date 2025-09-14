@@ -11,6 +11,7 @@ export type TrackedResults = {
 };
 
 const STORAGE_KEY = "quizResults";
+const EVT = "quizResults:updated";
 
 function readResults(): TrackedResults {
   if (typeof window === "undefined") return { right: [], wrong: [] };
@@ -31,6 +32,7 @@ function writeResults(next: TrackedResults) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new CustomEvent(EVT, { detail: next }));
   } catch {
     // ignore
   }
@@ -38,6 +40,11 @@ function writeResults(next: TrackedResults) {
 
 export function getStoredResults(): TrackedResults {
   return readResults();
+}
+
+export function hasAnyResults(): boolean {
+  const r = readResults();
+  return (r.right?.length ?? 0) + (r.wrong?.length ?? 0) > 0;
 }
 
 export default function useResultTracker() {
@@ -63,3 +70,14 @@ export default function useResultTracker() {
   return { addResult, reset };
 }
 
+// helper to subscribe to result updates
+export function onResultsUpdated(cb: (r: TrackedResults) => void) {
+  if (typeof window === "undefined") return () => {};
+  const handler = (e: Event) => {
+    const detail = (e as CustomEvent).detail as TrackedResults | undefined;
+    if (detail) cb(detail);
+    else cb(readResults());
+  };
+  window.addEventListener(EVT, handler as EventListener);
+  return () => window.removeEventListener(EVT, handler as EventListener);
+}

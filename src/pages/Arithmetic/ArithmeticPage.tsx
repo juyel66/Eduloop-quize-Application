@@ -5,6 +5,7 @@ import { BadgeCheck, ChevronLeft } from "lucide-react"
 import QuestionRenderer from "./components/QuestionRenderer"
 import { QUESTIONS_DATA } from "./components/Questions"
 import { Link } from "react-router"
+import { hasAnyResults, onResultsUpdated, type TrackedResults } from "@/hooks/useResultTracker"
 // import { QUESTIONS_DATA } from "./Questions
 
 export default function ArithmeticPage() {
@@ -12,6 +13,7 @@ export default function ArithmeticPage() {
     const [question, setQuestion] = useState(JSON.parse(localStorage.getItem("question")) ? JSON.parse(localStorage.getItem("question")) : 0)
     const q = QUESTIONS_DATA[question]
     const [trigger, setTrigger] = useState(true)
+    const [hasResults, setHasResults] = useState<boolean>(hasAnyResults())
 
     console.log(question)
 
@@ -23,6 +25,14 @@ export default function ArithmeticPage() {
             setQuestion(savedData)
         }
     }, [trigger])
+
+    // listen for result updates to enable/disable Result button
+    useEffect(() => {
+        const off = onResultsUpdated((_r: TrackedResults) => {
+            setHasResults(hasAnyResults())
+        })
+        return () => off()
+    }, [])
 
 
     const isFirst = question === 0
@@ -126,10 +136,9 @@ export default function ArithmeticPage() {
                             <IoMdArrowRoundForward size={50} className="text-5xl" />
                         </div>
                     </Button>
-                        <Link to={"/result"}>
+                        <Link to={"/result"} onClick={(e) => { if (!hasResults) e.preventDefault(); }}>
                         <Button
-                        
-                        
+                        disabled={!hasResults}
                         className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         Result
