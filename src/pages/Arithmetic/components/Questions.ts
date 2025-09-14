@@ -179,11 +179,52 @@ export const QUESTIONS_DATA = [
     metadata: {
       question: "Split into hundreds, tens, and units.",
       data: [
-        { id: 1, digits: [6, 5, 3] },
-        { id: 2, digits: [2, 6, 1] },
-        { id: 3, digits: [1, 2, 8] },
-      ],
-      hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
+  {
+    id: 1,
+    dividend: 85,
+    divisor: 5,
+    splits: [50, 35], // 50 ÷ 5 + 35 ÷ 5 = 17
+    answer: 17,
+  },
+  {
+    id: 2,
+    dividend: 96,
+    divisor: 6,
+    splits: [60, 36], // 60 ÷ 6 + 36 ÷ 6 = 16
+    answer: 16,
+  },
+  {
+    id: 3,
+    dividend: 72,
+    divisor: 8,
+    splits: [40, 32], // 40 ÷ 8 + 32 ÷ 8 = 9 + 4 = 13
+    answer: 13,
+  },
+  {
+    id: 4,
+    dividend: 54,
+    divisor: 9,
+    splits: [30, 24], // 30 ÷ 9 + 24 ÷ 9 = 3 + 2.67 ❌ (not clean)
+    // better split → [45, 9]: 45 ÷ 9 + 9 ÷ 9 = 5 + 1 = 6
+    splits: [45, 9],
+    answer: 6,
+  },
+  {
+    id: 5,
+    dividend: 63,
+    divisor: 7,
+    splits: [35, 28], // 35 ÷ 7 + 28 ÷ 7 = 5 + 4 = 9
+    answer: 9,
+  },
+  {
+    id: 6,
+    dividend: 84,
+    divisor: 12,
+    splits: [60, 24], // 60 ÷ 12 + 24 ÷ 12 = 5 + 2 = 7
+    answer: 7,
+  },
+],
+      hint: "Split the dividend into two parts, divide each, then add them.",
     },
   },
   {
