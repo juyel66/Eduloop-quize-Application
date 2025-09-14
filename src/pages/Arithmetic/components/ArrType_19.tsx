@@ -1,6 +1,9 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import useResultTracker from "@/hooks/useResultTracker";
+import useSetQuestion from "@/hooks/useSetQuestion";
 import React, { useState } from "react";
 
 // Math problems data
@@ -22,6 +25,8 @@ const ArrType_19 = ({ hint }) => {
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [status, setStatus] = useState(null);
+  const { addResult } = useResultTracker()
+  const { id: qId, title: qTitle } = useQuestionMeta()
 
   const handleInputChange = (idx, val) => {
     const newAnswers = [...answers];
@@ -34,6 +39,9 @@ const ArrType_19 = ({ hint }) => {
     const newValidation = problemsJSON.map((p, i) => p.answer === answers[i]);
     setValidation(newValidation);
     setStatus(newValidation.every(Boolean) ? "match" : "wrong");
+
+    addResult({ id: qId, title: qTitle }, newValidation.every(Boolean));
+
   };
 
   const handleShowSolution = () => {
@@ -47,14 +55,14 @@ const ArrType_19 = ({ hint }) => {
   // summary for Check component
   const summary = status
     ? {
-        text: status === "match" ? "🎉 Correct! Good Job" : "❌ Some answers are wrong",
-        color: status === "match" ? "text-green-600" : "text-red-600",
-      }
+      text: status === "match" ? "🎉 Correct! Good Job" : "❌ Some answers are wrong",
+      color: status === "match" ? "text-green-600" : "text-red-600",
+    }
     : null;
 
   return (
     <div className="flex flex-col   ">
-    
+
 
       {/* Math problems grid aligned start */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full justify-items-start">
