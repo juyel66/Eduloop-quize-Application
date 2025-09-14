@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type Q8Answer = { a: number; op: "+" | "-"; b: number; result: number }
 type Q8Item = { id: number; numbers: number[]; answers: Q8Answer[] }
@@ -85,6 +86,20 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
           borderColor: "border-red-600",
         }
         : null;
+
+
+  const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
 
   return (
     <div>
@@ -177,7 +192,7 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
         ))}
       </div>
       {/* controllers */}
-      <div>
+      {/* <div>
         <Controllers
           handleCheck={handleCheck}
           handleShowSolution={handleShowSolution}
@@ -185,7 +200,7 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
         />
         {showHint && <Hint hint={hint} />}
         <Check summary={summary} />
-      </div>
+      </div> */}
     </div>
   );
 }

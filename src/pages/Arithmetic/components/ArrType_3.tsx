@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Xarrow from "react-xarrows";
 import Controllers from "@/components/common/Controllers";
 import Check from "@/components/common/Check";
 import Hint from "@/components/common/Hint";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 type Between = { id: number; number: number; from: number; to: number }
 export default function ArrType_3({ data, hint }: { data: Between[]; hint: string }) {
@@ -132,6 +133,19 @@ export default function ArrType_3({ data, hint }: { data: Between[]; hint: strin
     return null;
   }, [results, checked]);
 
+  const { setControls } = useQuestionControls()
+  
+    useEffect(() => {
+          setControls({
+              handleCheck,
+              handleShowHint,
+              handleShowSolution,
+              hint,
+              showHint,
+              summary,
+          })
+      }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+
   return (
     <div>
       <div className="flex items-center justify-between w-2/3 mx-auto relative">
@@ -203,9 +217,9 @@ export default function ArrType_3({ data, hint }: { data: Between[]; hint: strin
       </div>
 
       {/* Controls */}
-      <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
+      {/* <Controllers handleCheck={handleCheck} handleShowSolution={handleShowSolution} handleShowHint={handleShowHint} />
       {showHint && <Hint hint={hint} />}
-      <Check summary={summary} /> {/* ✅ Only shows after Check */}
+      <Check summary={summary} />  */}
     </div>
   );
 }

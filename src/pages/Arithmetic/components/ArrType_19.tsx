@@ -1,10 +1,11 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import useResultTracker from "@/hooks/useResultTracker";
 import useSetQuestion from "@/hooks/useSetQuestion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Math problems data
 const problemsJSON = [
@@ -62,6 +63,19 @@ const ArrType_19 = ({ hint }) => {
     }
     : null;
 
+    const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+        setControls({
+            handleCheck,
+            handleShowHint,
+            handleShowSolution,
+            hint,
+            showHint,
+            summary,
+        })
+    }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+
   return (
     <div className="flex flex-col   ">
 
@@ -94,7 +108,7 @@ const ArrType_19 = ({ hint }) => {
       </div>
 
       {/* Controllers left aligned */}
-      <div className="mt-6 flex justify-start">
+      {/* <div className="mt-6 flex justify-start">
         <Controllers
           handleCheck={handleCheck}
           handleShowSolution={handleShowSolution}
@@ -103,7 +117,7 @@ const ArrType_19 = ({ hint }) => {
       </div>
 
       {showHint && <Hint hint={hint} />}
-      <Check summary={summary} />
+      <Check summary={summary} /> */}
     </div>
   );
 };

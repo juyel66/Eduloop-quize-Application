@@ -45,7 +45,7 @@ export default function ArrType_2({
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | null>>({});
   const [checked, setChecked] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const { setControls } = useQuestionControls()
+  
 
   const handleShowHint = () => setShowHint((v) => !v);
 
@@ -218,6 +218,9 @@ export default function ArrType_2({
     return null;
   }, [results, checked]);
 
+
+  const { setControls } = useQuestionControls()
+
   useEffect(() => {
         setControls({
             handleCheck,
@@ -228,6 +231,8 @@ export default function ArrType_2({
             summary,
         })
     }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+
+  
 
   return (
     <>

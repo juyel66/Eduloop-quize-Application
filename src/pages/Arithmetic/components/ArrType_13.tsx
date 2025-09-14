@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
 const hint =
   "Count the hours forward from the clock time until you reach the given time.";
@@ -113,19 +114,33 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
   const summary =
     status === "match"
       ? {
-          text: "🎉 All Correct! Great job",
-          color: "text-green-600",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
+        text: "🎉 All Correct! Great job",
+        color: "text-green-600",
+        bgColor: "bg-green-100",
+        borderColor: "border-green-600",
+      }
       : status === "wrong"
-      ? {
+        ? {
           text: "❌ Some answers are wrong. Check again.",
           color: "text-red-600",
           bgColor: "bg-red-100",
           borderColor: "border-red-600",
         }
-      : null;
+        : null;
+
+
+  const { setControls } = useQuestionControls()
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    })
+  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
 
   // ⏰ Clock component
   const Clock = ({
@@ -144,10 +159,9 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
     return (
       <div
         className={`relative w-32 h-32 border-2 rounded-full flex items-center justify-center bg-slate-50
-          ${
-            highlight === "correct"
-              ? "border-green-600 ring-4 ring-green-400"
-              : highlight === "wrong"
+          ${highlight === "correct"
+            ? "border-green-600 ring-4 ring-green-400"
+            : highlight === "wrong"
               ? "border-red-600 ring-4 ring-red-400"
               : "border-green-600"
           }`}
@@ -219,13 +233,12 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
                 type="text"
                 value={userAnswers[item.id] || ""}
                 onChange={(e) => handleInputChange(item.id, e.target.value)}
-                className={`border px-3 py-1 rounded text-center w-20 ${
-                  checked
+                className={`border px-3 py-1 rounded text-center w-20 ${checked
                     ? Number(userAnswers[item.id]) === item.answer
                       ? "border-green-600 text-green-600 font-bold"
                       : "border-red-600 text-red-600 font-bold"
                     : ""
-                }`}
+                  }`}
               />
               <span className="text-gray-600">hours later</span>
             </div>
@@ -273,15 +286,14 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
                   onChange={(e) =>
                     handleClockChange(item.id, Number(e.target.value), 0)
                   }
-                  className={`border px-3 py-1 rounded text-center w-20 ${
-                    checked
+                  className={`border px-3 py-1 rounded text-center w-20 ${checked
                       ? user &&
                         user.hour === item.correct.hour &&
                         user.minute === item.correct.minute
                         ? "border-green-600 text-green-600 font-bold"
                         : "border-red-600 text-red-600 font-bold"
                       : ""
-                  }`}
+                    }`}
                   placeholder="Hour"
                 />
               </div>
@@ -291,7 +303,7 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
       </div>
 
       {/* Controllers */}
-      <div>
+      {/* <div>
         <Controllers
           handleCheck={handleCheck}
           handleShowSolution={handleShowSolution}
@@ -299,7 +311,7 @@ export default function ArrType_13({ dataOne, dataTwo }: { dataOne?: TypeOne[]; 
         />
         {showHint && <Hint hint={hint} />}
         <Check summary={summary} />
-      </div>
+      </div> */}
     </div>
   );
 }
