@@ -19,7 +19,7 @@ const problemsJSON = [
   { id: 9, question: "7 x 6 = _", answer: 42 },
 ];
 
-export default function ArrType_19({ hint }: { hint: string }) {
+export default function ArrType_19({ hint, data:problemsJSON }: { hint: string, data:any }) {
   const [answers, setAnswers] = useState<(string | number)[]>(
     Array(problemsJSON.length).fill("")
   );
