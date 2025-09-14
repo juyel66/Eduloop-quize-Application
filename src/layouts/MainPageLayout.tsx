@@ -13,7 +13,7 @@ export default function MainPageLayout() {
             {
                 location.pathname !== "/" && <Navbar />
             }
-            <main className={`bg-white/10 backdrop-blur-md border-white/20 rounded-[30px] ${location.pathname !== "/" ? 'p-10' : 'overflow-hidden'} border`}>
+            <main className={`bg-white border-white/20 rounded-[30px] ${location.pathname !== "/" ? 'p-10' : 'overflow-hidden'} border`}>
 
                 <div>
                     <Outlet />

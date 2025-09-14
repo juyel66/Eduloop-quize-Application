@@ -81,7 +81,8 @@ export default function ArithmeticPage() {
 
                 {/* temporary search bar  */}
                 {/* Search bar to jump to question */}
-                <div>
+                <div className="space-x-4">
+                    <Button onClick={() => { setQuestion(0); setTrigger(!trigger) }}>Go to start</Button>
                     <input
                         type="number"
                         placeholder="Go to question"
@@ -93,11 +94,12 @@ export default function ArithmeticPage() {
                             }
                         }}
                     />
+                    <Button onClick={() => { setQuestion(QUESTIONS_DATA.length - 1); setTrigger(!trigger) }}>Go to Last</Button>
                 </div>
 
 
                 {/* Difficulty pills */}
-                <div className="bg-white p-1 rounded-lg flex items-center">
+                <div className="bg-[#e8edff] p-1 rounded-lg flex items-center">
                     <div className={`${pillBase} ${level === "Easy" ? active : inactive}`}>Easy</div>
                     <div className={`${pillBase} ${level === "Medium" ? active : inactive}`}>Medium</div>
                     <div className={`${pillBase} ${level === "Advance" ? active : inactive}`}>Advance</div>
