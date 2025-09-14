@@ -107,7 +107,7 @@ export default function ArithmeticPage() {
             </div>
 
             {/* Body */}
-            <div key={q.id} className="p-10 rounded-[30px] w-full h-[420px] overflow-y-auto border flex flex-col bg-white">
+            <div key={q.id} className="p-5 rounded-[30px] w-full h-[430px] overflow-y-auto border flex flex-col bg-white">
                 {/* Question text */}
                 <div className="mb-4 text-lg font-semibold">
                     <h1 className="font-bold">Question: {question + 1}___ id:{q.id}/{q.type}</h1>

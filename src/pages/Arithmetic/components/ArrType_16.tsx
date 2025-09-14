@@ -69,7 +69,7 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center font-sans text-gray-800">
+      <div className="flex flex-col items-center justify-center font-sans text-gray-800 relative">
         <div className="w-full rounded-xl">
    
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-16 mb-4">
