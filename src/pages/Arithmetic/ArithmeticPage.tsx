@@ -9,7 +9,7 @@ import { hasAnyResults, onResultsUpdated, type TrackedResults } from "@/hooks/us
 // import { QUESTIONS_DATA } from "./Questions
 
 export default function ArithmeticPage() {
-    
+
     const [question, setQuestion] = useState(JSON.parse(localStorage.getItem("question")) ? JSON.parse(localStorage.getItem("question")) : 0)
     const q = QUESTIONS_DATA[question]
     const [trigger, setTrigger] = useState(true)
@@ -56,7 +56,7 @@ export default function ArithmeticPage() {
     return (
         <>
             {/* Top bar */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-5 relative">
                 <div className="flex items-center gap-3">
                     <Button
                         onClick={handlePrev}
@@ -107,7 +107,7 @@ export default function ArithmeticPage() {
             </div>
 
             {/* Body */}
-            <div key={q.id} className="p-10 rounded-[30px] w-full h-full border flex flex-col bg-white">
+            <div key={q.id} className="p-10 rounded-[30px] w-full h-[420px] overflow-y-auto border flex flex-col bg-white">
                 {/* Question text */}
                 <div className="mb-4 text-lg font-semibold">
                     <h1 className="font-bold">Question: {question + 1}___ id:{q.id}/{q.type}</h1>
@@ -116,19 +116,17 @@ export default function ArithmeticPage() {
 
                 {/* Render question dynamically */}
                 <QuestionRenderer q={q} />
+            </div>
+            {/* Footer actions */}
+            <div className="flex items-center justify-between mt-6">
+                <div>
+                    <Button className="mt-5 py-6 bg-[#e8edff] hover:bg-[#e8edff]/70 text-black border">
+                        <ChevronLeft className="mr-2" /> Switch Category
+                    </Button>
+                </div>
 
-
-
-                {/* Footer actions */}
-                <div className="flex items-center justify-between mt-6">
-                    <div>
-                        <Button className="mt-5 py-6 bg-[#e8edff] hover:bg-[#e8edff]/70 text-black border">
-                            <ChevronLeft className="mr-2" /> Switch Category
-                        </Button>
-                    </div>
-
-                    <div className="space-x-5">
-                        <Button
+                <div className="space-x-5">
+                    <Button
                         onClick={handleNext}
                         disabled={isLast}
                         className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
@@ -138,18 +136,17 @@ export default function ArithmeticPage() {
                             <IoMdArrowRoundForward size={50} className="text-5xl" />
                         </div>
                     </Button>
-                        <Link to={"/result"} onClick={(e) => { if (!hasResults) e.preventDefault(); }}>
+                    <Link to={"/result"} onClick={(e) => { if (!hasResults) e.preventDefault(); }}>
                         <Button
-                        disabled={!hasResults}
-                        className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                        Result
-                        <div className="size-10 bg-white rounded-2xl flex items-center justify-center ml-2">
-                            <IoMdCheckmarkCircleOutline  size={60} className="text-green-500" />
-                        </div>
-                    </Button>
-                        </Link>
-                    </div>
+                            disabled={!hasResults}
+                            className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                            Result
+                            <div className="size-10 bg-white rounded-2xl flex items-center justify-center ml-2">
+                                <IoMdCheckmarkCircleOutline size={60} className="text-green-500" />
+                            </div>
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </>
