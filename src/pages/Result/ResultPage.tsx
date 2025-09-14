@@ -53,7 +53,7 @@ export default function ResultPage() {
                         <Button onClick={() => reset()} className='bg-orange-300 py-5 px-10'>Try Again</Button>
                     </Link>
                     <Link to={"/"}>
-                        <Button className='bg-green-300 py-5 px-10'>Finish</Button>
+                        <Button onClick={() => reset()} className='bg-green-300 py-5 px-10'>Finish</Button>
                     </Link>
                 </div>
             </div>
