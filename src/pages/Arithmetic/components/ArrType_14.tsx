@@ -3,6 +3,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import { useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 /** ─────────────────────────────────────────────────────────
  * Wrapper: choose which variant to render
@@ -55,6 +57,8 @@ function ArrTypeFourteenV1() {
   const [checkAnswers, setCheckAnswers] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
   const [showHint, setShowHint] = useState(false);
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   const keyFor = (col: number, row: number) => `${col}-${row}`;
 
@@ -80,7 +84,9 @@ function ArrTypeFourteenV1() {
 
   const handleCheckAll = () => {
     setCheckAnswers(true);
-    setStatus(computeAllCorrect(inputs) ? "match" : "wrong");
+    const ok = computeAllCorrect(inputs);
+    setStatus(ok ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, ok);
   };
 
   const handleShowSolutionAll = () => {
@@ -181,6 +187,8 @@ function ArrTypeFourteenV2() {
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
   const [showHint, setShowHint] = useState(false);
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   const onEdit = (k: string, v: string) => {
     setInputs((p) => ({ ...p, [k]: v }));
@@ -212,7 +220,9 @@ function ArrTypeFourteenV2() {
       }
     });
 
-    setStatus(allFilled && allOK ? "match" : "wrong");
+    const ok = allFilled && allOK;
+    setStatus(ok ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, ok);
   };
 
   const handleShowSolution = () => {

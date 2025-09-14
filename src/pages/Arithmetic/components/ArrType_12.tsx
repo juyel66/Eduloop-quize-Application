@@ -2,6 +2,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type ClockValue = { hour: number; minute: number };
 type Clock = { value?: ClockValue; correct: ClockValue; user?: boolean };
@@ -43,6 +45,9 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
     }
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     let allCorrect = true;
     data.forEach((row) => {
@@ -60,6 +65,7 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
       });
     });
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 

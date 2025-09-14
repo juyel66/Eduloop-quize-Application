@@ -2,6 +2,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import React, { useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 const data = [
   {
@@ -64,6 +66,9 @@ export default function ArrType_11() {
     }));
   };
 
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+
   const handleCheck = () => {
     let allCorrect = true;
 
@@ -81,6 +86,7 @@ export default function ArrType_11() {
     });
 
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
   };
 

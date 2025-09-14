@@ -4,6 +4,7 @@ import { IoIosArrowForward, IoMdArrowRoundBack, IoMdArrowRoundForward, IoMdCheck
 import { BadgeCheck, ChevronLeft } from "lucide-react"
 import QuestionRenderer from "./components/QuestionRenderer"
 import { QUESTIONS_DATA } from "./components/Questions"
+import { Link } from "react-router"
 // import { QUESTIONS_DATA } from "./Questions
 
 export default function ArithmeticPage() {
@@ -125,9 +126,10 @@ export default function ArithmeticPage() {
                             <IoMdArrowRoundForward size={50} className="text-5xl" />
                         </div>
                     </Button>
+                        <Link to={"/result"}>
                         <Button
-                        onClick={handleNext}
-                        disabled={isLast}
+                        
+                        
                         className="rounded-2xl py-7 pr-2 font-bold text-xl disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         Result
@@ -135,6 +137,7 @@ export default function ArithmeticPage() {
                             <IoMdCheckmarkCircleOutline  size={60} className="text-green-500" />
                         </div>
                     </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

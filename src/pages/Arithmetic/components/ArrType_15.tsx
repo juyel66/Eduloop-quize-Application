@@ -2,6 +2,8 @@ import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import { useRef, useState } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
 
 type Op = "+" | "-";
 type Row = { left: number; op: Op; right: number };
@@ -33,6 +35,8 @@ export default function ArrType_15() {
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
   const [showHint, setShowHint] = useState(false);
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   // keep refs per input so caret/focus never gets lost
   const refs = useRef<Record<string, HTMLInputElement | null>>({});
@@ -100,7 +104,9 @@ export default function ArrType_15() {
     ];
     const allFilled = rows.every((r) => r.filled);
     const allOK = rows.every((r) => r.mainOK && r.bubbleOK);
-    setStatus(allFilled && allOK ? "match" : "wrong");
+    const ok = allFilled && allOK;
+    setStatus(ok ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, ok);
   };
 
   const handleShowSolution = () => {
