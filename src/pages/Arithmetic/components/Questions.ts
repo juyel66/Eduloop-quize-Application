@@ -196,9 +196,15 @@ export const QUESTIONS_DATA = [
     metadata: {
       question: "Split into hundreds, tens, and units.",
       data: [
-        { id: 1, digits: [6, 5, 3] },
-        { id: 2, digits: [2, 6, 1] },
-        { id: 3, digits: [1, 2, 8] },
+        { id: 1, question: "5 x _ = 40", answer: 8 },
+        { id: 2, question: "_ x 8 = 48", answer: 6 },
+        { id: 3, question: "8 x 7 = _", answer: 56 },
+        { id: 4, question: "_ x 7 = 42", answer: 6 },
+        { id: 5, question: "_ x 9 = 45", answer: 5 },
+        { id: 6, question: "6 x 9 = _", answer: 54 },
+        { id: 7, question: "6 x 9 = _", answer: 54 },
+        { id: 8, question: "_ x 9 = 45", answer: 5 },
+        { id: 9, question: "7 x 6 = _", answer: 42 },
       ],
       hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
     },
