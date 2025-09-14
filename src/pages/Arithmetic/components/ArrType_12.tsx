@@ -1,7 +1,7 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import { useQuestionControls } from "@/context/QuestionControlsContext";
@@ -11,9 +11,9 @@ type Clock = { value?: ClockValue; correct: ClockValue; user?: boolean };
 type Row = { id: number; clocks: Clock[] };
 
 export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }) {
-  const [userAnswers, setUserAnswers] = useState<{
-    [key: string]: { hour: number; minute: number };
-  }>({});
+  const [userAnswers, setUserAnswers] = useState<
+    { [key: string]: { hour: number; minute: number } }
+  >({});
   const [isOpen, setIsOpen] = useState<{ rowId: number; clockIndex: number } | null>(
     null
   );
@@ -23,17 +23,16 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
   const [showHint, setShowHint] = useState(false);
   const [checked, setChecked] = useState(false);
 
-  const handleOpenModal = (
-    rowId: number,
-    clockIndex: number,
-    existing?: { hour: number; minute: number }
-  ) => {
-    setTempHour(existing?.hour || 0);
-    setTempMinute(existing?.minute || 0);
-    setIsOpen({ rowId, clockIndex });
-  };
+  const handleOpenModal = useCallback(
+    (rowId: number, clockIndex: number, existing?: { hour: number; minute: number }) => {
+      setTempHour(existing?.hour || 0);
+      setTempMinute(existing?.minute || 0);
+      setIsOpen({ rowId, clockIndex });
+    },
+    []
+  );
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     if (isOpen) {
       setUserAnswers((prev) => ({
         ...prev,
@@ -44,12 +43,12 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
       }));
       setIsOpen(null);
     }
-  };
+  }, [isOpen, tempHour, tempMinute]);
 
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     let allCorrect = true;
     data.forEach((row) => {
       row.clocks.forEach((clock, index) => {
@@ -68,9 +67,9 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
     setStatus(allCorrect ? "match" : "wrong");
     addResult({ id: qId, title: qTitle }, allCorrect);
     setChecked(true);
-  };
+  }, [data, userAnswers, addResult, qId, qTitle]);
 
-  const handleShowSolution = () => {
+  const handleShowSolution = useCallback(() => {
     const filled: { [key: string]: { hour: number; minute: number } } = {};
     data.forEach((row) => {
       row.clocks.forEach((clock, index) => {
@@ -82,40 +81,52 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
     setUserAnswers(filled);
     setStatus("match");
     setChecked(true);
-  };
+  }, [data]);
 
-  const handleShowHint = () => setShowHint((v) => !v);
+  const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
-  const summary =
-    status === "match"
-      ? {
+  const summary = useMemo(() => {
+    if (status === "match") {
+      return {
         text: "🎉 All Correct! Great job",
         color: "text-green-600",
         bgColor: "bg-green-100",
         borderColor: "border-green-600",
-      }
-      : status === "wrong"
-        ? {
-          text: "❌ Some answers are wrong. Check again.",
-          color: "text-red-600",
-          bgColor: "bg-red-100",
-          borderColor: "border-red-600",
-        }
-        : null;
+      };
+    }
+    if (status === "wrong") {
+      return {
+        text: "❌ Some answers are wrong. Check again.",
+        color: "text-red-600",
+        bgColor: "bg-red-100",
+        borderColor: "border-red-600",
+      };
+    }
+    return null;
+  }, [status]);
 
+  const { setControls } = useQuestionControls();
 
-  const { setControls } = useQuestionControls()
-
-  useEffect(() => {
-    setControls({
+  const controls = useMemo(
+    () => ({
       handleCheck,
       handleShowHint,
       handleShowSolution,
       hint,
       showHint,
       summary,
-    })
-  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+    }),
+    [handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary]
+  );
+
+  useEffect(() => {
+    setControls((prev) => {
+      const changed = Object.keys(controls).some(
+        (k) => (controls as any)[k] !== (prev as any)[k]
+      );
+      return changed ? controls : prev;
+    });
+  }, [controls, setControls]);
 
   // ⏰ Clock component
   const Clock = ({
@@ -144,32 +155,24 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
           }`}
         onClick={onClick}
       >
-        {/* Hands (only show if not hidden) */}
         {!hideHands && (
           <>
-            {/* Hour hand */}
             <div
               className="absolute bottom-1/2 left-1/2 w-1 rounded-lg h-10 bg-gray-700 origin-bottom"
               style={{ transform: `translateX(-50%) rotate(${hourDeg}deg)` }}
             />
-            {/* Minute hand */}
             <div
               className="absolute bottom-1/2 left-1/2 w-0.5 h-11 rounded-lg bg-red-500 origin-bottom"
               style={{ transform: `translateX(-50%) rotate(${minuteDeg}deg)` }}
             />
-            {/* Center dot */}
             <div className="absolute w-2 h-2 bg-red-500 rounded-full" />
           </>
         )}
-
-        {/* Placeholder for empty user clock */}
         {hideHands && (
           <div className="absolute text-xs text-gray-500 font-medium">
             Set Time
           </div>
         )}
-
-        {/* Numbers */}
         {[...Array(12)].map((_, i) => {
           const angle = (i + 1) * 30;
           const x = 50 + 40 * Math.sin((angle * Math.PI) / 180);
@@ -194,7 +197,6 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
 
   return (
     <div>
-      {/* Multiple sets of clocks stacked vertically */}
       <div className="flex flex-col items-center gap-15 p-6">
         {data.map((row) => (
           <div key={row.id} className="flex gap-20">
@@ -233,7 +235,6 @@ export default function ArrType_12({ data, hint }: { data: Row[]; hint: string }
         ))}
       </div>
 
-      {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-80">

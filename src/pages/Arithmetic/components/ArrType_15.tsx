@@ -1,7 +1,7 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import { useQuestionControls } from "@/context/QuestionControlsContext";
@@ -31,7 +31,7 @@ const key = (side: "L" | "R", idx: number, part: "main" | "bA" | "bB" | "bR") =>
 const HINT_TEXT =
   "Solve the big sum. In the thought bubble, use the ones digit of the first number with the same operator and the second number (e.g., 16−4 → 6−4=2; 14+6 → 4+6=10).";
 
-export default function ArrType_15({hint}:any) {
+export default function ArrType_15({ hint }: any) {
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
@@ -39,7 +39,7 @@ export default function ArrType_15({hint}:any) {
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
 
-  // keep refs per input so caret/focus never gets lost
+  // refs so caret/focus never gets lost
   const refs = useRef<Record<string, HTMLInputElement | null>>({});
   const setRef =
     (k: string) =>
@@ -63,26 +63,37 @@ export default function ArrType_15({hint}:any) {
         try {
           target.setSelectionRange(pos, pos);
         } catch {
-            // do nothing if it fails
+          // ignore
         }
       }
     });
   };
 
   // validator
-  const validateRow = (row: Row, kMain: string, kA: string, kB: string, kR: string) => {
+  const validateRow = (
+    row: Row,
+    kMain: string,
+    kA: string,
+    kB: string,
+    kR: string
+  ) => {
     const mainRes = toNum(inputs[kMain] ?? "");
     const a = toNum(inputs[kA] ?? "");
     const b = toNum(inputs[kB] ?? "");
     const r = toNum(inputs[kR] ?? "");
 
-    const mainOK = !Number.isNaN(mainRes) && mainRes === calc(row.left, row.op, row.right);
+    const mainOK =
+      !Number.isNaN(mainRes) && mainRes === calc(row.left, row.op, row.right);
 
     const wantA = ones(row.left);
     const wantB = row.right;
     const wantR = calc(wantA, row.op, wantB);
 
-    const bubbleOK = ![a, b, r].some(Number.isNaN) && a === wantA && b === wantB && r === wantR;
+    const bubbleOK =
+      ![a, b, r].some(Number.isNaN) &&
+      a === wantA &&
+      b === wantB &&
+      r === wantR;
 
     const filled =
       (inputs[kMain] ?? "").trim() &&
@@ -93,14 +104,27 @@ export default function ArrType_15({hint}:any) {
     return { mainOK, bubbleOK, filled: !!filled };
   };
 
-  const handleCheck = () => {
+  // ✅ memoized handlers
+  const handleCheck = useCallback(() => {
     setChecked(true);
     const rows = [
       ...LEFT_BLOCK.map((row, i) =>
-        validateRow(row, key("L", i, "main"), key("L", i, "bA"), key("L", i, "bB"), key("L", i, "bR"))
+        validateRow(
+          row,
+          key("L", i, "main"),
+          key("L", i, "bA"),
+          key("L", i, "bB"),
+          key("L", i, "bR")
+        )
       ),
       ...RIGHT_BLOCK.map((row, i) =>
-        validateRow(row, key("R", i, "main"), key("R", i, "bA"), key("R", i, "bB"), key("R", i, "bR"))
+        validateRow(
+          row,
+          key("R", i, "main"),
+          key("R", i, "bA"),
+          key("R", i, "bB"),
+          key("R", i, "bR")
+        )
       ),
     ];
     const allFilled = rows.every((r) => r.filled);
@@ -108,9 +132,9 @@ export default function ArrType_15({hint}:any) {
     const ok = allFilled && allOK;
     setStatus(ok ? "match" : "wrong");
     addResult({ id: qId, title: qTitle }, ok);
-  };
+  }, [addResult, qId, qTitle, inputs]);
 
-  const handleShowSolution = () => {
+  const handleShowSolution = useCallback(() => {
     const next: Record<string, string> = {};
     const fillFor = (row: Row, i: number, side: "L" | "R") => {
       const main = calc(row.left, row.op, row.right);
@@ -127,15 +151,12 @@ export default function ArrType_15({hint}:any) {
     setInputs(next);
     setChecked(true);
     setStatus("match");
-  };
+  }, []);
 
-  interface Summary {
-    text: string;
-    color: string;
-    bgColor: string;
-    borderColor: string;
-  }
-  const summary: Summary | null =
+  const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
+
+  // summary
+  const summary =
     status === "match"
       ? {
           text: "🎉 All Correct! Great job",
@@ -152,22 +173,21 @@ export default function ArrType_15({hint}:any) {
         }
       : null;
 
-      const { setControls } = useQuestionControls()
+  const { setControls } = useQuestionControls();
 
-      const handleShowHint = () => setShowHint(v => !v)
-
+  // ✅ now safe, no infinite loop
   useEffect(() => {
-        setControls({
-            handleCheck,
-            handleShowHint,
-            handleShowSolution,
-            hint,
-            showHint,
-            summary,
-        })
-    }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    });
+  }, [handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary, setControls]);
 
-  // ===== Bubble UI (3 bubbles; 2nd is medium-sized) =====
+  // ===== Bubble UI =====
   const Bubble = ({
     aKey,
     bKey,
@@ -182,11 +202,8 @@ export default function ArrType_15({hint}:any) {
     ok: boolean;
   }) => (
     <div className="ml-2 flex items-center shrink-0">
-      {/* 1st small bubble */}
       <span className="mr-1 inline-block h-2 w-2 rounded-full bg-sky-200" />
-      {/* 2nd medium bubble (bigger than 1st, smaller than main) */}
       <span className="mr-2 inline-block h-3 w-3 rounded-full bg-sky-200 border border-sky-300 shadow-[0_0_2px_rgba(14,165,233,0.35)]" />
-      {/* 3rd: main thought bubble with equation */}
       <div className="rounded-xl border border-sky-200 bg-sky-100/90 px-3 py-1.5 shadow-sm">
         <div className="flex items-center gap-1.5">
           <input
@@ -194,7 +211,13 @@ export default function ArrType_15({hint}:any) {
             value={inputs[aKey] ?? ""}
             onChange={(e) => onEdit(aKey, e.target.value)}
             className={`w-12 bg-transparent text-center border-b border-dashed focus:outline-none
-              ${checked ? (ok ? "border-green-500 text-green-700" : "border-red-500 text-red-600") : "border-primary"}`}
+              ${
+                checked
+                  ? ok
+                    ? "border-green-500 text-green-700"
+                    : "border-red-500 text-red-600"
+                  : "border-primary"
+              }`}
             placeholder="……"
           />
           <span className="font-semibold">{op}</span>
@@ -203,7 +226,13 @@ export default function ArrType_15({hint}:any) {
             value={inputs[bKey] ?? ""}
             onChange={(e) => onEdit(bKey, e.target.value)}
             className={`w-12 bg-transparent text-center border-b border-dashed focus:outline-none
-              ${checked ? (ok ? "border-green-500 text-green-700" : "border-red-500 text-red-600") : "border-primary"}`}
+              ${
+                checked
+                  ? ok
+                    ? "border-green-500 text-green-700"
+                    : "border-red-500 text-red-600"
+                  : "border-primary"
+              }`}
             placeholder="……"
           />
           <span className="font-semibold">=</span>
@@ -212,7 +241,13 @@ export default function ArrType_15({hint}:any) {
             value={inputs[rKey] ?? ""}
             onChange={(e) => onEdit(rKey, e.target.value)}
             className={`w-14 bg-transparent text-center border-b border-dashed focus:outline-none
-              ${checked ? (ok ? "border-green-500 text-green-700" : "border-red-500 text-red-600") : "border-primary"}`}
+              ${
+                checked
+                  ? ok
+                    ? "border-green-500 text-green-700"
+                    : "border-red-500 text-red-600"
+                  : "border-primary"
+              }`}
             placeholder="……"
           />
         </div>
@@ -239,7 +274,13 @@ export default function ArrType_15({hint}:any) {
             value={inputs[kMain] ?? ""}
             onChange={(e) => onEdit(kMain, e.target.value)}
             className={`w-16 text-center border-b border-dashed focus:outline-none
-              ${checked ? (mainOK ? "border-green-500 text-green-700" : "border-red-500 text-red-600") : "border-primary"}`}
+              ${
+                checked
+                  ? mainOK
+                    ? "border-green-500 text-green-700"
+                    : "border-red-500 text-red-600"
+                  : "border-primary"
+              }`}
             placeholder="……"
           />
         </div>
@@ -273,11 +314,9 @@ export default function ArrType_15({hint}:any) {
       {/* <Controllers
         handleCheck={handleCheck}
         handleShowSolution={handleShowSolution}
-        handleShowHint={() => setShowHint((s) => !s)}
+        handleShowHint={handleShowHint}
       />
-
       {showHint && <Hint hint={HINT_TEXT} />}
-
       <Check summary={summary} /> */}
     </div>
   );

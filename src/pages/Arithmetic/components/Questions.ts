@@ -434,30 +434,38 @@ export const QUESTIONS_DATA = [
       data: [
         {
           id: 1,
-          top: 5,
-          bottoms: [2, null],
-          answers: ["2 + 3 = 5", "3 + 2 = 5", "5 - 2 = 3", "5 - 3 = 2"],
+          column: [0, 3, 4, 5],
+          rows: [
+            {
+              header: 2,
+              cells: [{ value: 5, correct: 5 }, { correct: 6 }, { correct: 7 }],
+            },
+            {
+              header: 3,
+              cells: [{ correct: 6 }, { correct: 7 }, { correct: 8 }],
+            },
+          ],
         },
         {
           id: 2,
-          top: 7,
-          bottoms: [2, 5],
-          answers: ["2 + 5 = 7", "5 + 2 = 7", "7 - 2 = 5", "7 - 5 = 2"],
-        },
-        {
-          id: 3,
-          bottoms: [4, 5],
-          top: null,
-          answers: ["4 + 5 = 9", "5 + 4 = 9", "9 - 4 = 5", "9 - 5 = 4"],
-        },
-        {
-          id: 4,
-          top: 8,
-          bottoms: [2, 6],
-          answers: ["2 + 6 = 8", "6 + 2 = 8", "8 - 2 = 6", "8 - 6 = 2"],
+          column: [0, 2, 5, 7],
+          rows: [
+            {
+              header: 4,
+              cells: [
+                { value: 6, correct: 6 },
+                { correct: 9 },
+                { correct: 11 },
+              ],
+            },
+            {
+              header: 6,
+              cells: [{ correct: 8 }, { correct: 11 }, { correct: 13 }],
+            },
+          ],
         },
       ],
-      hint: "Only find those numbers sum, that is matched with the box numbers.",
+      hint: "Use row header + column header to calculate the answer.",
     },
   },
   {

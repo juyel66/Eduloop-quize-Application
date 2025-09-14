@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
 import Check from "@/components/common/Check";
@@ -6,8 +6,8 @@ import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import { useQuestionControls } from "@/context/QuestionControlsContext";
 
-type Q8Answer = { a: number; op: "+" | "-"; b: number; result: number }
-type Q8Item = { id: number; numbers: number[]; answers: Q8Answer[] }
+type Q8Answer = { a: number; op: "+" | "-"; b: number; result: number };
+type Q8Item = { id: number; numbers: number[]; answers: Q8Answer[] };
 
 export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string }) {
   const [showHint, setShowHint] = useState(false);
@@ -16,24 +16,22 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
   const [showSolution, setShowSolution] = useState(false);
   const [validation, setValidation] = useState<{ [key: string]: boolean | null }>({});
 
-  const handleShowHint = () => setShowHint((v) => !v);
+  const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
-  const handleInputChange = (
-    qid: number,
-    index: number,
-    field: "a" | "b" | "result",
-    value: string
-  ) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [`${qid}-${index}-${field}`]: value,
-    }));
-  };
+  const handleInputChange = useCallback(
+    (qid: number, index: number, field: "a" | "b" | "result", value: string) => {
+      setUserAnswers((prev) => ({
+        ...prev,
+        [`${qid}-${index}-${field}`]: value,
+      }));
+    },
+    []
+  );
 
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     let allCorrect = true;
     let newValidation: { [key: string]: boolean } = {};
 
@@ -62,44 +60,57 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
     setStatus(allCorrect ? "match" : "wrong");
     addResult({ id: qId, title: qTitle }, allCorrect);
     setShowSolution(false);
-  };
+  }, [data, userAnswers, addResult, qId, qTitle]);
 
-  const handleShowSolution = () => {
+  const handleShowSolution = useCallback(() => {
     setShowSolution(true);
     setStatus(null);
     setValidation({});
-  };
+  }, []);
 
-  const summary =
-    status === "match"
-      ? {
-        text: "🎉 All Correct! Great job",
-        color: "text-green-600",
-        bgColor: "bg-green-100",
-        borderColor: "border-green-600",
-      }
-      : status === "wrong"
+  const summary = useMemo(
+    () =>
+      status === "match"
         ? {
-          text: "❌ Some answers are wrong. Check again.",
-          color: "text-red-600",
-          bgColor: "bg-red-100",
-          borderColor: "border-red-600",
-        }
-        : null;
+            text: "🎉 All Correct! Great job",
+            color: "text-green-600",
+            bgColor: "bg-green-100",
+            borderColor: "border-green-600",
+          }
+        : status === "wrong"
+        ? {
+            text: "❌ Some answers are wrong. Check again.",
+            color: "text-red-600",
+            bgColor: "bg-red-100",
+            borderColor: "border-red-600",
+          }
+        : null,
+    [status]
+  );
 
+  const { setControls } = useQuestionControls();
 
-  const { setControls } = useQuestionControls()
-
-  useEffect(() => {
-    setControls({
+  // ✅ stable controls object
+  const controls = useMemo(
+    () => ({
       handleCheck,
       handleShowHint,
       handleShowSolution,
       hint,
       showHint,
       summary,
-    })
-  }, [handleShowSolution, handleShowHint, handleCheck, hint, showHint, summary, setControls])
+    }),
+    [handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary]
+  );
+
+  useEffect(() => {
+    setControls((prev) => {
+      const changed = Object.keys(controls).some(
+        (k) => (controls as any)[k] !== (prev as any)[k]
+      );
+      return changed ? controls : prev;
+    });
+  }, [controls, setControls]);
 
   return (
     <div>
@@ -145,8 +156,8 @@ export default function ArrType_8({ data, hint }: { data: Q8Item[]; hint: string
                   isCorrect === true
                     ? "border-green-600 text-green-600"
                     : isCorrect === false
-                      ? "border-red-600 text-red-600"
-                      : "border-primary";
+                    ? "border-red-600 text-red-600"
+                    : "border-primary";
 
                 return (
                   <div key={idx} className="mt-5 flex items-center gap-1">
