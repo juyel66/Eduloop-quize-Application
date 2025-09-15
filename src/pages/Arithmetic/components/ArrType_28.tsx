@@ -1,9 +1,10 @@
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import { useState } from "react";
-import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import useResultTracker from "@/hooks/useResultTracker";
 
 /* ---- DashedInput Component ---- */
 function DashedInput({
@@ -75,7 +76,7 @@ function FractionProblem({
   );
 }
 
-/* ---- ArrType_28 Component ---- */
+/* ---- ArrType_28 Component Full Implementation ---- */
 type Problem = {
   id: number;
   numerator: number;
@@ -83,66 +84,96 @@ type Problem = {
   expected: string;
 };
 
-type ArrType28Props = {
-  showHint: boolean;
-  handleCheckAll: () => void;
-  handleShowSolution: () => void;
-  handleShowHint: () => void;
-  hintText: string;
-  summary?: { text: string; color: string };
-};
+export default function ArrType_28({ hint }: { hint: string }) {
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+  const { setControls } = useQuestionControls();
 
-const DUMMY_DATA: Problem[] = [
-  { id: 1, numerator: 5, denominator: 3, expected: "1" },
-  { id: 2, numerator: 9, denominator: 6, expected: "1" },
-  { id: 3, numerator: 6, denominator: 3, expected: "2" },
-  { id: 4, numerator: 12, denominator: 5, expected: "2" },
-  { id: 5, numerator: 5, denominator: 3, expected: "1" },
-  { id: 6, numerator: 9, denominator: 6, expected: "1" },
-  { id: 7, numerator: 6, denominator: 3, expected: "2" },
-  { id: 8, numerator: 12, denominator: 5, expected: "2" },
-  { id: 9, numerator: 5, denominator: 3, expected: "1" },
-  { id: 10, numerator: 9, denominator: 6, expected: "1" },
-  { id: 11, numerator: 6, denominator: 3, expected: "2" },
-  { id: 12, numerator: 12, denominator: 5, expected: "2" },
-];
+  const DUMMY_DATA: Problem[] = [
+    { id: 1, numerator: 5, denominator: 3, expected: "1" },
+    { id: 2, numerator: 9, denominator: 6, expected: "1" },
+    { id: 3, numerator: 6, denominator: 3, expected: "2" },
+    { id: 4, numerator: 12, denominator: 5, expected: "2" },
+    { id: 5, numerator: 5, denominator: 3, expected: "1" },
+    { id: 6, numerator: 9, denominator: 6, expected: "1" },
+    { id: 7, numerator: 6, denominator: 3, expected: "2" },
+    { id: 8, numerator: 12, denominator: 5, expected: "2" },
+    { id: 9, numerator: 5, denominator: 3, expected: "1" },
+    { id: 10, numerator: 9, denominator: 6, expected: "1" },
+    { id: 11, numerator: 6, denominator: 3, expected: "2" },
+    { id: 12, numerator: 12, denominator: 5, expected: "2" },
+  ];
 
-export default function ArrType_28({
-  showHint,
-  handleCheckAll,
-  handleShowSolution,
-  handleShowHint,
-  hintText,
-  summary,
-}: ArrType28Props) {
+  type Status = "idle" | "match" | "wrong";
   const [state, setState] = useState<Record<number, { val: string; checked: boolean }>>(() => {
     const init: Record<number, { val: string; checked: boolean }> = {};
     DUMMY_DATA.forEach((p) => (init[p.id] = { val: "", checked: false }));
     return init;
   });
 
+  const [status, setStatus] = useState<Status>("idle");
+  const [showHint, setShowHint] = useState(false);
+  const [showSolution, setShowSolution] = useState(false);
+
   const setVal = (id: number, v: string) => {
-    setState((s) => ({
-      ...s,
-      [id]: { ...s[id], val: v },
-    }));
+    setState((s) => ({ ...s, [id]: { ...s[id], val: v, checked: false } }));
+    setStatus("idle");
   };
 
-  const isSolved = summary?.text.includes("Correct");
+  const handleCheckAll = () => {
+    let anyWrong = false;
+    setState((s) => {
+      const next = { ...s };
+      DUMMY_DATA.forEach((p) => {
+        const isCorrect = next[p.id].val === p.expected;
+        if (!isCorrect) anyWrong = true;
+        next[p.id].checked = true;
+      });
+      setStatus(anyWrong ? "wrong" : "match");
+      addResult({ id: qId, title: qTitle }, !anyWrong);
+      return next;
+    });
+  };
+
+  const handleShowSolution = () => {
+    setState((s) => {
+      const next = { ...s };
+      DUMMY_DATA.forEach((p) => {
+        next[p.id] = { val: p.expected, checked: true };
+      });
+      return next;
+    });
+    setStatus("match");
+    setShowSolution(true);
+  };
+
+  const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
+
+  const summary = useMemo(() => {
+    if (!status || status === "idle") return null;
+    return status === "match"
+      ? { text: "🎉 Correct! Good Job", color: "text-green-600" }
+      : { text: "❌ Some answers are wrong", color: "text-red-600" };
+  }, [status]);
+
+  useEffect(() => {
+    setControls({
+      handleCheck: handleCheckAll,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    });
+  }, [setControls, handleCheckAll, handleShowSolution, handleShowHint, hint, showHint, summary]);
+
+  const isSolved = status === "match";
 
   return (
-    <div className="flex flex-col items-start justify-start w-full px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2">Question 1</h2>
-        <p className="text-slate-600 text-lg">Take the whole out.</p>
-      </div>
-
-      {/* Grid of problems */}
+    <div className="flex flex-col items-start justify-start w-full px-4 py-8 gap-8">
       <div className="grid grid-cols-4 gap-x-8 gap-y-12 w-full">
         {DUMMY_DATA.map((p) => {
-          const correctVal = Math.floor(p.numerator / p.denominator).toString();
-          const isCorrect = isSolved || (state[p.id].checked && state[p.id].val === correctVal);
+          const isCorrect = isSolved || (state[p.id].checked && state[p.id].val === p.expected);
           const isInvalid = state[p.id].checked && !isCorrect;
 
           return (
@@ -158,6 +189,8 @@ export default function ArrType_28({
           );
         })}
       </div>
+
+  
     </div>
   );
 }
