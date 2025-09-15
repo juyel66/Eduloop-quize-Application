@@ -1,7 +1,7 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import { useQuestionControls } from "@/context/QuestionControlsContext";
@@ -156,22 +156,26 @@ export default function ArrType_15({ hint }: any) {
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
   // summary
-  const summary =
-    status === "match"
-      ? {
-          text: "🎉 All Correct! Great job",
-          color: "text-green-600",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
-      : status === "wrong"
-      ? {
-          text: "❌ Some answers are wrong. Check again.",
-          color: "text-red-600",
-          bgColor: "bg-red-100",
-          borderColor: "border-red-600",
-        }
-      : null;
+  const summary = useMemo(() => {
+  if (status === "match") {
+    return {
+      text: "🎉 All Correct! Great job",
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+      borderColor: "border-green-600",
+    };
+  }
+  if (status === "wrong") {
+    return {
+      text: "❌ Some answers are wrong. Check again.",
+      color: "text-red-600",
+      bgColor: "bg-red-100",
+      borderColor: "border-red-600",
+    };
+  }
+  return null;
+}, [status]);
+
 
   const { setControls } = useQuestionControls();
 

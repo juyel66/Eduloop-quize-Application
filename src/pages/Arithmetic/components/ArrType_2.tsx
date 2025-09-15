@@ -45,7 +45,6 @@ export default function ArrType_2({
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | null>>({});
   const [checked, setChecked] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  
 
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
@@ -218,8 +217,7 @@ export default function ArrType_2({
     return null;
   }, [results, checked]);
 
-
-  const { setControls } = useQuestionControls()
+  const { setControls } = useQuestionControls();
 
   const controls = useMemo(() => ({
     handleCheck,
@@ -228,21 +226,11 @@ export default function ArrType_2({
     hint,
     showHint,
     summary,
-  }), [handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary])
+  }), [handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary]);
 
   useEffect(() => {
-    setControls(prev => {
-      const same = prev.handleCheck === controls.handleCheck &&
-                   prev.handleShowHint === controls.handleShowHint &&
-                   prev.handleShowSolution === controls.handleShowSolution &&
-                   prev.hint === controls.hint &&
-                   prev.showHint === controls.showHint &&
-                   prev.summary === controls.summary;
-      return same ? prev : controls;
-    })
-  }, [controls, setControls])
-
-  
+    setControls(controls);
+  }, [controls, setControls]);
 
   return (
     <>
@@ -326,10 +314,9 @@ export default function ArrType_2({
                     setResults((prev) => ({ ...prev, [dotIndex]: null }));
                   }}
                   className={`border-2 size-15 text-3xl font-bold text-center appearance-none focus:outline-none
-                    ${
-                      results[dotIndex] === "correct" && checked
-                        ? "border-green-500"
-                        : results[dotIndex] === "wrong" && checked
+                    ${results[dotIndex] === "correct" && checked
+                      ? "border-green-500"
+                      : results[dotIndex] === "wrong" && checked
                         ? "border-red-500"
                         : "border-primary"
                     }`}
