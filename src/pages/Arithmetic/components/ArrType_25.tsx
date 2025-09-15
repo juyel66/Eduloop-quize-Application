@@ -17,7 +17,26 @@ const problems = [
       period: "evening",
     },
   },
+  {
+    id: 2,
+    time: "07:25", // 24h format
+    answer: {
+      minutes: 5,
+      phrase: "before half past 7",
+      period: "morning",
+    },
+  },
+  {
+    id: 3,
+    time: "15:40", // 24h format
+    answer: {
+      minutes: 20,
+      phrase: "after half past 3",
+      period: "afternoon",
+    },
+  },
 ];
+
 
 const hint =
   "Read the clock carefully. Work out how many minutes remain until the next half past.";
