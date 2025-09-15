@@ -60,11 +60,13 @@ export const QUESTIONS_DATA = [
     metadata: {
       question: "Split into hundreds, tens, and units.",
       data: [
-        { id: 1, digits: [6, 5, 3] },
-        { id: 2, digits: [2, 6, 1] },
-        { id: 3, digits: [1, 2, 8] },
+        { id: 1, time: "22:18", clockTime: "07:43", correct: 3 },
+        { id: 2, time: "20:07", clockTime: "22:18", correct: 1 },
+        { id: 3, time: "07:43", clockTime: "05:54", correct: 5 },
+        { id: 4, time: "13:08", clockTime: "20:07", correct: 2 },
+        { id: 5, time: "05:54", clockTime: "13:08", correct: 4 },
       ],
-      hint: "Write each number as hundreds, tens, and ones: e.g., 653 → 600, 50, 3.",
+      hint: "Match the time shown in the box with the correct clock number.",
     },
   },
   {
