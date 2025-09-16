@@ -108,11 +108,11 @@ export default function ArrType_30({ hint }: { hint: string }) {
             <div className="mb-4 text-sm text-gray-800">{p.question}</div>
 
             {/* Answer Input */}
-            <div className="flex items-center w-full">
+            <div className="flex items-center text-green-600  w-full">
               <span className="text-sm text-gray-600 mr-2">Answer:</span>
               <input
                 type="text"
-                className="flex-1 p-1 text-sm border-b border-dashed border-gray-700 outline-none  bg-transparent"
+                className="flex-1 p-1 text-sm border-b border-dashed  border-gray-700 outline-none  bg-transparent"
                 value={showSolution ? p.answer : answers[idx]}
                 onChange={(e) => handleInputChange(idx, e.target.value)}
                 readOnly={showSolution}
