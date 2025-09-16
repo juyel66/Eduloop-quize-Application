@@ -6,7 +6,7 @@ import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import useResultTracker from "@/hooks/useResultTracker";
 
-// Data for the grid problems
+// Data for the grid problems (simplified, no pre-defined correct cells)
 const problemsData = [
   {
     id: 1,
@@ -17,13 +17,6 @@ const problemsData = [
       [556, 476, 480, 508, 526, 536],
       [650, 486, 496, 506, 516, 357],
       [730, 500, 497, 482, 616, 542],
-    ],
-    // Correct cells to be highlighted for validation (row, col)
-    correctCells: [
-      // Grid 1 correct cells
-      { row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 4 }, { row: 1, col: 5 },
-      { row: 2, col: 1 }, { row: 2, col: 4 },
-      { row: 3, col: 1 }, { row: 3, col: 2 }, { row: 3, col: 3 }, { row: 3, col: 4 },
     ],
   },
   {
@@ -36,75 +29,155 @@ const problemsData = [
       [650, 486, 496, 506, 516, 357],
       [730, 500, 497, 482, 616, 542],
     ],
-    // Correct cells for the second grid, assuming they are the same as the first based on the image
-    correctCells: [
-      { row: 1, col: 0 }, { row: 1, col: 1 }, { row: 1, col: 4 }, { row: 1, col: 5 },
-      { row: 2, col: 1 }, { row: 2, col: 4 },
-      { row: 3, col: 1 }, { row: 3, col: 2 }, { row: 3, col: 3 }, { row: 3, col: 4 },
-    ],
   },
 ];
 
+// Helper function to find the correct path (jumps of 10)
+const findCorrectPath = (grid) => {
+  const startValue = 456;
+  const targetValue = 516;
+  const correctPath = [];
+  
+  const findPathRecursive = (row, col) => {
+    if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
+      return false;
+    }
+    const cellValue = grid[row][col];
+    if (cellValue === targetValue) {
+      correctPath.push({ row, col });
+      return true;
+    }
+    if (correctPath.some(c => c.row === row && c.col === col)) {
+      return false; // Avoid loops
+    }
+
+    correctPath.push({ row, col });
+    
+    // Check neighbors for a jump of 10
+    const neighbors = [
+      { r: row - 1, c: col },
+      { r: row + 1, c: col },
+      { r: row, c: col - 1 },
+      { r: row, c: col + 1 },
+    ];
+    
+    for (const neighbor of neighbors) {
+      const { r, c } = neighbor;
+      if (r >= 0 && r < grid.length && c >= 0 && c < grid[0].length) {
+        if (Math.abs(grid[r][c] - cellValue) === 10) {
+          if (findPathRecursive(r, c)) {
+            return true;
+          }
+        }
+      }
+    }
+    correctPath.pop(); // Backtrack
+    return false;
+  };
+  
+  let startRow, startCol;
+  for (let r = 0; r < grid.length; r++) {
+    for (let c = 0; c < grid[r].length; c++) {
+      if (grid[r][c] === startValue) {
+        startRow = r;
+        startCol = c;
+        break;
+      }
+    }
+    if (startRow !== undefined) break;
+  }
+  
+  if (startRow === undefined) return [];
+  findPathRecursive(startRow, startCol);
+  return correctPath;
+};
+
+
 export default function ArrType_37({ hint }: { hint: string }) {
   const [selectedCells, setSelectedCells] = useState(
-    problemsData.map((problem) => 
-      problem.grid.map(() => problem.grid[0].map(() => false))
-    )
+    problemsData.map(() => []) // Initialize as empty paths
   );
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);
   const [showSolution, setShowSolution] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  
+  const [correctPaths, setCorrectPaths] = useState([]);
+
+  useEffect(() => {
+    const paths = problemsData.map(p => findCorrectPath(p.grid));
+    setCorrectPaths(paths);
+  }, []);
 
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
   const { setControls } = useQuestionControls();
 
+  const findPathJumpsOf10 = (grid, path, newRow, newCol) => {
+    if (path.length === 0) {
+      // First cell can be selected freely
+      return true;
+    }
+    const lastCell = path[path.length - 1];
+    const lastValue = grid[lastCell.row][lastCell.col];
+    const newValue = grid[newRow][newCol];
+    
+    const isAdjacent = Math.abs(lastCell.row - newRow) + Math.abs(lastCell.col - newCol) === 1;
+    const isJumpOf10 = Math.abs(newValue - lastValue) === 10;
+    
+    return isAdjacent && isJumpOf10;
+  };
+
   const handleCellClick = useCallback(
     (problemIdx: number, rowIdx: number, colIdx: number) => {
       setSelectedCells((prev) => {
         const newSelectedCells = [...prev];
-        newSelectedCells[problemIdx][rowIdx][colIdx] =
-          !newSelectedCells[problemIdx][rowIdx][colIdx];
+        const currentPath = newSelectedCells[problemIdx];
+        const isAlreadyInPath = currentPath.some(c => c.row === rowIdx && c.col === colIdx);
+        
+        if (isAlreadyInPath) {
+          // Deselecting: remove this cell and all subsequent cells from the path
+          const cellIndex = currentPath.findIndex(c => c.row === rowIdx && c.col === colIdx);
+          newSelectedCells[problemIdx] = currentPath.slice(0, cellIndex);
+        } else {
+          // Selecting: check if it's a valid jump
+          if (findPathJumpsOf10(problemsData[problemIdx].grid, currentPath, rowIdx, colIdx)) {
+            newSelectedCells[problemIdx] = [...currentPath, { row: rowIdx, col: colIdx }];
+          } else {
+            // If it's an invalid jump, clear the path and start a new one
+            newSelectedCells[problemIdx] = [{ row: rowIdx, col: colIdx }];
+          }
+        }
         return newSelectedCells;
       });
-      setStatus(null); // Reset status on new interaction
+      setStatus(null);
     },
     []
   );
-
+  
   const handleCheck = useCallback(() => {
     let allCorrect = true;
     problemsData.forEach((problem, problemIdx) => {
-      problem.grid.forEach((row, rowIdx) => {
-        row.forEach((_, colIdx) => {
-          const isCorrectCell = problem.correctCells.some(
-            (cell) => cell.row === rowIdx && cell.col === colIdx
-          );
-          const isSelected = selectedCells[problemIdx][rowIdx][colIdx];
-
-          if (isCorrectCell !== isSelected) {
-            allCorrect = false;
-          }
-        });
-      });
+      const userPath = selectedCells[problemIdx];
+      const correctPath = correctPaths[problemIdx];
+      
+      const isPathCorrect = userPath.length === correctPath.length && userPath.every((cell, index) => 
+        cell.row === correctPath[index].row && cell.col === correctPath[index].col
+      );
+      
+      if (!isPathCorrect) {
+        allCorrect = false;
+      }
     });
 
     setStatus(allCorrect ? "match" : "wrong");
     addResult({ id: qId, title: qTitle }, allCorrect);
-  }, [selectedCells, addResult, qId, qTitle]);
+  }, [selectedCells, correctPaths, addResult, qId, qTitle]);
 
   const handleShowSolution = useCallback(() => {
-    const solutionCells = problemsData.map((problem) => {
-      const problemGrid = problem.grid.map(() => problem.grid[0].map(() => false));
-      problem.correctCells.forEach((cell) => {
-        problemGrid[cell.row][cell.col] = true;
-      });
-      return problemGrid;
-    });
-    setSelectedCells(solutionCells);
+    setSelectedCells(correctPaths);
     setShowSolution(true);
-    setStatus("match"); // Solution is always "match"
-  }, []);
+    setStatus("match");
+  }, [correctPaths]);
 
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
@@ -141,22 +214,27 @@ export default function ArrType_37({ hint }: { hint: string }) {
               }}
             >
               {problem.grid.map((row, rowIdx) =>
-                row.map((cellValue, colIdx) => (
-                  <div
-                    key={`${problem.id}-${rowIdx}-${colIdx}`}
-                    className={`
-                      flex items-center justify-center p-2 text-sm font-medium
-                      border border-orange-200
-                      w-16 h-10
-                      ${selectedCells[problemIdx][rowIdx][colIdx] ? "bg-green-200" : "bg-white"}
-                      ${showSolution && problem.correctCells.some(c => c.row === rowIdx && c.col === colIdx) ? 'border-green-500' : ''}
-                      cursor-pointer select-none
-                    `}
-                    onClick={() => handleCellClick(problemIdx, rowIdx, colIdx)}
-                  >
-                    {cellValue}
-                  </div>
-                ))
+                row.map((cellValue, colIdx) => {
+                  const isSelected = selectedCells[problemIdx].some(c => c.row === rowIdx && c.col === colIdx);
+                  const isSolution = showSolution && correctPaths[problemIdx]?.some(c => c.row === rowIdx && c.col === colIdx);
+
+                  return (
+                    <div
+                      key={`${problem.id}-${rowIdx}-${colIdx}`}
+                      className={`
+                        flex items-center justify-center p-2 text-sm font-medium
+                        border border-orange-200
+                        w-16 h-10
+                        ${isSolution ? "bg-green-200" : (isSelected ? "bg-green-200" : "bg-white")}
+                        ${isSolution ? 'border-green-500' : 'border-orange-200'}
+                        cursor-pointer select-none
+                      `}
+                      onClick={() => handleCellClick(problemIdx, rowIdx, colIdx)}
+                    >
+                      {cellValue}
+                    </div>
+                  );
+                })
               )}
             </div>
           </div>
