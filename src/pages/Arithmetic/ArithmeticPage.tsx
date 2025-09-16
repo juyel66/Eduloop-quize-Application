@@ -61,7 +61,7 @@ export default function ArithmeticPage() {
         <QuestionControlsProvider>
             <>
                 {/* Top bar */}
-                <div className="flex items-center justify-between mb-5 relative">
+                <div className="flex flex-col lg:flex-row items-center justify-between mb-5 relative">
                     <div className="flex items-center gap-3">
                         <Button
                             onClick={handlePrev}
@@ -124,7 +124,7 @@ export default function ArithmeticPage() {
                 </div>
                 {/* Global Controllers/Hints/Check from question components */}
                 {/* Footer actions */}
-                <div className="flex items-center justify-between mt-1 ">
+                <div className="flex flex-col lg:flex-row items-center justify-between mt-1 ">
                     <ArithmeticControllersSlot />
 
 
@@ -169,7 +169,7 @@ function ArithmeticControllersSlot() {
     const hasAny = controls.handleCheck || controls.handleShowHint || controls.handleShowSolution || controls.summary
     if (!hasAny) return null
     return (
-        <div className="flex items-center gap-10">
+        <div className="flex flex-col lg:flex-row items-center gap-10">
             <Controllers
                 handleCheck={controls.handleCheck || noop}
                 handleShowSolution={controls.handleShowSolution || noop}
