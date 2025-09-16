@@ -183,13 +183,6 @@ export default function ArrType_36({ hint }: { hint: string }) {
         );
       })}
 
-      <Controllers
-        handleCheck={handleCheck}
-        handleShowSolution={handleShowSolution}
-        handleShowHint={handleShowHint}
-      />
-      {showHint && <Hint hint={hint} />}
-      <Check summary={summary} />
     </div>
   );
 }
