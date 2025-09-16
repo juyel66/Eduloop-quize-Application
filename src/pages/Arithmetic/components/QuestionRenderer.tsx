@@ -37,6 +37,16 @@ import ArrType_32 from "./ArrType_32"
 import ArrType_33 from "./ArrType_33"
 import ArrType_34 from "./ArrType_34"
 import ArrType_35 from "./ArrType_35"
+import ArrType_45 from "./ArrType_45"
+import ArrType_44 from "./ArrType_44"
+import ArrType_43 from "./ArrType_43"
+import ArrType_42 from "./ArrType_42"
+import ArrType_41 from "./ArrType_41"
+import ArrType_40 from "./ArrType_40"
+import ArrType_39 from "./ArrType_39"
+import ArrType_38 from "./ArrType_38"
+import ArrType_37 from "./ArrType_37"
+import ArrType_36 from "./ArrType_36"
 
 
 export default function QuestionRenderer({ q }: { q: any }) {
@@ -417,6 +427,96 @@ export default function QuestionRenderer({ q }: { q: any }) {
             case "type35": {
                 return provider(
                     <ArrType_35
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type36": {
+                return provider(
+                    <ArrType_36
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type37": {
+                return provider(
+                    <ArrType_37
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type38": {
+                return provider(
+                    <ArrType_38
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type39": {
+                return provider(
+                    <ArrType_39
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type40": {
+                return provider(
+                    <ArrType_40
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type41": {
+                return provider(
+                    <ArrType_41
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type42": {
+                return provider(
+                    <ArrType_42
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type43": {
+                return provider(
+                    <ArrType_43
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type44": {
+                return provider(
+                    <ArrType_44
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type45": {
+                return provider(
+                    <ArrType_45
                         hint={q.metadata.hint}
                         key={q.id}
                         data={q.metadata.data ?? []}
