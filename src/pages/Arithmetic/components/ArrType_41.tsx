@@ -93,7 +93,7 @@ const findCorrectPath = (grid) => {
 };
 
 
-export default function ArrType_37({ hint }: { hint: string }) {
+export default function ArrType_41({ hint }: { hint: string }) {
   const [selectedCells, setSelectedCells] = useState(
     problemsData.map(() => []) // Initialize as empty paths
   );
@@ -234,7 +234,7 @@ export default function ArrType_37({ hint }: { hint: string }) {
                       {cellValue}
                     </div>
                   );
-                })d
+                })
               )}
             </div>
           </div>
