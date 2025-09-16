@@ -6,27 +6,27 @@ import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import useResultTracker from "@/hooks/useResultTracker";
 
-// Percentage problems data with correct match index
+// Dummy data 
 const problemsJSON = [
   {
     id: 1,
     leftText: "20% is $50.",
-    correctMatch: 3, // Corresponds to "$250"
+    correctMatch: 3, 
   },
   {
     id: 2,
     leftText: "50% is $1700.",
-    correctMatch: 0, // Corresponds to "$3400"
+    correctMatch: 0, 
   },
   {
     id: 3,
     leftText: "10% is $350.",
-    correctMatch: 2, // Corresponds to "$3500"
+    correctMatch: 2, 
   },
   {
     id: 4,
     leftText: "40% is $56.",
-    correctMatch: 1, // Corresponds to "$140"
+    correctMatch: 1, 
   },
 ];
 
