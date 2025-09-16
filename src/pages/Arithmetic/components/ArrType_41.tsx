@@ -234,7 +234,7 @@ export default function ArrType_37({ hint }: { hint: string }) {
                       {cellValue}
                     </div>
                   );
-                })
+                })d
               )}
             </div>
           </div>
