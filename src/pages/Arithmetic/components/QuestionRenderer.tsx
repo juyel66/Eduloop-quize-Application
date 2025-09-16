@@ -30,6 +30,11 @@ import ArrType_28 from "./ArrType_28"
 import ArrType_29 from "./ArrType_29"
 import ArrType_30 from "./ArrType_30"
 import { QuestionMetaProvider } from "@/context/QuestionMetaContext"
+import ArrType_31 from "./ArrType_31"
+import ArrType_32 from "./ArrType_32"
+import ArrType_33 from "./ArrType_33"
+import ArrType_34 from "./ArrType_34"
+import ArrType_35 from "./ArrType_35"
 
 export default function QuestionRenderer({ q }: { q: any }) {
     return useMemo(() => {
@@ -363,6 +368,51 @@ export default function QuestionRenderer({ q }: { q: any }) {
             case "type30": {
                 return provider(
                     <ArrType_30
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type31": {
+                return provider(
+                    <ArrType_31
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type32": {
+                return provider(
+                    <ArrType_32
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type33": {
+                return provider(
+                    <ArrType_33
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type34": {
+                return provider(
+                    <ArrType_34
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type35": {
+                return provider(
+                    <ArrType_35
                         hint={q.metadata.hint}
                         key={q.id}
                         data={q.metadata.data ?? []}
