@@ -1,14 +1,5 @@
 import { useMemo } from "react"
-import ArrType_21 from "./ArrType_21"
 import ArrType_1 from "./ArrType_1"
-import ArrType_2 from "./ArrType_2"
-import ArrType_3 from "./ArrType_3"
-import ArrType_4 from "./ArrType_4"
-import ArrType_5 from "./ArrType_5"
-import ArrType_6 from "./ArrType_6"
-import ArrType_7 from "./ArrType_7"
-import ArrType_8 from "./ArrType_8"
-import ArrType_9 from "./ArrType_9"
 import ArrType_10 from "./ArrType_10"
 import ArrType_11 from "./ArrType_11"
 import ArrType_12 from "./ArrType_12"
@@ -19,13 +10,24 @@ import ArrType_16 from "./ArrType_16"
 import ArrType_17 from "./ArrType_17"
 import ArrType_18 from "./ArrType_18"
 import ArrType_19 from "./ArrType_19"
+import ArrType_2 from "./ArrType_2"
 import ArrType_20 from "./ArrType_20"
+import ArrType_21 from "./ArrType_21"
 import ArrType_22 from "./ArrType_22"
 import ArrType_23 from "./ArrType_23"
 import ArrType_24 from "./ArrType_24"
 import ArrType_25 from "./ArrType_25"
 import ArrType_26 from "./ArrType_26"
 import ArrType_27 from "./ArrType_27"
+
+import ArrType_3 from "./ArrType_3"
+import ArrType_4 from "./ArrType_4"
+import ArrType_5 from "./ArrType_5"
+import ArrType_6 from "./ArrType_6"
+import ArrType_7 from "./ArrType_7"
+import ArrType_8 from "./ArrType_8"
+import ArrType_9 from "./ArrType_9"
+
 import ArrType_28 from "./ArrType_28"
 import ArrType_29 from "./ArrType_29"
 import ArrType_30 from "./ArrType_30"
@@ -35,6 +37,17 @@ import ArrType_32 from "./ArrType_32"
 import ArrType_33 from "./ArrType_33"
 import ArrType_34 from "./ArrType_34"
 import ArrType_35 from "./ArrType_35"
+import ArrType_45 from "./ArrType_45"
+import ArrType_44 from "./ArrType_44"
+import ArrType_43 from "./ArrType_43"
+import ArrType_42 from "./ArrType_42"
+import ArrType_41 from "./ArrType_41"
+import ArrType_40 from "./ArrType_40"
+import ArrType_39 from "./ArrType_39"
+import ArrType_38 from "./ArrType_38"
+import ArrType_37 from "./ArrType_37"
+import ArrType_36 from "./ArrType_36"
+
 
 export default function QuestionRenderer({ q }: { q: any }) {
     return useMemo(() => {
@@ -273,7 +286,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                         key={q.id}
                         data={q.metadata.data ?? []}
                     />
-                ) 
+                )
             }
             case "type20": {
                 return provider(
@@ -348,6 +361,7 @@ export default function QuestionRenderer({ q }: { q: any }) {
                 )
             }
             case "type28": {
+
                 return provider(
                     <ArrType_28
                         hint={q.metadata.hint}
@@ -413,6 +427,96 @@ export default function QuestionRenderer({ q }: { q: any }) {
             case "type35": {
                 return provider(
                     <ArrType_35
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type36": {
+                return provider(
+                    <ArrType_36
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type37": {
+                return provider(
+                    <ArrType_37
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type38": {
+                return provider(
+                    <ArrType_38
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type39": {
+                return provider(
+                    <ArrType_39
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type40": {
+                return provider(
+                    <ArrType_40
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type41": {
+                return provider(
+                    <ArrType_41
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type42": {
+                return provider(
+                    <ArrType_42
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type43": {
+                return provider(
+                    <ArrType_43
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type44": {
+                return provider(
+                    <ArrType_44
+                        hint={q.metadata.hint}
+                        key={q.id}
+                        data={q.metadata.data ?? []}
+                    />
+                )
+            }
+            case "type45": {
+                return provider(
+                    <ArrType_45
                         hint={q.metadata.hint}
                         key={q.id}
                         data={q.metadata.data ?? []}
