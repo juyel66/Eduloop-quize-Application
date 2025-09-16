@@ -111,7 +111,7 @@ export default function ArrType_31({ hint }: { hint: string }) {
             </div>
 
             {/* Answer section */}
-            <div className="flex flex-col w-full px-2">
+            <div className="flex flex-col text-green-600 w-full px-2">
               <h3 className="text-sm font-semibold text-gray-700 mb-2">
                 {p.question}
               </h3>
