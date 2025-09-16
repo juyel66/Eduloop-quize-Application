@@ -1,9 +1,12 @@
 import Check from "@/components/common/Check";
 import Controllers from "@/components/common/Controllers";
 import Hint from "@/components/common/Hint";
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
+import useResultTracker from "@/hooks/useResultTracker";
+import { useQuestionMeta } from "@/context/QuestionMetaContext";
+import { useQuestionControls } from "@/context/QuestionControlsContext";
 
-const problemsJSON = [
+const defaultProblems = [
   { id: 1, question: "3 + 7 + 2 =", answer: 12, type: "addition" },
   { id: 2, question: "1 + 5 + 9 =", answer: 15, type: "addition" },
   { id: 3, question: "4 + 3 + 6 =", answer: 13, type: "addition" },
@@ -12,40 +15,61 @@ const problemsJSON = [
   { id: 6, question: "6 + 6 + 4 =", answer: 16, type: "addition" },
 ];
 
-type Problem = { id: number; question: string; answer: number; type: string }
-const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: string }) => {
-  const [problems] = useState(problemsJSON);
-  const [userAnswers, setUserAnswers] = useState(Array(problems.length).fill(NaN));
-  const [validation, setValidation] = useState(Array(problems.length).fill(null));
+type Problem = { id: number; question: string; answer: number; type: string };
+
+const ArrType_16 = ({
+  data = defaultProblems,
+  hint,
+}: {
+  data?: Problem[];
+  hint: string;
+}) => {
+  const [problems] = useState<Problem[]>(data);
+  const [userAnswers, setUserAnswers] = useState<number[]>(
+    Array(problems.length).fill(NaN)
+  );
+  const [validation, setValidation] = useState<(boolean | null)[]>(
+    Array(problems.length).fill(null)
+  );
   const [status, setStatus] = useState<"match" | "wrong" | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
 
-  const handleInputChange = (index: number, value: string) => {
-    const newAnswers = [...userAnswers];
-    newAnswers[index] = value === "" ? NaN : parseInt(value);
-    setUserAnswers(newAnswers);
-    if (status) setStatus(null); 
-  };
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
+  const { setControls } = useQuestionControls();
 
-  const handleCheck = () => {
+  const handleInputChange = useCallback(
+    (index: number, value: string) => {
+      const newAnswers = [...userAnswers];
+      newAnswers[index] = value === "" ? NaN : parseInt(value, 10);
+      setUserAnswers(newAnswers);
+      if (status) setStatus(null);
+    },
+    [userAnswers, status]
+  );
+
+  const handleCheck = useCallback(() => {
     const newValidation = problems.map((p, i) => p.answer === userAnswers[i]);
     const allCorrect = newValidation.every(Boolean);
     setValidation(newValidation);
     setStatus(allCorrect ? "match" : "wrong");
+    addResult({ id: qId, title: qTitle }, allCorrect);
     setShowSolution(false);
-  };
+  }, [problems, userAnswers, addResult, qId, qTitle]);
 
-  const handleShowHint = () => setShowHint((v) => !v);
+  const handleShowHint = useCallback(() => {
+    setShowHint((v) => !v);
+  }, []);
 
-  const handleShowSolution = () => {
+  const handleShowSolution = useCallback(() => {
     setShowSolution(true);
     setValidation(Array(problems.length).fill(true));
     setStatus(null);
-  };
+  }, [problems.length]);
 
-  const summary =
-    status === "match"
+  const summary = useMemo(() => {
+    return status === "match"
       ? {
           text: "🎉 Correct! Good Job",
           color: "text-green-600",
@@ -60,12 +84,23 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
           borderColor: "border-red-600",
         }
       : null;
+  }, [status]);
+
+  useEffect(() => {
+    setControls({
+      handleCheck,
+      handleShowHint,
+      handleShowSolution,
+      hint,
+      showHint,
+      summary,
+    });
+  }, [setControls, handleCheck, handleShowHint, handleShowSolution, hint, showHint, summary]);
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center font-sans text-gray-800">
+      <div className="flex flex-col items-center justify-center font-sans text-gray-800 relative">
         <div className="w-full rounded-xl">
-   
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-16 mb-4">
             {problems.map((p, idx) => {
               const isCorrect = validation[idx];
@@ -105,15 +140,15 @@ const ArrType_16 = ({ data: problemsJSON, hint }: { data: Problem[]; hint: strin
       </div>
 
       {/* Controls, Hint and Check section */}
+      {/* 
       <Controllers
         handleCheck={handleCheck}
         handleShowSolution={handleShowSolution}
         handleShowHint={handleShowHint}
       />
-      {showHint && (
-        <Hint hint={hint} />
-      )}
-      <Check summary={summary} />
+      {showHint && <Hint hint={hint} />}
+      <Check summary={summary} /> 
+      */}
     </>
   );
 };

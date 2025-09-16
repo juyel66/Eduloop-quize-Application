@@ -1,11 +1,3 @@
-// ArrType_14.tsx
-// One-page file with PARENT at the top. Parent has default props (dummy data + hints)
-// and passes them down to the children. Safe to render with no props.
-//
-// Requires your existing components/contexts/hooks:
-// - Check, Controllers, Hint
-// - useResultTracker, useQuestionMeta, useQuestionControls
-
 import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import useResultTracker from "@/hooks/useResultTracker";
@@ -100,6 +92,8 @@ function ArrTypeFourteenV1({
   const [checkAnswers, setCheckAnswers] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
   const [showHint, setShowHint] = useState(false);
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
@@ -136,6 +130,7 @@ function ArrTypeFourteenV1({
     setStatus(ok ? "match" : "wrong");
     addResult({ id: qId, title: qTitle }, ok);
   }, [inputs, computeAllCorrect, addResult, qId, qTitle]);
+
 
   const handleShowSolution = useCallback(() => {
     const filled: Record<string, string> = {};
@@ -257,6 +252,8 @@ function ArrTypeFourteenV2({
   const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState<"" | "match" | "wrong">("");
   const [showHint, setShowHint] = useState(false);
+  const { addResult } = useResultTracker();
+  const { id: qId, title: qTitle } = useQuestionMeta();
 
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
@@ -303,6 +300,7 @@ function ArrTypeFourteenV2({
     addResult({ id: qId, title: qTitle }, ok);
   }, [cols, inputs, keyFor, isRowCorrect, addResult, qId, qTitle]);
 
+
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
   const handleShowSolution = useCallback(() => {
@@ -317,6 +315,7 @@ function ArrTypeFourteenV2({
     });
     setInputs(filled);
     setChecked(true);
+
     // leave status unchanged so Controllers banner behavior is consistent
   }, [cols, keyFor]);
 
@@ -359,6 +358,8 @@ function ArrTypeFourteenV2({
       setControls(controls);
     }
   }, [controls, setControls]);
+
+      
 
   return (
     <div className="space-y-8">

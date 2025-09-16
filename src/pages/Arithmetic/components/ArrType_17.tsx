@@ -2,10 +2,12 @@
 // Developers: At the top you will find `demoHint` and `demoItems` (default props).
 // `ArrType_17` takes two props: `items` (data array) and `hint` (string).
 
+
 import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import useResultTracker from "@/hooks/useResultTracker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 
 /* =========================================================================
    DEFAULT HINT + DEMO DATA (for testing)
@@ -170,6 +172,7 @@ export function ArrTypeSeventeenMethodOne({
   const { id: qId, title: qTitle } = useQuestionMeta();
   const { setControls } = useQuestionControls();
 
+
   const answers = useMemo(() => {
     const cmp =
       problem.order === "asc"
@@ -219,6 +222,7 @@ export function ArrTypeSeventeenMethodOne({
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
   const handleShowSolution = useCallback(() => {
     setInputs(answers.map((row) => row.map(String)));
+
     setCorrectMap(answers.map((row) => row.map(() => true)));
     setChecked(true);
   }, [answers]);
@@ -323,7 +327,9 @@ export function ArrTypeSeventeenMethodtwo({
 }) {
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
+
   const { setControls } = useQuestionControls();
+
 
   const expectedRows = useMemo(() => {
     return problem.rows.map((r) => {
@@ -404,6 +410,7 @@ export function ArrTypeSeventeenMethodtwo({
 
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
+
   const summary =
     lastAction === "check"
       ? status === "match"
@@ -422,6 +429,7 @@ export function ArrTypeSeventeenMethodtwo({
       setControls(controls);
     }
   }, [controls, setControls]);
+
 
   return (
     <div className="">
