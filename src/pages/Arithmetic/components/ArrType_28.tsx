@@ -165,7 +165,7 @@ export default function ArrType_28({ hint }: { hint: string }) {
       showHint,
       summary,
     });
-  }, [setControls, handleCheckAll, handleShowSolution, handleShowHint, hint, showHint, summary]);
+  }, [hint, showHint, summary]);
 
   const isSolved = status === "match";
 
