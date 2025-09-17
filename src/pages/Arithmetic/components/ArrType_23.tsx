@@ -6,19 +6,11 @@ import { useQuestionControls } from "@/context/QuestionControlsContext";
 import { useQuestionMeta } from "@/context/QuestionMetaContext";
 import useResultTracker from "@/hooks/useResultTracker";
 
-/* -------------------- Local data (no props yet) -------------------- */
 const data = [{ digits: [4, 0, 2, 9] }];
 const hint = "👉 Try combining the given digits to make 3-digit numbers under 1000.";
 
-/* --------------------------- UI bits --------------------------- */
 const DigitBox = ({ value }: { value: number | string }) => (
   <div className="flex h-12 w-12 items-center justify-center border-2 border-orange-500 bg-white text-lg font-semibold text-slate-800">
-    {value}
-  </div>
-);
-
-const GreenPill = ({ value }: { value: number | string }) => (
-  <div className="rounded-sm border-2 border-emerald-600 bg-white px-3 py-2 text-sm font-semibold text-emerald-700 font-mono tabular-nums">
     {value}
   </div>
 );
@@ -50,6 +42,7 @@ const PillInput = ({
       : state === "err"
       ? "border-red-500 text-red-700 focus:ring-2 focus:ring-red-300"
       : "border-orange-400 text-slate-700 focus:ring-2 focus:ring-orange-300";
+
   return (
     <input
       value={value}
@@ -61,11 +54,7 @@ const PillInput = ({
   );
 };
 
-/* ---------------------- helper: make examples ---------------------- */
-function makeThreeDigitExamples(
-  digits: (number | string)[],
-  count = 6
-): number[] {
+function makeThreeDigitExamples(digits: (number | string)[], count = 6): number[] {
   const nums = digits.map(Number);
   const out: number[] = [];
   const seen = new Set<number>();
@@ -87,127 +76,62 @@ function makeThreeDigitExamples(
   return out;
 }
 
-/* ------------------------- validation utils ------------------------- */
 const digs = (n: number) => n.toString().split("").map(Number);
-const onlyFrom = (n: number, allowed: number[]) =>
-  digs(n).every((d) => allowed.includes(d));
-const noLeadingZero = (n: number) =>
-  n.toString().length === 1 || n.toString()[0] !== "0";
-const distinct = (n: number) => {
-  const ds = digs(n);
-  return new Set(ds).size === ds.length;
-};
-const under1000 = (n: number) =>
-  n >= 0 && n < 1000 && n.toString().length <= 3;
-const eqArr = (a: number[], b: number[]) =>
-  a.length === b.length && a.every((v, i) => v === b[i]);
+const onlyFrom = (n: number, allowed: number[]) => digs(n).every((d) => allowed.includes(d));
+const noLeadingZero = (n: number) => n.toString().length === 1 || n.toString()[0] !== "0";
+const distinct = (n: number) => new Set(digs(n)).size === digs(n).length;
+const under1000 = (n: number) => n >= 0 && n < 1000 && n.toString().length <= 3;
 
-/* ----------------------------- Page ----------------------------- */
 export default function ArrType_23() {
-  const title = "Question 1";
-  const instruction = "Make 6 numbers under 1000 with these digits. For example,";
-  const secondLine = "Arrange in order from smallest to largest";
-
-  const digits = data[0].digits.map(Number);
   const REQUIRED = 6;
-  const [showHint, setShowHint] = useState(false);
+  const digits = data[0].digits.map(Number);
 
   const { addResult } = useResultTracker();
   const { id: qId, title: qTitle } = useQuestionMeta();
   const { setControls } = useQuestionControls();
 
-  // Demo solution for "Show Solution"
-  const sample = useMemo(() => makeThreeDigitExamples(digits, REQUIRED), [
-    digits,
-  ]);
-  const sampleSorted = useMemo(() => [...sample].sort((a, b) => a - b), [
-    sample,
-  ]);
-
-  // Inputs
-  const [rowCreate, setRowCreate] = useState<string[]>(
-    Array(REQUIRED).fill("")
-  );
-  const [rowArrange, setRowArrange] = useState<string[]>(
-    Array(REQUIRED).fill("")
-  );
-
-  // Per-box correctness styling (set on Check)
-  const [stateCreate, setStateCreate] = useState<BoxState[]>(
-    Array(REQUIRED).fill("idle")
-  );
-  const [stateArrange, setStateArrange] = useState<BoxState[]>(
-    Array(REQUIRED).fill("idle")
-  );
-
-  // Status drives your summary
+  const [rowCreate, setRowCreate] = useState<string[]>(Array(REQUIRED).fill(""));
+  const [rowArrange, setRowArrange] = useState<string[]>(Array(REQUIRED).fill(""));
+  const [stateCreate, setStateCreate] = useState<BoxState[]>(Array(REQUIRED).fill("idle"));
+  const [stateArrange, setStateArrange] = useState<BoxState[]>(Array(REQUIRED).fill("idle"));
   const [status, setStatus] = useState<"idle" | "match" | "wrong">("idle");
+  const [showHint, setShowHint] = useState(false);
 
-  const summary =
-    status === "match"
-      ? {
-          text: "🎉 All Correct! Great job",
-          color: "text-green-600",
-          bgColor: "bg-green-100",
-          borderColor: "border-green-600",
-        }
-      : status === "wrong"
-      ? {
-          text: "❌ Some answers are wrong. Check again.",
-          color: "text-red-600",
-          bgColor: "bg-red-100",
-          borderColor: "border-red-600",
-        }
-      : null;
+  const sample = useMemo(() => makeThreeDigitExamples(digits, REQUIRED), [digits]);
+  const sampleSorted = useMemo(() => [...sample].sort((a, b) => a - b), [sample]);
 
-  const parseRow = (arr: string[]) =>
-    arr.map((s) => Number(s)).filter((n) => !Number.isNaN(n));
-
-  const handleShowSolution = () => {
+  const handleShowSolution = useCallback(() => {
     setRowCreate(sample.map(String));
     setRowArrange(sampleSorted.map(String));
     setStateCreate(Array(REQUIRED).fill("ok"));
     setStateArrange(Array(REQUIRED).fill("ok"));
     setStatus("match");
-    setShowSolution(true);
-  };
+  }, [sample, sampleSorted]);
 
-  const handleCheck = () => {
-    // default all to 'err', then flip to 'ok' when valid
+  const handleCheck = useCallback(() => {
     const nextCreate: BoxState[] = Array(REQUIRED).fill("err");
     const nextArrange: BoxState[] = Array(REQUIRED).fill("err");
 
-    // parse with position preserved (including empties as NaN)
-    const numsCreate = rowCreate.map((s) => Number(s));
-    const numsArrange = rowArrange.map((s) => Number(s));
+    const numsCreate = rowCreate.map(Number);
+    const numsArrange = rowArrange.map(Number);
 
-    // First row: per-number validity
     let allCreateValid = true;
     for (let i = 0; i < REQUIRED; i++) {
       const n = numsCreate[i];
-      const valid =
-        Number.isFinite(n) &&
-        under1000(n) &&
-        noLeadingZero(n) &&
-        onlyFrom(n, digits) &&
-        distinct(n);
+      const valid = Number.isFinite(n) && under1000(n) && noLeadingZero(n) && onlyFrom(n, digits) && distinct(n);
       nextCreate[i] = valid ? "ok" : "err";
       if (!valid) allCreateValid = false;
     }
 
-    // If first row not fully valid, we still show per-box feedback and stop here
     if (!allCreateValid) {
       setStateCreate(nextCreate);
-      setStateArrange(Array(REQUIRED).fill("idle")); // don't grade arrange yet
+      setStateArrange(Array(REQUIRED).fill("idle"));
       setStatus("wrong");
       return;
     }
 
-    // Build the correct sorted sequence from the first row values
-    const userNums = numsCreate as number[];
-    const wantSorted = [...userNums].sort((a, b) => a - b);
+    const wantSorted = [...numsCreate].sort((a, b) => a - b);
 
-    // Second row: must match sorted sequence position-by-position
     let allArrangeValid = true;
     for (let i = 0; i < REQUIRED; i++) {
       const n = numsArrange[i];
@@ -220,13 +144,11 @@ export default function ArrType_23() {
     setStateArrange(nextArrange);
     setStatus(allArrangeValid ? "match" : "wrong");
 
-    const overallCorrect = allCreateValid && allArrangeValid;
-    addResult({ id: qId, title: qTitle }, overallCorrect);
-  };
+    addResult({ id: qId, title: qTitle }, allCreateValid && allArrangeValid);
+  }, [rowCreate, rowArrange, digits, addResult, qId, qTitle]);
 
   const handleShowHint = useCallback(() => setShowHint((v) => !v), []);
 
-  // Controls sync
   useEffect(() => {
     setControls({
       handleCheck,
@@ -234,75 +156,39 @@ export default function ArrType_23() {
       handleShowSolution,
       hint,
       showHint,
-      summary,
+      summary:
+        status === "match"
+          ? { text: "🎉 All Correct! Great job", color: "text-green-600", bgColor: "bg-green-100", borderColor: "border-green-600" }
+          : status === "wrong"
+          ? { text: "❌ Some answers are wrong. Check again.", color: "text-red-600", bgColor: "bg-red-100", borderColor: "border-red-600" }
+          : null,
     });
-  }, [
-    setControls,
-    handleCheck,
-    handleShowHint,
-    handleShowSolution,
-    hint,
-    showHint,
-    summary,
-  ]);
+  }, [handleCheck, handleShowHint, handleShowSolution, hint, showHint, status, setControls]);
 
   return (
-    <div className="">
-      {/* Header */}
-      <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="text-sm text-slate-600">{instruction}</p>
+    <div>
+      <h2 className="text-lg font-semibold">Question 1</h2>
+      <p className="text-sm text-slate-600">Make 6 numbers under 1000 with these digits.</p>
 
-      {/* Digits row */}
       <div className="flex gap-4 pt-2">
         {digits.map((d, i) => (
           <DigitBox key={i} value={d} />
         ))}
       </div>
 
-      {/* Row 1: user creates numbers */}
       <AmberStrip>
         {rowCreate.map((val, i) => (
-          <PillInput
-            key={`c-${i}`}
-            value={val}
-            state={stateCreate[i]}
-            onChange={(v) =>
-              setRowCreate((prev) => {
-                const next = [...prev];
-                next[i] = v;
-                return next;
-              })
-            }
-            placeholder="---"
-          />
+          <PillInput key={i} value={val} state={stateCreate[i]} onChange={(v) => setRowCreate((prev) => { const next = [...prev]; next[i] = v; return next; })} placeholder="---" />
         ))}
       </AmberStrip>
 
-      {/* Row 2: arrange ascending */}
-      <div className="pt-1">
-        <p className="mb-2 text-sm text-slate-600">
-          Arrange in order from smallest to largest
-        </p>
-        <AmberStrip>
-          {rowArrange.map((val, i) => (
-            <PillInput
-              key={`s-${i}`}
-              value={val}
-              state={stateArrange[i]}
-              onChange={(v) =>
-                setRowArrange((prev) => {
-                  const next = [...prev];
-                  next[i] = v;
-                  return next;
-                })
-              }
-              placeholder="---"
-            />
-          ))}
-        </AmberStrip>
-      </div>
-
-
+      <p className="mb-2 pt-2 text-sm text-slate-600">Arrange in order from smallest to largest</p>
+      <AmberStrip>
+        {rowArrange.map((val, i) => (
+          <PillInput key={i} value={val} state={stateArrange[i]} onChange={(v) => setRowArrange((prev) => { const next = [...prev]; next[i] = v; return next; })} placeholder="---" />
+        ))}
+      </AmberStrip>
     </div>
   );
 }
+
