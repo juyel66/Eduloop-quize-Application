@@ -50,7 +50,7 @@ const problemsJSON = [
   },
 ];
 
-export default function ArrType_45({ hint }: { hint: string }) {
+export default function ArrType_53({ hint }: { hint: string }) {
   const [answers, setAnswers] = useState(
     problemsJSON.map(() => ({ estimate: "", sum: "", area: "" }))
   );
