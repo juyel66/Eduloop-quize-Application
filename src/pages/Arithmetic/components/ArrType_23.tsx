@@ -54,6 +54,7 @@ const PillInput = ({
   );
 };
 
+
 function makeThreeDigitExamples(digits: (number | string)[], count = 6): number[] {
   const nums = digits.map(Number);
   const out: number[] = [];
