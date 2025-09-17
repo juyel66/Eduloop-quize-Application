@@ -162,15 +162,15 @@ export default function ArrType_56({ hint }: { hint: string }) {
       <div className="text-xl font-semibold text-gray-800">Question 1</div>
       <div className="text-gray-600">Look at the diagram. Answer the questions.</div>
 
-      <div className="flex justify-center p-6 bg-white rounded-xl shadow-md">
-        <div style={{ width: "600px", height: "400px" }}>
+      <div className="flex justify-center p-6 bg-white rounded-xl ">
+        <div style={{ width: "600px", height: "300px" }}>
           <Line data={chartData} options={chartOptions} />
         </div>
       </div>
 
       <div className="space-y-4 px-6">
         {problemsJSON.map((p, idx) => (
-          <div key={p.id} className="flex items-center space-x-2">
+          <div key={p.id} className="flex  space-x-2">
             <span className="text-md text-gray-700 font-medium whitespace-nowrap">{p.question}</span>
             <input
               type="text"
